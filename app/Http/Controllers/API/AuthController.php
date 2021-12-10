@@ -34,7 +34,7 @@ class AuthController extends Controller
                 return response()->json(['error' => 'Unauthorized'], 401);
             }
 
-            $user = User::where('email', $request->input('email'))->with('orders')->first();
+            $user = User::where('email', $request->input('email'))->first();
 
             $result = array_merge(['user'=> $user],$this->respondWithToken($token));
 
@@ -62,7 +62,7 @@ class AuthController extends Controller
                 'email' => 'required|string|email|max:100|unique:users',
                 'cpf' => 'required|string|max:25|unique:users',
                 'password' => 'required|string|confirmed|min:6',
-                'role' => 'required|numeric'
+                'role' => 'required|numeric|between:2,3'
             ]);
 
             if($validator->fails()){
