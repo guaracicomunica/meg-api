@@ -22,7 +22,6 @@ class User extends Authenticatable implements JWTSubject
         'name',
         'email',
         'password',
-        'cpf',
     ];
 
     /**
@@ -70,7 +69,6 @@ class User extends Authenticatable implements JWTSubject
             'id' => $this->id,
             'name' => $this->name,
             'email' => $this->email,
-            'cpf' => $this->cpf,
         ];
     }
 
