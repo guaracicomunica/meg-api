@@ -103,7 +103,6 @@ class AuthController extends Controller
     {
         try {
             $user = auth('api')->user();
-            $user->cvlis;
             return response()->json($user);
         } catch (\Throwable $e) {
             return response()->json(['error' => $e->getMessage()], 500);
