@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\ClassroomController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\AuthController;
 use \App\Http\Controllers\API\UserController;
@@ -39,4 +40,10 @@ Route::group([
     'prefix' => 'roles'
 ], function ($router) {
     Route::get('', [RoleController::class, 'index']);
+});
+
+Route::group([
+    'prefix' => 'classes'
+], function ($router) {
+    Route::get('', [ClassroomController::class, 'index']);
 });
