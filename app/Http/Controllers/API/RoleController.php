@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 class RoleController extends Controller
 {
     /**
-     * Create a new AuthController instance.
+     * Create a new RoleController instance.
      *
      * @return void
      */

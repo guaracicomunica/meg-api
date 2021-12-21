@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Auth;
 class ClassroomController extends Controller
 {
     /**
-     * Create a new AuthController instance.
+     * Create a new ClassroomController instance.
      *
      * @return void
      */
