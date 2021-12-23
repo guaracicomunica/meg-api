@@ -5,6 +5,8 @@ use App\Http\Controllers\API\AuthController;
 use \App\Http\Controllers\API\UserController;
 use \App\Http\Controllers\API\CategoryController;
 use \App\Http\Controllers\API\RoleController;
+use \App\Http\Controllers\API\EmailVerificationController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -22,8 +24,19 @@ Route::group([
     Route::get('unauthorized', [AuthController::class, 'unauthorized'])->name('unauthorized');
     Route::post('login', [AuthController::class, 'login']);
     Route::post('register', [AuthController::class, 'register']);
-    Route::post('logout', [AuthController::class, 'logout']);
-    Route::post('user', [AuthController::class, 'user']);
+    Route::post('logout', [AuthController::class, 'logout'])->middleware('verified');
+    Route::post('user', [AuthController::class, 'user'])->middleware('verified');
+
+});
+
+Route::group([
+    'prefix' => 'confirmation'
+
+], function ($router) {
+    Route::get('email/verification-notification', [EmailVerificationController::class, 'sendVerificationEmail'])
+        ->name('verification.notice');
+    Route::get('verify-email/{id}/{hash}', [EmailVerificationController::class, 'verify'])
+        ->name('verification.verify');
 });
 
 Route::group([

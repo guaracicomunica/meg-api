@@ -17,12 +17,15 @@ class AuthController extends Controller
      *
      * @return void
      */
-    public function __construct()
+    protected $emailVerificatoinController;
+
+    public function __construct(EmailVerificationController $emailVerificatoinController)
     {
         $this->middleware(
             'auth:api',
             ['except' => ['unauthorized', 'login', 'register']]
         );
+        $this->emailVerificatoinController = $emailVerificatoinController;
     }
 
     public function login(Request $request)
@@ -80,11 +83,19 @@ class AuthController extends Controller
                 'role_id' => $request->role,
             ]);
 
+            $this->emailVerificatoinController->sendVerificationEmail(null, $user);
+
             DB::commit();
 
             $credentials = $request->only(['email', 'password']);
 
             $token = auth('api')->attempt($credentials);
+
+            $re = new Request();
+
+            $re->user($user);
+
+//            dd($re, $request, $user);
 
             return response()->json([
                 'message' => 'User successfully registered',
