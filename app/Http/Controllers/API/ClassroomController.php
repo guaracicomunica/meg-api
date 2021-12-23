@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Utils\UniqueCode;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class ClassroomController extends Controller
@@ -28,7 +29,12 @@ class ClassroomController extends Controller
 
     public function store(Request $request)
     {
-        $code = UniqueCode::generate();
-        dd($code);
+        try {
+            Classroom::createClassroom($request);
+        } catch(\Throwable $ex)
+        {
+            DB::rollBack();
+            return response($ex->getMessage(), 500);
+        }
     }
 }
