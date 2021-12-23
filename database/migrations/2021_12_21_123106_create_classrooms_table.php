@@ -17,7 +17,9 @@ class CreateClassroomsTable extends Migration
             $table->id();
             $table->string('name');
             $table->longText('description');
+            $table->mediumText('banner')->nullable();
             $table->string('code', 8)->unique();
+            $table->boolean('status')->default(0);
             $table->unsignedBigInteger('creator_id');
             $table->foreign('creator_id')->references('id')->on('users');
             $table->timestamps();

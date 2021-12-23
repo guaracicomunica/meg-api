@@ -46,4 +46,5 @@ Route::group([
     'prefix' => 'classes'
 ], function ($router) {
     Route::get('', [ClassroomController::class, 'index']);
+    Route::post('', [ClassroomController::class, 'store']);
 });

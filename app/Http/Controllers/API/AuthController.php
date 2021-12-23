@@ -35,6 +35,7 @@ class AuthController extends Controller
             }
 
             $user = User::where('email', $request->input('email'))->first();
+            $user->role = $user->withRoleId();
 
             $result = array_merge(['user'=> $user],$this->respondWithToken($token));
 
@@ -86,6 +87,8 @@ class AuthController extends Controller
 
             $token = auth('api')->attempt($credentials);
 
+            $user->role = $user->withRoleId();
+
             return response()->json([
                 'message' => 'User successfully registered',
                 'user' => $user,
@@ -103,6 +106,7 @@ class AuthController extends Controller
     {
         try {
             $user = auth('api')->user();
+            $user->role = $user->withRoleId();
             return response()->json($user);
         } catch (\Throwable $e) {
             return response()->json(['error' => $e->getMessage()], 500);

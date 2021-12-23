@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Classroom;
+use App\Utils\UniqueCode;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
@@ -26,7 +27,7 @@ class ClassroomFactory extends Factory
         return [
             'name' => $this->faker->name,
             'description' => $this->faker->text(),
-            'code' => Str::random(8),
+            'code' => UniqueCode::generate(),
             'creator_id' => 1
         ];
     }
