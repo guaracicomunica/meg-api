@@ -24,11 +24,16 @@ class Classroom extends Model
         return $this->hasMany(Level::class, 'classroom_id');
     }
 
+    public function skills(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Skill::class, 'classroom_id');
+    }
+
     public static function createClassroom($request)
     {
         $match = ['name' => $request->name, 'creator_id' => $request->creator_id];
 
-        $classRoom = self::updateOrCreate($match, [
+        $classroom = self::updateOrCreate($match, [
             'name'=> $request->name,
             'description'=>$request->description,
             'code' => UniqueCode::generate(),
@@ -39,12 +44,14 @@ class Classroom extends Model
 
         if($request->levels)
         {
-            Level::createAndAssignToClassroom($request->levels, $classRoom->id);
+            Level::createAndAssignToClassroom($request->levels, $classroom->id);
         }
 
         if($request->skills)
         {
-            Skill::createAndAssignToClassroom($request->skills, $classRoom->id);
+            Skill::createAndAssignToClassroom($request->skills, $classroom->id);
         }
+
+        return $classroom;
     }
 }

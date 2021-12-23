@@ -30,7 +30,11 @@ class ClassroomController extends Controller
     public function store(Request $request)
     {
         try {
-            Classroom::createClassroom($request);
+            $classroom = Classroom::createClassroom($request);
+            return response([
+                'message' => 'Classroom successfully registered',
+                'classroom' => $classroom
+            ], 201);
         } catch(\Throwable $ex)
         {
             DB::rollBack();
