@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Utils\UniqueCode;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Classroom extends Model
 {
@@ -29,7 +30,10 @@ class Classroom extends Model
         return $this->hasMany(Skill::class, 'classroom_id');
     }
 
-    public static function newOrUpdate(array $data)
+    /**
+     * @throws \Throwable
+     */
+    public static function createClassroom(array $data) : Classroom
     {
         $assignedValues = [
             'id' => $data['id'],
@@ -41,26 +45,41 @@ class Classroom extends Model
             'creator_id' => (int) $data['creator_id']
         ];
 
-        $classroom = Classroom::where('id', $data['id'])->first();
+        try {
+            DB::beginTransaction();
 
-        if($classroom == null)
+            $classroom = Classroom::where('id', $data['id'])->first();
+
+            if($classroom == null)
+            {
+                $classroom = self::create($assignedValues);
+            } else {
+                $classroom->updateWithoutRefreshToken($assignedValues);
+            }
+
+            if($data['levels'])
+            {
+                Level::createAndAssignToClassroom($data['levels'], $classroom->id);
+            }
+
+            if($data['skills'])
+            {
+                Skill::createAndAssignToClassroom($data['skills'], $classroom->id);
+            }
+
+            DB::commit();
+
+            return $classroom;
+        } catch (\Throwable $ex)
         {
-            $classroom = self::create($assignedValues);
-        } else {
-            unset($assignedValues['code']);
-            $classroom->update($assignedValues);
+            DB::rollback();
+            throw $ex;
         }
+    }
 
-        if($data['levels'])
-        {
-            Level::createAndAssignToClassroom($data['levels'], $classroom->id);
-        }
-
-        if($data['skills'])
-        {
-            Skill::createAndAssignToClassroom($data['skills'], $classroom->id);
-        }
-
-        return $classroom;
+    public function updateWithoutRefreshToken(array $items)
+    {
+        unset($items['code']);
+        return $this->update($items);
     }
 }

@@ -2,13 +2,9 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Http\Requests\CreateClassroomRequest;
 use App\Models\Classroom;
 use App\Http\Controllers\Controller;
-use App\Utils\UniqueCode;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Str;
 
 class ClassroomController extends Controller
 {
@@ -27,17 +23,16 @@ class ClassroomController extends Controller
         dd("example");
     }
 
-    public function store(Request $request)
+    public function store(CreateClassroomRequest $request)
     {
         try {
-            $classroom = Classroom::newOrUpdate($request->all());
+            $classroom = Classroom::createClassroom($request->all());
             return response([
                 'message' => 'Classroom successfully registered',
                 'classroom' => $classroom
             ], 200);
         } catch(\Throwable $ex)
         {
-            DB::rollBack();
             return response($ex->getMessage(), 500);
         }
     }

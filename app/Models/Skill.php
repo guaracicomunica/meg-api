@@ -15,6 +15,9 @@ class Skill extends Model
         'classroom_id'
     ];
 
+    /**
+     * It creates a skill related to a classroom
+     */
     public static function createAndAssignToClassroom(array $skills, int $classroomId)
     {
         if($skills)
