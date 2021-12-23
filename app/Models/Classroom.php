@@ -29,7 +29,7 @@ class Classroom extends Model
         return $this->hasMany(Skill::class, 'classroom_id');
     }
 
-    public static function createClassroom(array $data)
+    public static function newOrUpdate(array $data)
     {
         $assignedValues = [
             'id' => $data['id'],
