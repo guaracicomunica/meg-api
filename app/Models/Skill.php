@@ -23,7 +23,7 @@ class Skill extends Model
             {
                 $skill = array_merge($skill, ['classroom_id' => $classroomId]);
                 $match = ['name' => $skill['name'], 'classroom_id' => $classroomId];
-                self::firstOrCreate($match, $skill);
+                self::updateOrCreate($match, $skill);
             }
         }
     }

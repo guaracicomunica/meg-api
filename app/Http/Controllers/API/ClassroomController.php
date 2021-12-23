@@ -34,7 +34,7 @@ class ClassroomController extends Controller
             return response([
                 'message' => 'Classroom successfully registered',
                 'classroom' => $classroom
-            ], 201);
+            ], 200);
         } catch(\Throwable $ex)
         {
             DB::rollBack();

@@ -31,16 +31,25 @@ class Classroom extends Model
 
     public static function createClassroom(array $data)
     {
-        $match = ['name' => $data['name'], 'creator_id' => $data['creator_id']];
-
-        $classroom = self::updateOrCreate($match, [
+        $assignedValues = [
+            'id' => $data['id'],
             'name'=> $data['name'],
             'description'=> $data['description'],
             'code' => UniqueCode::generate(),
             'status' => !$data['is_draft'],
             'banner' => null,
             'creator_id' => (int) $data['creator_id']
-        ]);
+        ];
+
+        $classroom = Classroom::where('id', $data['id'])->first();
+
+        if($classroom == null)
+        {
+            $classroom = self::create($assignedValues);
+        } else {
+            unset($assignedValues['code']);
+            $classroom->update($assignedValues);
+        }
 
         if($data['levels'])
         {

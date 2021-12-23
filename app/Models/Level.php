@@ -24,7 +24,7 @@ class Level extends Model
             {
                 $level = array_merge($level, ['classroom_id' => $classroomId]);
                 $match = ['name' => $level['name'], 'classroom_id' => $classroomId];
-                self::firstOrCreate($match, $level);
+                self::updateOrCreate($match, $level);
             }
         }
     }
