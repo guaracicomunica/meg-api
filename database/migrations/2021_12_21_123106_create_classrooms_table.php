@@ -16,7 +16,7 @@ class CreateClassroomsTable extends Migration
         Schema::create('classrooms', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->longText('description');
+            $table->string('nickname');
             $table->mediumText('banner')->nullable();
             $table->string('code', 16)->unique();
             $table->boolean('status')->default(0);

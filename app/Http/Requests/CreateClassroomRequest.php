@@ -25,7 +25,7 @@ class CreateClassroomRequest extends FormRequest
     public function rules()
     {
         return [
-
+            'name' => 'required|string'
         ];
     }
 }

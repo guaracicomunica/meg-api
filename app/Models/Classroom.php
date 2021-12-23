@@ -13,7 +13,7 @@ class Classroom extends Model
 
     protected $fillable = [
         'name',
-        'description',
+        'nickname',
         'status',
         'code',
         'banner',
@@ -38,7 +38,7 @@ class Classroom extends Model
         $assignedValues = [
             'id' => $data['id'],
             'name'=> $data['name'],
-            'description'=> $data['description'],
+            'nickname'=> $data['nickname'],
             'code' => UniqueCode::generate(),
             'status' => !$data['is_draft'],
             'banner' => null,

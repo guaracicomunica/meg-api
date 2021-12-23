@@ -26,7 +26,7 @@ class ClassroomFactory extends Factory
     {
         return [
             'name' => $this->faker->name,
-            'description' => $this->faker->text(),
+            'nickname' => $this->faker->name,
             'code' => UniqueCode::generate(),
             'creator_id' => 1
         ];
