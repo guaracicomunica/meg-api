@@ -29,27 +29,27 @@ class Classroom extends Model
         return $this->hasMany(Skill::class, 'classroom_id');
     }
 
-    public static function createClassroom($request)
+    public static function createClassroom(array $data)
     {
-        $match = ['name' => $request->name, 'creator_id' => $request->creator_id];
+        $match = ['name' => $data['name'], 'creator_id' => $data['creator_id']];
 
         $classroom = self::updateOrCreate($match, [
-            'name'=> $request->name,
-            'description'=>$request->description,
+            'name'=> $data['name'],
+            'description'=> $data['description'],
             'code' => UniqueCode::generate(),
-            'status' => !$request->is_draft,
+            'status' => !$data['is_draft'],
             'banner' => null,
-            'creator_id' => $request->creator_id
+            'creator_id' => (int) $data['creator_id']
         ]);
 
-        if($request->levels)
+        if($data['levels'])
         {
-            Level::createAndAssignToClassroom($request->levels, $classroom->id);
+            Level::createAndAssignToClassroom($data['levels'], $classroom->id);
         }
 
-        if($request->skills)
+        if($data['skills'])
         {
-            Skill::createAndAssignToClassroom($request->skills, $classroom->id);
+            Skill::createAndAssignToClassroom($data['skills'], $classroom->id);
         }
 
         return $classroom;

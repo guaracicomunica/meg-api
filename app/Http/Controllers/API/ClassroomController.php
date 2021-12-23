@@ -30,7 +30,7 @@ class ClassroomController extends Controller
     public function store(Request $request)
     {
         try {
-            $classroom = Classroom::createClassroom($request);
+            $classroom = Classroom::createClassroom($request->all());
             return response([
                 'message' => 'Classroom successfully registered',
                 'classroom' => $classroom
