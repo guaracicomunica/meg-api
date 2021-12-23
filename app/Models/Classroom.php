@@ -54,7 +54,7 @@ class Classroom extends Model
             {
                 $classroom = self::create($assignedValues);
             } else {
-                $classroom->updateWithoutRefreshToken($assignedValues);
+                $classroom->updateWithoutRefreshCode($assignedValues);
             }
 
             if($data['levels'])
@@ -77,7 +77,7 @@ class Classroom extends Model
         }
     }
 
-    public function updateWithoutRefreshToken(array $items)
+    public function updateWithoutRefreshCode(array $items): bool
     {
         unset($items['code']);
         return $this->update($items);
