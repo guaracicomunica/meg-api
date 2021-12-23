@@ -37,6 +37,14 @@ class Classroom extends Model
             'creator_id' => $request->creator_id
         ]);
 
-        Level::createAndAssignToClassroom($request->levels, $classRoom->id);
+        if($request->levels)
+        {
+            Level::createAndAssignToClassroom($request->levels, $classRoom->id);
+        }
+
+        if($request->skills)
+        {
+            Skill::createAndAssignToClassroom($request->skills, $classRoom->id);
+        }
     }
 }

@@ -18,22 +18,14 @@ class Level extends Model
 
     public static function createAndAssignToClassroom(array $levels, int $classroomId)
     {
-        $result = [];
-
         if($levels)
         {
             foreach($levels as $level)
             {
-                $level = [
-                    'name' => $level['name'],
-                    'xp'=> $level['xp'],
-                    'classroom_id' => $classroomId
-                ];
-
-                $result = array_merge($result, $level);
+                $level = array_merge($level, ['classroom_id' => $classroomId]);
+                $match = ['name' => $level['name'], 'classroom_id' => $classroomId];
+                self::firstOrCreate($match, $level);
             }
-
-            self::insert($result);
         }
     }
 }
