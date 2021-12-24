@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use App\Mail\ClassroomInvitation;
 use App\Utils\UniqueCode;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class Classroom extends Model
 {
@@ -65,6 +67,11 @@ class Classroom extends Model
             if($data['skills'])
             {
                 Skill::createAndAssignToClassroom($data['skills'], $classroom->id);
+            }
+
+            if($data['partners'])
+            {
+                Mail::to($data['partners'])->queue(new ClassroomInvitation($classroom));
             }
 
             DB::commit();
