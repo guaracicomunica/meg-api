@@ -2,7 +2,8 @@
 
 namespace App\Models;
 
-use App\Mail\ClassroomInvitation;
+use App\Jobs\MailJob;
+use App\Mail\ClassroomInvitationMail;
 use App\Utils\UniqueCode;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -72,7 +73,8 @@ class Classroom extends Model
 
             if($data['partners'])
             {
-                Mail::to($data['partners'])->queue(new ClassroomInvitation($classroom));
+                $job = new MailJob($data['partners'], new ClassroomInvitationMail($classroom));
+                dispatch($job);
             }
 
             DB::commit();
