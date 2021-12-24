@@ -1,5 +1,5 @@
 <html>
-    <div align="center">
+    <div style="margin-vertical: 16px" align="center">
         <img src="https://meg.vercel.app/icons/logo.svg"/>
     </div>
     <p>Olá, você foi convidado a participar da turma {{$name}}.</p>
