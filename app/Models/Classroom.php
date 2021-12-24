@@ -73,8 +73,12 @@ class Classroom extends Model
 
             if($data['partners'])
             {
-                $job = new MailJob($data['partners'], new ClassroomInvitationMail($classroom));
-                dispatch($job);
+                $emails = User::whereIn('email', $data['partners'])->pluck('email');
+
+                if(count($emails) > 0) {
+                    $job = new MailJob($emails, new ClassroomInvitationMail($classroom));
+                    dispatch($job);
+                }
             }
 
             DB::commit();
