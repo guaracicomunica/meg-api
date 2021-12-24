@@ -1,6 +1,6 @@
 <html>
     <div align="center">
-        <img src="logo.svg"/>
+        <img src="https://meg.vercel.app/icons/logo.svg"/>
     </div>
     <p>Olá, você foi convidado a participar da turma {{$name}}.</p>
     <p>Seu código de acesso é {{$code}}.</p>
