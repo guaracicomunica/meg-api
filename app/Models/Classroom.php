@@ -7,8 +7,14 @@ use App\Mail\ClassroomInvitationMail;
 use App\Utils\UniqueCode;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\DB;
+use Throwable;
 
+/**
+ * @method static create(array $assignedValues)
+ * @method static where(string $string, mixed $id)
+ */
 class Classroom extends Model
 {
     use HasFactory;
@@ -22,18 +28,18 @@ class Classroom extends Model
         'creator_id'
     ];
 
-    public function levels(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function levels(): HasMany
     {
         return $this->hasMany(Level::class, 'classroom_id');
     }
 
-    public function skills(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function skills(): HasMany
     {
         return $this->hasMany(Skill::class, 'classroom_id');
     }
 
     /**
-     * @throws \Throwable
+     * @throws Throwable
      */
     public static function createClassroom(array $data) : Classroom
     {
@@ -79,7 +85,7 @@ class Classroom extends Model
             DB::commit();
 
             return $classroom;
-        } catch (\Throwable $ex)
+        } catch (Throwable $ex)
         {
             DB::rollback();
             throw $ex;
