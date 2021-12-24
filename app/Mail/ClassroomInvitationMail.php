@@ -21,6 +21,7 @@ class ClassroomInvitationMail extends Mailable
     public function __construct(Classroom $c)
     {
         $this->classroom = $c;
+        $this->subject('MEG - Convite para acesso à turma');
     }
 
     /**
@@ -37,7 +38,6 @@ class ClassroomInvitationMail extends Mailable
 
         return $this
             ->view('classrooms.invitation')
-            ->subject('MEG - Convite para acesso à turma')
             ->with($data);
     }
 }
