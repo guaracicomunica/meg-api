@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Requests\CreateClassroomRequest;
 use App\Models\Classroom;
 use App\Http\Controllers\Controller;
+use Throwable;
 
 class ClassroomController extends Controller
 {
@@ -31,7 +32,7 @@ class ClassroomController extends Controller
                 'message' => 'Classroom successfully registered',
                 'classroom' => $classroom
             ], 200);
-        } catch(\Throwable $ex)
+        } catch(Throwable $ex)
         {
             return response($ex->getMessage(), 500);
         }
