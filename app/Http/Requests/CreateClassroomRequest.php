@@ -32,6 +32,9 @@ class CreateClassroomRequest extends FormRequest
             'levels' => ['required', 'array'],
             'levels.*.name' => ['required', 'string'],
             'levels.*.xp' => ['required','numeric', 'min:0'],
+            'skills' => ['sometimes', 'array'],
+            'skills.*.coins' => ['numeric', 'min:0'],
+            'skills.*.name' => ['required', 'string'],
         ];
     }
 
@@ -58,9 +61,15 @@ class CreateClassroomRequest extends FormRequest
 
             //levels
             'levels.required' => 'Deve ser informado ao menos um nível para a turma',
+            'levels.array' => 'Espera-se os níveis em formato de array',
             'levels.*.xp.min' => 'O xp não deve ser negativo',
             'levels.*.xp.required' => 'O preenchimento do xp é necessário',
             'levels.*.name.required' => 'O preenchimento do nome do nível é necessário',
+
+            //skills
+            'skills.array' => 'Espera-se as habilidades em formato de array',
+            'skills.*.coins.min' => 'A quantidade moedas não podem ser negativa',
+            'skills.*.name.required' => 'O preenchimento do nome da habilidade é necessário',
 
             //banner file
             'file.file' => 'Apenas arquivos são válidos para neste campo',
