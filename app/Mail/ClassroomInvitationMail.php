@@ -37,6 +37,7 @@ class ClassroomInvitationMail extends Mailable
 
         return $this
             ->view('classrooms.invitation')
+            ->subject('MEG - Convite para acesso à turma')
             ->with($data);
     }
 }
