@@ -57,7 +57,7 @@ class Classroom extends Model
 
                 $classroom = self::create($assignedValues);
             } else {
-                $classroom->updateWithoutRefreshCode($assignedValues);
+                $classroom->updateSafely($assignedValues);
             }
 
             if($data['levels'])
@@ -86,9 +86,15 @@ class Classroom extends Model
         }
     }
 
-    public function updateWithoutRefreshCode(array $items): bool
+    /**
+     * Update classroom, ignoring fields such as code (unique)
+     * and creator_id, which must be immutable.
+     * @returns boolean
+     */
+    public function updateSafely(array $items): bool
     {
         unset($items['code']);
+        unset($items['creator_id']);
         return $this->update($items);
     }
 }
