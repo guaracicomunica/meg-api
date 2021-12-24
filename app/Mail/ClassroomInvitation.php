@@ -21,7 +21,7 @@ class ClassroomInvitation extends Mailable
      */
     public function __construct(Classroom $c)
     {
-        $classroom = $c;
+        $this->classroom = $c;
     }
 
     /**
@@ -31,6 +31,13 @@ class ClassroomInvitation extends Mailable
      */
     public function build()
     {
-        return $this->view('classrooms.invitation');
+        $data = [
+            'name' => $this->classroom->name,
+            'code' => $this->classroom->code
+        ];
+
+        return $this
+            ->view('classrooms.invitation')
+            ->with($data);
     }
 }
