@@ -6,6 +6,8 @@ use \App\Http\Controllers\API\UserController;
 use \App\Http\Controllers\API\CategoryController;
 use \App\Http\Controllers\API\RoleController;
 use \App\Http\Controllers\API\EmailVerificationController;
+use \App\Http\Controllers\API\VerifyEmailController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -29,15 +31,20 @@ Route::group([
 
 });
 
-Route::group([
-    'prefix' => 'confirmation'
 
-], function ($router) {
-    Route::get('email/verification-notification', [EmailVerificationController::class, 'sendVerificationEmail'])
-        ->name('verification.notice');
-    Route::get('verify-email/{id}/{hash}', [EmailVerificationController::class, 'verify'])
-        ->name('verification.verify');
-});
+
+// Verify email
+Route::get('/email/verify/{id}/{hash}', [VerifyEmailController::class, '__invoke'])
+    ->middleware(['signed', 'throttle:6,1'])
+    ->name('verification.verify');
+
+// Resend link to verify email
+Route::post('/email/verify/resend', function (Request $request) {
+    $request->user()->sendEmailVerificationNotification();
+    return back()->with('message', 'Verification link sent!');
+})->middleware(['auth:api', 'throttle:6,1'])->name('verification.send');
+
+
 
 Route::group([
     'prefix' => 'users'
