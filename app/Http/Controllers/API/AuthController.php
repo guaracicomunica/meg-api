@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Auth\Events\Registered;
 
 class AuthController extends Controller
 {
@@ -21,10 +22,14 @@ class AuthController extends Controller
 
     public function __construct(EmailVerificationController $emailVerificatoinController)
     {
+
         $this->middleware(
             'auth:api',
             ['except' => ['unauthorized', 'login', 'register']]
         );
+
+      //  $this->middleware('verified', ['except' => ['unauthorized', 'register']]);
+
         $this->emailVerificatoinController = $emailVerificatoinController;
     }
 
@@ -41,9 +46,11 @@ class AuthController extends Controller
 
             $result = array_merge(['user'=> $user],$this->respondWithToken($token));
 
+            $this->emailVerificatoinController->verify($request);
+
             return response()->json($result);
         } catch (\Throwable $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
+            return response()->json(['error' => $e->getMessage()], $e->getCode());
         }
     }
 
@@ -83,19 +90,14 @@ class AuthController extends Controller
                 'role_id' => $request->role,
             ]);
 
-            $this->emailVerificatoinController->sendVerificationEmail(null, $user);
+         //   $this->emailVerificatoinController->sendVerificationEmail(null, $user);
+            event(new Registered($user));
 
             DB::commit();
 
             $credentials = $request->only(['email', 'password']);
 
             $token = auth('api')->attempt($credentials);
-
-            $re = new Request();
-
-            $re->user($user);
-
-//            dd($re, $request, $user);
 
             return response()->json([
                 'message' => 'User successfully registered',
