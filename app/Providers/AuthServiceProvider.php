@@ -28,12 +28,12 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         VerifyEmail::toMailUsing(function ($notifiable, $url){
-            $sapUrl = "http://spa.test?email_verify_url=".$url;
+            $sapUrl = $url;
 
             return (new MailMessage)
-                ->subject('Verify Email Address')
-                ->line('click the button below to verify your email address.')
-                ->action('Verify Email Address', $sapUrl);
+                ->subject('Verificar e-mail')
+                ->line('Clique no botão abaixo para verificar seu endereço de e-mail.')
+                ->action('Verifique seu endereço de e-mail', $sapUrl);
         });
     }
 }
