@@ -28,13 +28,14 @@ class CreateClassroomRequest extends FormRequest
             'name' => ['required', 'string', 'max:191'],
             'nickname' => ['required', 'string', 'max:191'],
             'file' => ['sometimes', 'file', 'max:500', 'mimes:jpeg,png,svg'],
-            'partners.*' => ['email'],
+            'partners.*' => ['sometimes','email'],
             'levels' => ['required', 'array'],
             'levels.*.name' => ['required', 'string'],
             'levels.*.xp' => ['required','numeric', 'min:0'],
             'skills' => ['sometimes', 'array'],
             'skills.*.coins' => ['numeric', 'min:0'],
             'skills.*.name' => ['sometimes', 'string'],
+            'is_draft' => ['required', 'boolean']
         ];
     }
 
@@ -74,7 +75,11 @@ class CreateClassroomRequest extends FormRequest
             //banner file
             'file.file' => 'Apenas arquivos são válidos para neste campo',
             'file.size' => 'O arquivo deve ter máximo :size mb',
-            'file.mimes' => 'O arquivo deve ter uma das seguintes extensões: :values'
+            'file.mimes' => 'O arquivo deve ter uma das seguintes extensões: :values',
+
+            //is_draft
+            'is_draft.required' => 'Informe se cadastro de turma é rascunho ou não',
+            'is_draft.boolean' => 'O campo deve ser booleano'
         ];
     }
 }
