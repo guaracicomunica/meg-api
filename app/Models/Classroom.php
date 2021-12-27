@@ -67,17 +67,17 @@ class Classroom extends Model
                 $classroom->updateSafely($assignedValues);
             }
 
-            if($data['levels'])
+            if(isset($data['levels']))
             {
                 Level::createAndAssignToClassroom($data['levels'], $classroom->id);
             }
 
-            if($data['skills'])
+            if(isset($data['skills']))
             {
                 Skill::createAndAssignToClassroom($data['skills'], $classroom->id);
             }
 
-            if($data['partners'])
+            if(isset($data['partners']))
             {
                 $job = new MailJob($data['partners'], new ClassroomInvitationMail($classroom));
                 dispatch($job);
