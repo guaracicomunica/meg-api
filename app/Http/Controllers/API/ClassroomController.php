@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Requests\CreateClassroomRequest;
 use App\Models\Classroom;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Throwable;
 
 class ClassroomController extends Controller
@@ -21,7 +22,13 @@ class ClassroomController extends Controller
 
     public function index()
     {
-        dd("example");
+        try {
+            $classes = Auth::user()->classes()->latest()->paginate(10);
+            return response()->json($classes);
+        } catch(Throwable $ex)
+        {
+            return response($ex->getMessage(), 500);
+        }
     }
 
     public function store(CreateClassroomRequest $request)

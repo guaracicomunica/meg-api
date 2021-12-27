@@ -58,6 +58,11 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
         return $this->belongsToMany(Role::class, 'users_roles', 'user_id', 'role_id');
     }
 
+    public function classes()
+    {
+        return $this->belongsToMany(Classroom::class, 'users_classrooms', 'user_id', 'classroom_id');
+    }
+
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.
      *

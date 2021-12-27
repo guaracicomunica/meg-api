@@ -26,7 +26,6 @@ class EmailVerificationController extends Controller
         } else{
 
             if($request->user()->hasVerifiedEmail()) return [ 'message' => 'Already Verified'];
-
         }
 
         $request->user()->sendEmailVerificationNotification();

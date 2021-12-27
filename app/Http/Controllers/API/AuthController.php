@@ -91,7 +91,6 @@ class AuthController extends Controller
                 'role_id' => $request->role,
             ]);
 
-         //   $this->emailVerificatoinController->sendVerificationEmail(null, $user);
             event(new Registered($user));
 
             DB::commit();
