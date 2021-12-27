@@ -50,7 +50,7 @@ class Classroom extends Model
             'code' => UniqueCode::generate(),
             'status' => !$data['is_draft'],
             'banner' => null,
-            'creator_id' => (int) $data['creator_id']
+            'creator_id' => Auth::user()->id,
         ];
 
         try {
