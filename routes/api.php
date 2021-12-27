@@ -67,4 +67,5 @@ Route::group([
 ], function ($router) {
     Route::get('', [ClassroomController::class, 'index']);
     Route::post('', [ClassroomController::class, 'store']);
+    Route::post('enrollment', [ClassroomController::class, 'enrollment']);
 });
