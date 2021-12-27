@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Auth\Events\Registered;
 
 class AuthController extends Controller
 {
@@ -17,12 +18,19 @@ class AuthController extends Controller
      *
      * @return void
      */
-    public function __construct()
+    protected $emailVerificatoinController;
+
+    public function __construct(EmailVerificationController $emailVerificatoinController)
     {
+
         $this->middleware(
             'auth:api',
             ['except' => ['unauthorized', 'login', 'register']]
         );
+
+      //  $this->middleware('verified', ['except' => ['unauthorized', 'register']]);
+
+        $this->emailVerificatoinController = $emailVerificatoinController;
     }
 
     public function login(Request $request)
@@ -39,9 +47,11 @@ class AuthController extends Controller
 
             $result = array_merge(['user'=> $user],$this->respondWithToken($token));
 
+            $this->emailVerificatoinController->verify($request);
+
             return response()->json($result);
         } catch (\Throwable $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
+            return response()->json(['error' => $e->getMessage()], $e->getCode());
         }
     }
 
@@ -80,6 +90,9 @@ class AuthController extends Controller
                 'user_id' => $user->id,
                 'role_id' => $request->role,
             ]);
+
+         //   $this->emailVerificatoinController->sendVerificationEmail(null, $user);
+            event(new Registered($user));
 
             DB::commit();
 
