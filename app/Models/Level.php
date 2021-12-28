@@ -4,8 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use phpDocumentor\Reflection\Types\Integer;
 
+/**
+ * @method static whereNotIn(string $string, $levelsDiscartedByUser)
+ */
 class Level extends Model
 {
     use HasFactory;
@@ -16,7 +18,7 @@ class Level extends Model
         'classroom_id'
     ];
 
-    public static function createAndAssignToClassroom(array $levels, int $classroomId)
+    public static function createAndAssignToClassroom(array $levels, int $classroomId, bool $isDraft)
     {
         if($levels)
         {
@@ -26,6 +28,25 @@ class Level extends Model
                 $match = ['name' => $level['name'], 'classroom_id' => $classroomId];
                 self::updateOrCreate($match, $level);
             }
+
+            if($isDraft)
+            {
+                $names = self::getNamesArray($levels);
+                self::whereNotIn('name', $names)->delete();
+            }
         }
+
+    }
+
+    private static function getNamesArray(array $levels) : array
+    {
+        $names = [];
+
+        foreach($levels as $level)
+        {
+            $names[] = $level['name'];
+        }
+
+        return $names;
     }
 }

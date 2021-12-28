@@ -33,8 +33,8 @@ class CreateClassroomRequest extends FormRequest
             'levels.*.name' => ['required', 'string'],
             'levels.*.xp' => ['required','numeric', 'min:0'],
             'skills' => ['sometimes', 'array'],
-            'skills.*.coins' => ['numeric', 'min:0'],
-            'skills.*.name' => ['sometimes', 'string'],
+            'skills.*.coins' => ['required','numeric', 'min:0'],
+            'skills.*.name' => ['required', 'string'],
             'is_draft' => ['required', 'boolean']
         ];
     }

@@ -72,7 +72,7 @@ class Classroom extends Model
 
             if(isset($data['levels']))
             {
-                Level::createAndAssignToClassroom($data['levels'], $classroom->id);
+                Level::createAndAssignToClassroom($data['levels'], $classroom->id, (bool) $data['is_draft']);
             }
 
             if(isset($data['skills']))
