@@ -57,7 +57,7 @@ class Classroom extends Model
         try {
             DB::beginTransaction();
 
-            $classroom = Classroom::where('id', $data['id'])->first();
+            $classroom = self::where('id', $data['id'])->first();
 
             if($classroom == null)
             {
