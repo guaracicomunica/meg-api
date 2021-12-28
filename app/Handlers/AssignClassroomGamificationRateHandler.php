@@ -26,11 +26,11 @@ class AssignClassroomGamificationRateHandler {
 
     private static function updateIfNew(string $entity, array $resources, int $classroomId)
     {
-        foreach($resources as $level)
+        foreach($resources as $resource)
         {
-            $level = array_merge($level, ['classroom_id' => $classroomId]);
-            $match = ['name' => $level['name'], 'classroom_id' => $classroomId];
-            $entity::updateOrCreate($match, $level);
+            $resource = array_merge($resource, ['classroom_id' => $classroomId]);
+            $match = ['name' => $resource['name'], 'classroom_id' => $classroomId];
+            $entity::updateOrCreate($match, $resource);
         }
     }
 
