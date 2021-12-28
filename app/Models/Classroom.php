@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Handlers\AssignClassroomGamificationRateHandler;
 use App\Jobs\MailJob;
 use App\Mail\ClassroomInvitationMail;
 use App\Utils\UniqueCode;
@@ -70,15 +71,9 @@ class Classroom extends Model
                 $classroom->updateSafely($assignedValues);
             }
 
-            if(isset($data['levels']))
-            {
-                Level::createAndAssignToClassroom($data['levels'], $classroom->id, (bool) $data['is_draft']);
-            }
+            AssignClassroomGamificationRateHandler::handle(Level::class, $data['levels'] ?? [], $classroom->id, (bool) $data['is_draft']);
 
-            if(isset($data['skills']))
-            {
-                Skill::createAndAssignToClassroom($data['skills'], $classroom->id);
-            }
+            AssignClassroomGamificationRateHandler::handle(Skill::class, $data['skills'] ?? [], $classroom->id, (bool) $data['is_draft']);
 
             if(isset($data['partners']))
             {
