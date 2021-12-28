@@ -62,14 +62,13 @@ class Classroom extends Model
             if($classroom == null)
             {
                 $classroom = self::create($assignedValues);
+                ClassroomParticipant::assignCreatorAsFirstParticipantOfClassroom(
+                    $classroom->creator_id,
+                    $classroom->id
+                );
             } else {
                 $classroom->updateSafely($assignedValues);
             }
-
-            ClassroomParticipant::firstOrCreate([
-                'user_id' => $classroom->creator_id,
-                'classroom_id' => $classroom->id,
-            ]);
 
             if(isset($data['levels']))
             {

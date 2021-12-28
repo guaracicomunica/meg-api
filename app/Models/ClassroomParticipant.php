@@ -15,4 +15,12 @@ class ClassroomParticipant extends Model
         'user_id',
         'classroom_id',
     ];
+
+    public static function assignCreatorAsFirstParticipantOfClassroom($creatorId, $classroomId)
+    {
+        self::firstOrCreate([
+            'user_id' => $creatorId,
+            'classroom_id' => $classroomId,
+        ]);
+    }
 }
