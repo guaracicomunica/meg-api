@@ -46,14 +46,14 @@ class CreateClassroomHandler
                 $classroom->updateSafely($assignedValues);
             }
 
-            AssignClassroomGamificationRateHandler::handle(
+            AlterClassroomGamificationRatesHandler::handle(
                 Level::class,
                 $data['levels'] ?? [],
                 $classroom->id,
                 (bool) $data['is_draft']
             );
 
-            AssignClassroomGamificationRateHandler::handle(
+            AlterClassroomGamificationRatesHandler::handle(
                 Skill::class,
                 $data['skills'] ?? [],
                 $classroom->id,

@@ -3,9 +3,8 @@
 namespace App\Handlers;
 
 use App\Utils\Arr;
-use Illuminate\Database\Eloquent\Model;
 
-class AssignClassroomGamificationRateHandler {
+class AlterClassroomGamificationRatesHandler {
     /***
      * It associates a classroom to a gamification rate at moment of its creation.
      * @param string $entity
