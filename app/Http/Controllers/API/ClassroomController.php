@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Handlers\CreateClassroomHandler;
+use App\Handlers\EnrollClassroomHandler;
 use App\Http\Requests\CreateClassroomRequest;
-use App\Models\Classroom;
+use App\Http\Requests\EnrollClassroomRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Throwable;
@@ -34,11 +36,23 @@ class ClassroomController extends Controller
     public function store(CreateClassroomRequest $request)
     {
         try {
-            $classroom = Classroom::createClassroom($request->all());
+            CreateClassroomHandler::handle($request->all());
             return response([
-                'message' => 'Classroom successfully registered',
-                'classroom' => $classroom
-            ], 200);
+                'message' => 'Classroom successfully registered'
+            ]);
+        } catch(Throwable $ex)
+        {
+            return response($ex->getMessage(), 500);
+        }
+    }
+
+    public function enrollment(EnrollClassroomRequest $request)
+    {
+        try {
+            EnrollClassroomHandler::handle($request->all());
+            return response()->json([
+                'message' => 'Enrollment successfully done',
+            ]);
         } catch(Throwable $ex)
         {
             return response($ex->getMessage(), 500);
