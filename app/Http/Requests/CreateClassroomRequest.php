@@ -73,8 +73,8 @@ class CreateClassroomRequest extends FormRequest
             'skills.*.name.required' => 'O preenchimento do nome da habilidade é necessário',
 
             //banner file
-            'file.file' => 'Apenas arquivos são válidos para neste campo',
-            'file.size' => 'O arquivo deve ter máximo :size mb',
+            'file.file' => 'Apenas arquivos são válidos para este campo',
+            'file.max' => 'O arquivo deve ter no máximo :max kilobytes',
             'file.mimes' => 'O arquivo deve ter uma das seguintes extensões: :values',
 
             //is_draft
