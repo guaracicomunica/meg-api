@@ -67,7 +67,7 @@ class Classroom extends Model
             }
 
             ClassroomParticipant::firstOrCreate([
-                'user_id' => Auth::user()->id,
+                'user_id' => $classroom->creator_id,
                 'classroom_id' => $classroom->id,
             ]);
 
