@@ -38,11 +38,13 @@ class CreateClassroomHandler
             if($classroom == null)
             {
                 $classroom = Classroom::create($assignedValues);
+                $classroom->uploadBannerIfNew($data['file']);
                 ClassroomParticipant::assignCreatorAsFirstParticipantOfClassroom(
                     $classroom->creator_id,
                     $classroom->id
                 );
             } else {
+                $classroom->uploadBannerIfNew($data['file']);
                 $classroom->updateSafely($assignedValues);
             }
 

@@ -2,14 +2,11 @@
 
 namespace App\Models;
 
+use App\Utils\File;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-/**
- * @method static create(array $assignedValues)
- * @method static where(string $string, mixed $id)
- */
 class Classroom extends Model
 {
     use HasFactory;
@@ -31,6 +28,22 @@ class Classroom extends Model
     public function skills(): HasMany
     {
         return $this->hasMany(Skill::class, 'classroom_id');
+    }
+
+    public function uploadBannerIfNew($file)
+    {
+        $path = File::saveAs(
+            "public/classrooms/{$this->id}",
+            $file,
+            "banner"
+        );
+
+        if($path != null)
+        {
+            $this->banner = $path;
+
+            $this->save();
+        }
     }
 
     /**
