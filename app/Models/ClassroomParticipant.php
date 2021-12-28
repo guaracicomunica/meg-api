@@ -19,7 +19,13 @@ class ClassroomParticipant extends Model
         'classroom_id',
     ];
 
-    public static function assignCreatorAsFirstParticipantOfClassroom($creatorId, $classroomId)
+    /***
+     * It turns a user into a classroom participant
+     * @param $creatorId
+     * @param $classroomId
+     * @return void
+     */
+    public static function assignParticipant($creatorId, $classroomId)
     {
         self::firstOrCreate([
             'user_id' => $creatorId,

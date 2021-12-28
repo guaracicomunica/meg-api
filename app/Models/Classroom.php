@@ -34,7 +34,7 @@ class Classroom extends Model
         return $this->hasMany(Skill::class, 'classroom_id');
     }
 
-    public function uploadBannerIfNew($file)
+    public function uploadBanner($file)
     {
         $path = File::saveAs(
             "public/classrooms/{$this->id}",
