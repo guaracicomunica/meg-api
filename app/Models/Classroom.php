@@ -61,7 +61,6 @@ class Classroom extends Model
 
             if($classroom == null)
             {
-
                 $classroom = self::create($assignedValues);
             } else {
                 $classroom->updateSafely($assignedValues);
@@ -102,6 +101,6 @@ class Classroom extends Model
     {
         unset($items['code']);
         unset($items['creator_id']);
-        return $this->update($items);
+        return $this->fill($items)->save();
     }
 }
