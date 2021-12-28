@@ -66,7 +66,6 @@ class PostController extends Controller
     {
         try {
 
-           // $this->storeCommom($request);
             $classroom = Post::create($request->all());
 
             return response([
@@ -80,15 +79,4 @@ class PostController extends Controller
         }
     }
 
-
-
-    public function storeCommom(FormRequest  $request)
-    {
-        $classroom = Post::create($request->all());
-
-        return response([
-            'message' => 'Post successfully registered',
-            'post' => $classroom
-        ], 200);
-    }
 }
