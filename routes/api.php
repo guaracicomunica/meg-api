@@ -6,7 +6,7 @@ use App\Http\Controllers\API\AuthController;
 use \App\Http\Controllers\API\UserController;
 use \App\Http\Controllers\API\CategoryController;
 use \App\Http\Controllers\API\RoleController;
-use \App\Http\Controllers\API\EmailVerificationController;
+use \App\Http\Controllers\API\PostController;
 use \App\Http\Controllers\API\VerifyEmailController;
 
 
@@ -67,4 +67,14 @@ Route::group([
 ], function ($router) {
     Route::get('', [ClassroomController::class, 'index']);
     Route::post('', [ClassroomController::class, 'store']);
+});
+
+
+Route::group([
+    'prefix' => 'posts',
+], function ($router) {
+   Route::get('', [PostController::class, 'index']);
+   Route::post('activity', [PostController::class, 'storeActivity']);
+   Route::post('new', [PostController::class, 'storeNew']);
+
 });
