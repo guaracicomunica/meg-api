@@ -25,7 +25,22 @@ class EnrollClassroomRequest extends FormRequest
     public function rules()
     {
         return [
-            'code' => 'required'
+            'code' => 'required|string|exists:classrooms,code',
+        ];
+    }
+
+
+    /**
+     * Custom validation messages.
+     *
+     * @return array
+     */
+    public function messages()
+    {
+        return [
+            'code.required' => 'O preenchimento do código da turma é necessário',
+            'code.string' => 'O código da turma deve estar em formato de texto',
+            'code.exists' => 'O código não existe',
         ];
     }
 }

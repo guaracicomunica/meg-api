@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Handlers\CreateClassroomHandler;
+use App\Handlers\EnrollClassroomHandler;
 use App\Http\Requests\CreateClassroomRequest;
 use App\Http\Requests\EnrollClassroomRequest;
 use App\Http\Controllers\Controller;
@@ -38,7 +39,7 @@ class ClassroomController extends Controller
             CreateClassroomHandler::handle($request->all());
             return response([
                 'message' => 'Classroom successfully registered'
-            ], 200);
+            ]);
         } catch(Throwable $ex)
         {
             return response($ex->getMessage(), 500);
@@ -48,9 +49,9 @@ class ClassroomController extends Controller
     public function enrollment(EnrollClassroomRequest $request)
     {
         try {
+            EnrollClassroomHandler::handle($request->all());
             return response()->json([
-                'message' => 'Classroom successfully registered',
-                'request' => $request->all()
+                'message' => 'Enrollment successfully done',
             ]);
         } catch(Throwable $ex)
         {

@@ -42,15 +42,15 @@ class CreateClassroomHandler
                     $classroom->uploadBanner($data['file']);
                     $classroom->save();
                 };
-
-                ClassroomParticipant::assignParticipant(
-                    $classroom->creator_id,
-                    $classroom->id
-                );
             } else {
                 if(isset($data['file'])) $classroom->uploadBanner($data['file']);
                 $classroom->updateSafely($assignedValues);
             }
+
+            ClassroomParticipant::assignParticipant(
+                $classroom->creator_id,
+                $classroom->id
+            );
 
             AlterClassroomGamificationRatesHandler::handle(
                 Level::class,
