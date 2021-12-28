@@ -34,6 +34,11 @@ class Classroom extends Model
         return $this->hasMany(Skill::class, 'classroom_id');
     }
 
+    public function participants()
+    {
+        return $this->belongsToMany(User::class, 'users_classrooms', 'classroom_id', 'user_id');
+    }
+    
     public function posts(): HasMany
     {
         return $this->hasMany(Post::class, 'classroom_id');

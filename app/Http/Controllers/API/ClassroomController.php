@@ -8,6 +8,7 @@ use App\Http\Requests\CreateClassroomRequest;
 use App\Http\Requests\EnrollClassroomRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Classroom;
 use Throwable;
 
 class ClassroomController extends Controller
@@ -53,6 +54,26 @@ class ClassroomController extends Controller
             return response()->json([
                 'message' => 'Enrollment successfully done',
             ]);
+        } catch(Throwable $ex)
+        {
+            return response($ex->getMessage(), 500);
+        }
+    }
+
+    public function participants(int $id)
+    {
+        try {
+            $classroom = Classroom::find($id);
+
+            if($classroom == null)
+            {
+                return response()->json([
+                    'message' => 'Classroom not found',
+                ], 404);
+            } else {
+                $result = $classroom->participants()->get();
+                return response()->json($result);
+            }
         } catch(Throwable $ex)
         {
             return response($ex->getMessage(), 500);
