@@ -34,6 +34,11 @@ class Classroom extends Model
         return $this->hasMany(Skill::class, 'classroom_id');
     }
 
+    public function posts(): HasMany
+    {
+        return $this->hasMany(Post::class, 'classroom_id');
+    }
+
     public function uploadBanner($file)
     {
         $path = File::saveAs(

@@ -42,16 +42,19 @@ class AuthController extends Controller
                 return response()->json(['error' => 'Unauthorized'], 401);
             }
 
+            $this->emailVerificatoinController->verify($request);
+
             $user = User::where('email', $request->input('email'))->first();
+
             $user->role = $user->withRoleId();
 
             $result = array_merge(['user'=> $user],$this->respondWithToken($token));
 
-            $this->emailVerificatoinController->verify($request);
 
             return response()->json($result);
         } catch (\Throwable $e) {
-            return response()->json(['error' => $e->getMessage()], $e->getCode());
+            $statusCode = $e->getCode() != 2002 ? $e->getCode() : 500;
+            return response()->json(['error' => $e->getMessage()], $statusCode);
         }
     }
 
