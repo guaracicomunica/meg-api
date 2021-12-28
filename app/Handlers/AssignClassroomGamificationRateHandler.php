@@ -24,6 +24,14 @@ class AssignClassroomGamificationRateHandler {
         }
     }
 
+    /****
+     * Create or update a set of levels and skills depending on
+     * it already exists on database.
+     * @param string $entity
+     * @param array $resources
+     * @param int $classroomId
+     * @return void
+     */
     private static function updateIfNew(string $entity, array $resources, int $classroomId)
     {
         foreach($resources as $resource)
@@ -34,6 +42,13 @@ class AssignClassroomGamificationRateHandler {
         }
     }
 
+    /****
+     * If a user removes a level or skill while is making a draft,
+     * records on database must be deleted.
+     * @param string $entity
+     * @param array $resources
+     * @return void
+     */
     private static function removeIfUnused(string $entity, array $resources)
     {
         $names = Arr::select($resources, 'name');
