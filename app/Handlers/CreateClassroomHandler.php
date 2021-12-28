@@ -26,7 +26,6 @@ class CreateClassroomHandler
             'nickname'=> $data['nickname'],
             'code' => UniqueCode::generate(),
             'status' => !$data['is_draft'],
-            'banner' => null,
             'creator_id' => Auth::user()->id,
         ];
 
@@ -38,13 +37,18 @@ class CreateClassroomHandler
             if($classroom == null)
             {
                 $classroom = Classroom::create($assignedValues);
-                $classroom->uploadBanner($data['file']);
+
+                if(isset($data['file'])) {
+                    $classroom->uploadBanner($data['file']);
+                    $classroom->save();
+                };
+
                 ClassroomParticipant::assignParticipant(
                     $classroom->creator_id,
                     $classroom->id
                 );
             } else {
-                $classroom->uploadBanner($data['file']);
+                if(isset($data['file'])) $classroom->uploadBanner($data['file']);
                 $classroom->updateSafely($assignedValues);
             }
 
