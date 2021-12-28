@@ -66,6 +66,11 @@ class Classroom extends Model
                 $classroom->updateSafely($assignedValues);
             }
 
+            ClassroomParticipant::firstOrCreate([
+                'user_id' => Auth::user()->id,
+                'classroom_id' => $classroom->id,
+            ]);
+
             if(isset($data['levels']))
             {
                 Level::createAndAssignToClassroom($data['levels'], $classroom->id);
