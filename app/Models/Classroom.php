@@ -7,6 +7,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+/**
+ * @method static create(array $assignedValues)
+ * @method static where(string $string, mixed $id)
+ */
 class Classroom extends Model
 {
     use HasFactory;
