@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
-class CreateNewsRequest extends FormRequest
+class CreatePostRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -28,8 +28,8 @@ class CreateNewsRequest extends FormRequest
             'name' => ['required', 'string', 'max:100'],
             'body' => ['required', 'string', 'max:800'],
             'disabled' => ['sometimes', 'boolean'],
-            'post_type_id' => ['required', 'numeric'],
-            'classroom_id' => ['required', 'numeric'],
+            'is_private' => ['required', 'boolean'],
+            'classroom_id' => ['required', 'numeric', 'exists:classrooms,id'],
         ];
     }
 

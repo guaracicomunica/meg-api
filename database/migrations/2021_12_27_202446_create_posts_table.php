@@ -27,9 +27,6 @@ class CreatePostsTable extends Migration
             $table->unsignedBigInteger('classroom_id');
             $table->foreign('classroom_id')->references('id')->on('classrooms');
 
-            $table->unsignedBigInteger('post_type_id');
-            $table->foreign('post_type_id')->references('id')->on('post_types');
-
             $table->timestamps();
         });
     }
