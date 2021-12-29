@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Handlers\API;
+namespace App\Http\Handlers;
 
 use App\Models\Activity;
 use App\Models\Post;

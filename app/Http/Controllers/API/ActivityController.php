@@ -3,23 +3,24 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Http\Handlers\API\CreateActivityHandler;
+use App\Http\Handlers\CreateActivityHandler;
+use App\Http\Handlers\GetAllActivityHandler;
+use App\Http\Handlers\GetOneActivityHandler;
 use App\Http\Requests\CreateActivityRequest;
 use App\Http\Requests\DeliveryActivityRequest;
-use App\Models\Activity;
 use Illuminate\Http\Request;
 
 class ActivityController extends Controller
 {
     public function index()
     {
-        $result = Activity::with(['post'])->paginate();
+        $result = GetAllActivityHandler::handle();
         return response()->json($result);
     }
 
     public function show(int $id)
     {
-        $result = Activity::with(['post', 'post.comments'])->findOrFail($id);
+        $result = GetOneActivityHandler::handle($id);
         return response()->json($result);
     }
 
