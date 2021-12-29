@@ -7,6 +7,7 @@ use App\Handlers\EnrollClassroomHandler;
 use App\Http\Requests\CreateClassroomRequest;
 use App\Http\Requests\EnrollClassroomRequest;
 use App\Http\Controllers\Controller;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Classroom;
 use Throwable;
@@ -26,7 +27,19 @@ class ClassroomController extends Controller
     public function index()
     {
         try {
-            $classes = Auth::user()->classes()->latest()->paginate(10);
+            $classes = Auth::user()
+                ->classes()
+                ->with([
+                    'levels',
+                    'skills',
+                    'participants' => function($query) {
+                        $query->whereHas('roles', function(Builder $query){
+                            $query->where('roles.id', 2);
+                        });
+                    }
+                ])
+                ->latest()
+                ->paginate(10);
             return response()->json($classes);
         } catch(Throwable $ex)
         {

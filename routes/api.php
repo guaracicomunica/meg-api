@@ -81,7 +81,6 @@ Route::group([
    Route::post('new', [PostController::class, 'storeNew']);
 });
 
-
 Route::group([
     'prefix' => 'comments',
 ], function ($router) {

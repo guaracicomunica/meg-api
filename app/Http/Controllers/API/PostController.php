@@ -7,7 +7,6 @@ use App\Http\Requests\CreateActivityRequest;
 use App\Http\Requests\CreateNewRequest;
 use App\Http\Requests\PostRequest;
 use App\Models\Post;
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Validator;
 use \Illuminate\Http\Request;
 
@@ -30,12 +29,12 @@ class PostController extends Controller
         ]);
 
         if($validator->fails()){
-            return response()->json(['error' => $validator->errors()->toJson()], 401);
+            return response()->json(['error' => $validator->errors()->toJson()], 400);
         }
 
         try {
 
-            $posts = Post::where('classroom_id', $request->classroom_id)->get();
+            $posts = Post::where('classroom_id', $request->classroom_id)->paginate(10);
 
             return response()->json($posts);
 
@@ -44,7 +43,6 @@ class PostController extends Controller
             return response($ex->getMessage(), $ex->getCode());
         }
     }
-
 
     public function storeActivity(CreateActivityRequest $request)
     {
