@@ -7,7 +7,6 @@ use App\Http\Requests\CreateActivityRequest;
 use App\Http\Requests\CreateNewRequest;
 use App\Http\Requests\PostRequest;
 use App\Models\Post;
-use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Validator;
 use \Illuminate\Http\Request;
 
@@ -64,6 +63,7 @@ class PostController extends Controller
     public function storeNew(CreateNewRequest $request)
     {
         try {
+
             $classroom = Post::create($request->all());
 
             return response([
@@ -76,4 +76,5 @@ class PostController extends Controller
             return response($ex->getMessage(), $ex->getCode());
         }
     }
+
 }

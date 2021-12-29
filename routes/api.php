@@ -8,6 +8,7 @@ use \App\Http\Controllers\API\CategoryController;
 use \App\Http\Controllers\API\RoleController;
 use \App\Http\Controllers\API\PostController;
 use \App\Http\Controllers\API\VerifyEmailController;
+use \App\Http\Controllers\API\CommentController;
 
 
 /*
@@ -76,7 +77,14 @@ Route::group([
     'prefix' => 'posts',
 ], function ($router) {
    Route::get('', [PostController::class, 'index']);
-   Route::post('activities', [PostController::class, 'storeActivity']);
-   Route::post('news', [PostController::class, 'storeNew']);
+   Route::post('activity', [PostController::class, 'storeActivity']);
+   Route::post('new', [PostController::class, 'storeNew']);
+});
 
+Route::group([
+    'prefix' => 'comments',
+], function ($router) {
+    Route::get('{id}', [CommentController::class, 'index']);
+    Route::post('', [CommentController::class, 'store']);
+    Route::delete('{id}',[CommentController::class, 'delete']);
 });
