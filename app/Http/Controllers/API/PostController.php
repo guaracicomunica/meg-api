@@ -25,9 +25,25 @@ class PostController extends Controller
         $this->middleware('auth:api');
     }
 
-    public function index(GetAllPostsRequest $request)
+    /***
+     * Get all posts
+     * @param GetAllPostsRequest $request
+     * @return JsonResponse
+     */
+    public function index(GetAllPostsRequest $request): JsonResponse
     {
         $result = GetAllPostsHandler::handle($request);
+        return response()->json($result);
+    }
+
+    /***
+     * Show one post
+     * @param int $id
+     * @return JsonResponse
+     */
+    public function show(int $id): JsonResponse
+    {
+        $result = Post::findOrFail($id);
         return response()->json($result);
     }
 

@@ -24,6 +24,11 @@ class Post extends Model
         'post_type_id'
     ];
 
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+    ];
+
 
     public static function createAndAssignToClassroom(array $posts, int $classroomId)
     {

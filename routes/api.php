@@ -76,6 +76,7 @@ Route::group([
     'prefix' => 'posts',
 ], function ($router) {
     Route::get('', [PostController::class, 'index']);
+    Route::get('{id}', [PostController::class, 'show']);
     Route::post('activities', [PostController::class, 'storeActivity']);
     Route::post('news', [PostController::class, 'storeNews']);
 });
