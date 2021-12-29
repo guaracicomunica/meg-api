@@ -33,7 +33,6 @@ class CreatePostRequest extends FormRequest
         ];
     }
 
-
     /**
      * Custom validation messages.
      *
@@ -43,14 +42,26 @@ class CreatePostRequest extends FormRequest
     {
         return [
             //post name
-            'name.required' => 'O preenchimento do nome da atividade  é necessário',
-            'name.string' => 'O nome da atividade  deve estar em formato de texto',
-            'name.max' => 'O nome da atividade  deve ter no máximo :max caracteres',
+            'name.required' => 'O preenchimento do nome do post  é necessário',
+            'name.string' => 'O nome do post  deve estar em formato de texto',
+            'name.max' => 'O nome do post  deve ter no máximo :max caracteres',
 
             //post body
-            'body.required' => 'O preenchimento do conteúdo da atividade é necessário',
-            'body.string' => 'O conteúdo da atividade deve estar em formato de texto',
-            'body.max' => 'O conteúdo da atividade deve ter no máximo :max caracteres',
+            'body.required' => 'O preenchimento do conteúdo do post é necessário',
+            'body.string' => 'O conteúdo do post deve estar em formato de texto',
+            'body.max' => 'O conteúdo do post deve ter no máximo :max caracteres',
+
+            //post disabled
+            'disabled.boolean' => 'O formato do status deve ser booleano',
+
+            // post is private
+            'is_private.required' => 'Informe se o post é privado',
+            'is_private.boolean' => 'O formato do nível de acesso (is_private) deve ser booleano',
+
+            //classroom
+            'classroom_id.required' => 'O id da turma é obrigatório',
+            'classroom_id.numeric' => 'O id da turma deve estar em formato numérico',
+            'classroom_id.exists' => 'A turma não foi encontrada'
         ];
     }
 }
