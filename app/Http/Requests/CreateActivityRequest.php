@@ -16,14 +16,7 @@ class CreateActivityRequest extends FormRequest
      */
     public function authorize()
     {
-        $classroomId = $this->request->get('classroom_id');
-
-        if($classroomId == null)
-        {
-            return false;
-        } else {
-            return Auth::user()->isTeacher() && Auth::user()->isMemberOfClassroom($classroomId);
-        }
+        return Auth::user()->isTeacherOfClassroom($this->request->get('classroom_id'));
     }
 
     /**
