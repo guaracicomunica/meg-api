@@ -15,6 +15,8 @@ class Classroom extends Model
 {
     use HasFactory;
 
+    protected $hidden = ['pivot', 'created_at', 'updated_at'];
+
     protected $fillable = [
         'name',
         'nickname',
@@ -38,7 +40,7 @@ class Classroom extends Model
     {
         return $this->belongsToMany(User::class, 'users_classrooms', 'classroom_id', 'user_id');
     }
-    
+
     public function posts(): HasMany
     {
         return $this->hasMany(Post::class, 'classroom_id');

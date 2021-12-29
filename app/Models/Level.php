@@ -18,4 +18,17 @@ class Level extends Model
         'xp',
         'classroom_id'
     ];
+
+    /**
+     * The attributes that should be hidden for arrays.
+     *
+     * @var array
+     */
+    protected $hidden = [
+        'pivot',
+        'created_at',
+        'updated_at',
+        'classroom_id',
+        'id'
+    ];
 }

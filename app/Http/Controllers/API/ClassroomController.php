@@ -8,6 +8,7 @@ use App\Http\Requests\CreateClassroomRequest;
 use App\Http\Requests\EnrollClassroomRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Classroom;
 use Throwable;
@@ -24,7 +25,7 @@ class ClassroomController extends Controller
         $this->middleware('auth:api');
     }
 
-    public function index()
+    public function index(Request $request)
     {
         try {
             $classes = Auth::user()
@@ -35,11 +36,11 @@ class ClassroomController extends Controller
                     'participants' => function($query) {
                         $query->whereHas('roles', function(Builder $query){
                             $query->where('roles.id', 2);
-                        });
+                        })->select('email');
                     }
                 ])
                 ->latest()
-                ->paginate(10);
+                ->paginate($request->per_page);
             return response()->json($classes);
         } catch(Throwable $ex)
         {
