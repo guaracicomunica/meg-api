@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Handlers\ManageClassroomHandler;
-use App\Handlers\EnrollClassroomHandler;
-use App\Handlers\GetAllClassroomHandler;
-use App\Handlers\GetParticipantsClassroomHandler;
-use App\Handlers\GetPostsClassroomHandler;
+use App\Http\Controllers\Controller;
+use App\Http\Handlers\EnrollClassroomHandler;
+use App\Http\Handlers\GetAllClassroomHandler;
+use App\Http\Handlers\GetParticipantsClassroomHandler;
+use App\Http\Handlers\GetPostsClassroomHandler;
+use App\Http\Handlers\ManageClassroomHandler;
 use App\Http\Requests\CreateActivityRequest;
-use App\Http\Requests\ManageClassroomRequest;
 use App\Http\Requests\CreateNewsRequest;
 use App\Http\Requests\EnrollClassroomRequest;
-use App\Http\Controllers\Controller;
+use App\Http\Requests\ManageClassroomRequest;
 use App\Models\Post;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;

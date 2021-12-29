@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Handlers;
+namespace App\Http\Handlers;
 
 use App\Jobs\MailJob;
 use App\Mail\ClassroomInvitationMail;
@@ -12,6 +12,7 @@ use App\Utils\UniqueCode;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Throwable;
+use function dispatch;
 
 class ManageClassroomHandler
 {
