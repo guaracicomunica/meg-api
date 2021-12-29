@@ -6,6 +6,7 @@ use App\Handlers\CreateClassroomHandler;
 use App\Handlers\EnrollClassroomHandler;
 use App\Handlers\GetAllClassroomHandler;
 use App\Handlers\GetParticipantsClassroomHandler;
+use App\Handlers\GetPostsClassroomHandler;
 use App\Http\Requests\CreateClassroomRequest;
 use App\Http\Requests\EnrollClassroomRequest;
 use App\Http\Controllers\Controller;
@@ -51,8 +52,9 @@ class ClassroomController extends Controller
         return response()->json($result);
     }
 
-    public function posts()
+    public function posts(int $id, Request $request)
     {
-
+        $result = GetPostsClassroomHandler::handle($id, $request);
+        return response()->json($result);
     }
 }

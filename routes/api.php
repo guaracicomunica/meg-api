@@ -70,13 +70,13 @@ Route::group([
     Route::post('', [ClassroomController::class, 'store']);
     Route::post('enrollment', [ClassroomController::class, 'enrollment']);
     Route::get('{id}/participants', [ClassroomController::class, 'participants']);
+    Route::get('{id}/posts', [ClassroomController::class, 'posts']);
 });
 
 
 Route::group([
     'prefix' => 'posts',
 ], function ($router) {
-   Route::get('', [PostController::class, 'index']);
    Route::post('activities', [PostController::class, 'storeActivity']);
    Route::post('news', [PostController::class, 'storeNew']);
 });
