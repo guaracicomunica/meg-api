@@ -37,7 +37,7 @@ class PostController extends Controller
      */
     public function storeActivity(CreateActivityRequest $request) : JsonResponse
     {
-        Post::create($request->all());
+        CreatePostHandler::handle($request->all());
         return response()->json([
             'message' => 'Post successfully registered',
         ], 201);
@@ -49,7 +49,7 @@ class PostController extends Controller
      */
     public function storeNews(CreateNewsRequest $request) : JsonResponse
     {
-        Post::create($request->all());
+        CreatePostHandle::handle($request->all());
         return response()->json([
             'message' => 'Post successfully registered',
         ], 201);
