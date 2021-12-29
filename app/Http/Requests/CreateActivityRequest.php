@@ -2,8 +2,10 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Classroom;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class CreateActivityRequest extends FormRequest
 {
@@ -14,7 +16,14 @@ class CreateActivityRequest extends FormRequest
      */
     public function authorize()
     {
-        return Auth::user()->isTeacher();
+        $classroomId = $this->request->get('classroom_id');
+
+        if($classroomId == null)
+        {
+            return false;
+        } else {
+            return Auth::user()->isTeacher() && Auth::user()->isMemberOfClassroom($classroomId);
+        }
     }
 
     /**
@@ -76,7 +85,6 @@ class CreateActivityRequest extends FormRequest
             'classroom_id.required' => 'O preenchimento da turma é necessário',
             'classroom_id.numeric' => 'A id da turma deve estar no formato númerico',
             'classroom_id.exists' => 'Não foi encontrada a turma'
-
         ];
     }
 }
