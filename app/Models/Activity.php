@@ -18,4 +18,9 @@ class Activity extends Model
         'deadline',
         'post_id',
     ];
+
+    public function post()
+    {
+        return $this->belongsTo(Post::class, 'post_id');
+    }
 }

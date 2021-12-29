@@ -31,9 +31,10 @@ class CreateActivityRequest extends FormRequest
             'points' => ['required','numeric', 'between:1,100'],
             'coins' => ['required','numeric'],
             'xp' => ['required','numeric'],
-            'disabled' => ['sometimes', 'boolean'],
+            'is_private' => ['required', 'boolean'],
+            'disabled' => ['required', 'boolean'],
             'post_type_id' => ['required', 'numeric'],
-            'classroom_id' => ['required', 'numeric'],
+            'classroom_id' => ['required', 'numeric', 'exists:classrooms,id'],
         ];
     }
 
@@ -73,7 +74,10 @@ class CreateActivityRequest extends FormRequest
             'xp.required' => 'O preenchimento da experience (xp) da atividade  é necessário',
             'xp.numeric' => 'A informação de xp deve estar no formato númerico',
 
-
+            //classroom_id
+            'classroom_id.required' => 'O preenchimento da turma é necessário',
+            'classroom_id.numeric' => 'A id da turma deve estar no formato númerico',
+            'classroom_id.exists' => 'Não foi encontrada a turma'
 
         ];
     }

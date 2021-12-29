@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\API\ActivityController;
 use App\Http\Controllers\API\ClassroomController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\AuthController;
@@ -78,6 +79,14 @@ Route::group([
     Route::get('', [PostController::class, 'index']);
     Route::get('{id}', [PostController::class, 'show']);
     Route::post('', [PostController::class, 'store']);
+});
+
+Route::group([
+    'prefix' => 'activities',
+], function ($router) {
+    Route::get('', [ActivityController::class, 'index']);
+    Route::get('{id}', [ActivityController::class, 'show']);
+    Route::post('', [ActivityController::class, 'store']);
 });
 
 Route::group([
