@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Handlers\CreateClassroomHandler;
+use App\Handlers\ManageClassroomHandler;
 use App\Handlers\EnrollClassroomHandler;
 use App\Handlers\GetAllClassroomHandler;
 use App\Handlers\GetParticipantsClassroomHandler;
 use App\Handlers\GetPostsClassroomHandler;
 use App\Http\Requests\CreateActivityRequest;
-use App\Http\Requests\CreateClassroomRequest;
+use App\Http\Requests\ManageClassroomRequest;
 use App\Http\Requests\CreateNewsRequest;
 use App\Http\Requests\EnrollClassroomRequest;
 use App\Http\Controllers\Controller;
@@ -42,16 +42,16 @@ class ClassroomController extends Controller
 
     /****
      * Manage classroom - create and update as draft or not
-     * @param CreateClassroomRequest $request
+     * @param ManageClassroomRequest $request
      * @return JsonResponse
      * @throws Throwable
      */
-    public function store(CreateClassroomRequest $request) : JsonResponse
+    public function store(ManageClassroomRequest $request) : JsonResponse
     {
-        CreateClassroomHandler::handle($request->all());
+        ManageClassroomHandler::handle($request->all());
         return response()->json([
-            'message' => 'Classroom successfully registered'
-        ], 201);
+            'message' => 'Classroom successfully managed'
+        ], 200);
     }
 
     /***

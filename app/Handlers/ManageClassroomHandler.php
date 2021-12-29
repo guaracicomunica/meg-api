@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Throwable;
 
-class CreateClassroomHandler
+class ManageClassroomHandler
 {
     /**
      * @throws Throwable
