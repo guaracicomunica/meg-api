@@ -70,14 +70,14 @@ Route::group([
     Route::post('', [ClassroomController::class, 'store']);
     Route::post('enrollment', [ClassroomController::class, 'enrollment']);
     Route::get('{id}/participants', [ClassroomController::class, 'participants']);
+});
 
-    Route::group([
-        'prefix' => '{id}/posts',
-    ], function ($router) {
-        Route::get('', [ClassroomController::class, 'posts']);
-        Route::post('activities', [ClassroomController::class, 'storeActivity']);
-        Route::post('news', [ClassroomController::class, 'storeNews']);
-    });
+Route::group([
+    'prefix' => 'posts',
+], function ($router) {
+    Route::get('', [PostController::class, 'posts']);
+    Route::post('activities', [PostController::class, 'storeActivity']);
+    Route::post('news', [PostController::class, 'storeNews']);
 });
 
 Route::group([
