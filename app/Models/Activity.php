@@ -19,6 +19,11 @@ class Activity extends Model
         'post_id',
     ];
 
+    protected $hidden = [
+        'created_at',
+        'updated_at',
+    ];
+
     public function post()
     {
         return $this->belongsTo(Post::class, 'post_id');
