@@ -18,58 +18,32 @@ class CommentController extends Controller
 
     /***
     *
-     * @param int $id
-     * id da classe
+     * @param int $postId
+     * id do post associado ao comentário
      */
-    public function index(int $id)
+    public function index(int $postId)
     {
-        try{
-
-            $comments = Comment::where('post_id', $id)->latest()->paginate(10);
-
-            return response( [
-                $comments
-            ], 200);
-
-        } catch(Throwable $ex)
-        { return response($ex->getMessage(), $ex->getCode()); }
+        $result = Comment::where('post_id', $postId)->latest()->paginate();
+        return response()->json($result);
     }
 
     public function store(CreateCommentRequest $request)
     {
-        try {
+        Post::findOrFail($request->post_id);
 
-            Post::findOrFail($request->post_id);
+        Comment::create($request->all());
 
-            $comment = Comment::create($request->all());
-
-            return response([
-                'message' => 'Comment successfully registered',
-                'comment' => $comment
-            ], 200);
-
-        } catch(Throwable $ex)
-        {
-            return response($ex->getMessage(), $ex->getCode());
-        }
+        return response()->json([
+            'message' => 'Comment successfully registered',
+        ], 201);
     }
-
-
 
     public function delete(int $id)
     {
-        try {
+        Comment::findOrFail($id)->delete();
 
-            Comment::findOrFail($id)->delete();
-
-            return response([
-                'message' => 'Comment was deleted',
-            ], 200);
-
-        } catch(Throwable $ex)
-        {
-            return response($ex->getMessage(), $ex->getCode());
-        }
+        return response()->json([
+            'message' => 'Comment was deleted',
+        ], 200);
     }
-
 }
