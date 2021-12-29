@@ -14,7 +14,7 @@ class CreatePostRequest extends FormRequest
      */
     public function authorize()
     {
-        return Auth::user()->isTeacher();
+        return Auth::user()->isTeacher() || Auth::user()->isStudent();
     }
 
     /**
