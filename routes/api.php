@@ -78,6 +78,7 @@ Route::group([
     Route::get('', [PostController::class, 'index']);
     Route::get('{id}', [PostController::class, 'show']);
     Route::post('activities', [PostController::class, 'storeActivity']);
+    Route::post('activities/delivery', [PostController::class, 'deliveryActivity']);
     Route::post('news', [PostController::class, 'storeNews']);
 });
 
