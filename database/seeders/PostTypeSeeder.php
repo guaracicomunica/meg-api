@@ -15,12 +15,12 @@ class PostTypeSeeder extends Seeder
     public function run()
     {
         PostType::create(
-         [ 'description' => 'New' ],
+         [ 'name' => 'News' ],
 
         );
 
         PostType::create(
-            [ 'description' => 'Activity' ],
+            [ 'name' => 'Activity' ],
         );
     }
 }

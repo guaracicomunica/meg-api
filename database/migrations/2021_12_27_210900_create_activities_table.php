@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateFilePostsTable extends Migration
+class CreateActivitiesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,14 @@ class CreateFilePostsTable extends Migration
      */
     public function up()
     {
-        Schema::create('file_posts', function (Blueprint $table) {
+        Schema::create('activities', function (Blueprint $table) {
             $table->id();
-            $table->string('path');
-
+            $table->integer('points')->default(0);
+            $table->integer('xp')->default(0);
+            $table->integer('coins')->default(0);
+            $table->timestamp('deadline')->nullable();
             $table->unsignedBigInteger('post_id');
             $table->foreign('post_id')->references('id')->on('posts');
-
             $table->timestamps();
         });
     }
@@ -31,6 +32,6 @@ class CreateFilePostsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('file_posts');
+        Schema::dropIfExists('activities');
     }
 }

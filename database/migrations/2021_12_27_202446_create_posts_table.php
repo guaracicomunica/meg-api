@@ -20,13 +20,7 @@ class CreatePostsTable extends Migration
 
             $table->longText('body');
 
-            $table->dateTime('deadline')->nullable();
-
-            $table->integer('points')->default(0);
-
-            $table->integer('coins')->default(0);
-
-            $table->integer('xp')->default(0);
+            $table->boolean('is_private')->default(false);
 
             $table->boolean('disabled')->default(false);
 
