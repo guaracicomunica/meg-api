@@ -51,7 +51,7 @@ class ClassroomController extends Controller
         CreateClassroomHandler::handle($request->all());
         return response()->json([
             'message' => 'Classroom successfully registered'
-        ]);
+        ], 201);
     }
 
     /***
@@ -64,7 +64,7 @@ class ClassroomController extends Controller
         EnrollClassroomHandler::handle($request->all());
         return response()->json([
             'message' => 'Enrollment successfully done',
-        ]);
+        ], 201);
     }
 
     /****
