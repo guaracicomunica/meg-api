@@ -19,7 +19,7 @@ class CreateActivityHandler
             $assignedPostData = [
                 'name' => $data['name'],
                 'body' => $data['body'],
-                'is_private' => $data['is_private'],
+                'is_private' => 0, //toda atividade é pública para membros da turma
                 'disabled' => $data['disabled'],
                 'classroom_id' => $data['classroom_id']
             ];

@@ -26,7 +26,6 @@ class ActivityController extends Controller
     public function store(CreateActivityRequest $request)
     {
         CreateActivityHandler::handle($request->all());
-
         response()->json([
             'message' => 'activity successfully registered'
         ]);
