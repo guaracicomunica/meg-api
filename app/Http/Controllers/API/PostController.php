@@ -49,7 +49,7 @@ class PostController extends Controller
      */
     public function storeNews(CreateNewsRequest $request) : JsonResponse
     {
-        CreatePostHandle::handle($request->all());
+        CreatePostHandler::handle($request->all());
         return response()->json([
             'message' => 'Post successfully registered',
         ], 201);
