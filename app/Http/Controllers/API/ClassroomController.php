@@ -51,7 +51,7 @@ class ClassroomController extends Controller
         ManageClassroomHandler::handle($request->all());
         return response()->json([
             'message' => 'Classroom successfully managed'
-        ], 200);
+        ], 201);
     }
 
     /***

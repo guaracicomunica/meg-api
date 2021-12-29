@@ -6,6 +6,6 @@ class DeliveryActivityHandler
 {
     public static function handle(array $data)
     {
-
+        
     }
 }
