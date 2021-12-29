@@ -14,7 +14,7 @@ class GetAllPostsRequest extends FormRequest
      */
     public function authorize()
     {
-        return Auth::user()->hasVerifiedEmail();
+        return Auth::user()->isTeacher() || Auth::user()->isStudent();
     }
 
     /**
