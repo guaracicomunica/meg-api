@@ -6,6 +6,7 @@ class DeliveryActivityHandler
 {
     public static function handle(array $data)
     {
-        
+        // users_activities ==> delivered_at == now;
+        //
     }
 }
