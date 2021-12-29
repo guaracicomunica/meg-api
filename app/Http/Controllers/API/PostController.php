@@ -44,7 +44,7 @@ class PostController extends Controller
     }
 
     /****
-     * @param CreateNewRequest $request
+     * @param CreateNewsRequest $request
      * @return JsonResponse
      */
     public function storeNews(CreateNewsRequest $request) : JsonResponse
