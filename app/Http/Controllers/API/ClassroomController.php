@@ -92,7 +92,7 @@ class ClassroomController extends Controller
 
     /***
      * @param CreateActivityRequest $request
-     * @return JsonResponseg
+     * @return JsonResponse
      */
     public function storeActivity(CreateActivityRequest $request) : JsonResponse
     {
