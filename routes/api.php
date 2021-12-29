@@ -75,7 +75,7 @@ Route::group([
 Route::group([
     'prefix' => 'posts',
 ], function ($router) {
-    Route::get('', [PostController::class, 'posts']);
+    Route::get('', [PostController::class, 'index']);
     Route::post('activities', [PostController::class, 'storeActivity']);
     Route::post('news', [PostController::class, 'storeNews']);
 });

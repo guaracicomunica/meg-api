@@ -3,14 +3,14 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Handlers\GetAllPostsHandler;
 use App\Http\Requests\CreateActivityRequest;
 use App\Http\Requests\CreateNewRequest;
 use App\Http\Requests\CreateNewsRequest;
+use App\Http\Requests\GetAllPostsRequest;
 use App\Http\Requests\PostRequest;
 use App\Models\Post;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Validator;
-use \Illuminate\Http\Request;
 
 class PostController extends Controller
 {
@@ -24,9 +24,9 @@ class PostController extends Controller
         $this->middleware('auth:api');
     }
 
-    public function index(Request $request)
+    public function index(GetAllPostsRequest $request)
     {
-        $result = Post::where('classroom_id', $request->classroom_id)->paginate($request->per_page);
+        $result = GetAllPostsHandler::handle($request);
         return response()->json($result);
     }
 

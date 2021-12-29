@@ -39,8 +39,8 @@ class GetAllPostsRequest extends FormRequest
     {
         return [
             'classroom_id.required' => 'Deve ser informada qual a turma',
-            'classroom_id.string' => 'O código da turma deve estar em formato de texto',
-            'classroom_id.exists' => 'O código não existe',
+            'classroom_id.numeric' => 'O id da turma deve ter formato numérico',
+            'classroom_id.exists' => 'O id da turma não foi encontrado',
         ];
     }
 }
