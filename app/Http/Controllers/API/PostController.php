@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Handlers\CreatePostHandler;
 use App\Http\Handlers\GetAllPostsHandler;
 use App\Http\Requests\CreateActivityRequest;
 use App\Http\Requests\CreateNewRequest;
