@@ -5,13 +5,11 @@ namespace App\Http\Controllers\API;
 use App\Handlers\CreateClassroomHandler;
 use App\Handlers\EnrollClassroomHandler;
 use App\Handlers\GetAllClassroomHandler;
+use App\Handlers\GetParticipantsClassroomHandler;
 use App\Http\Requests\CreateClassroomRequest;
 use App\Http\Requests\EnrollClassroomRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Classroom;
-use mysql_xdevapi\Exception;
-use Throwable;
 
 class ClassroomController extends Controller
 {
@@ -49,8 +47,7 @@ class ClassroomController extends Controller
 
     public function participants(int $id)
     {
-        $classroom = Classroom::findOrFail($id);
-        $result = $classroom->participants()->get();
+        $result = GetParticipantsClassroomHandler::handle($id);
         return response()->json($result);
     }
 
