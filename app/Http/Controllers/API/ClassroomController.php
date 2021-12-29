@@ -63,21 +63,13 @@ class ClassroomController extends Controller
 
     public function participants(int $id)
     {
-        try {
-            $classroom = Classroom::find($id);
+        $classroom = Classroom::findOrFail($id);
+        $result = $classroom->participants()->get();
+        return response()->json($result);
+    }
 
-            if($classroom == null)
-            {
-                return response()->json([
-                    'message' => 'Classroom not found',
-                ], 404);
-            } else {
-                $result = $classroom->participants()->get();
-                return response()->json($result);
-            }
-        } catch(Throwable $ex)
-        {
-            return response($ex->getMessage(), 500);
-        }
+    public function posts()
+    {
+
     }
 }

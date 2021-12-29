@@ -40,13 +40,6 @@ class EmailVerificationController extends Controller
 
         else throw new BadRequestException("Seu e-mail está pendente de confirmação. Acesse sua caixa de entrada e confirme-o.", 400);
 
-        /*
-        if($request->user()->markEmailAsVerified())
-        {
-            event(new Verified($request-user()));
-        }
-        */
-
         return [ 'message' => 'Email has been verified' ];
     }
 }
