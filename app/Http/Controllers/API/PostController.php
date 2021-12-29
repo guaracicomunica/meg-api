@@ -45,7 +45,6 @@ class PostController extends Controller
         }
     }
 
-
     public function storeActivity(CreateActivityRequest $request)
     {
         try {
@@ -65,8 +64,6 @@ class PostController extends Controller
     public function storeNew(CreateNewRequest $request)
     {
         try {
-
-           // $this->storeCommom($request);
             $classroom = Post::create($request->all());
 
             return response([
@@ -78,17 +75,5 @@ class PostController extends Controller
         {
             return response($ex->getMessage(), $ex->getCode());
         }
-    }
-
-
-
-    public function storeCommom(FormRequest  $request)
-    {
-        $classroom = Post::create($request->all());
-
-        return response([
-            'message' => 'Post successfully registered',
-            'post' => $classroom
-        ], 200);
     }
 }
