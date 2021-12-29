@@ -7,9 +7,12 @@ use App\Handlers\EnrollClassroomHandler;
 use App\Handlers\GetAllClassroomHandler;
 use App\Handlers\GetParticipantsClassroomHandler;
 use App\Handlers\GetPostsClassroomHandler;
+use App\Http\Requests\CreateActivityRequest;
 use App\Http\Requests\CreateClassroomRequest;
+use App\Http\Requests\CreateNewsRequest;
 use App\Http\Requests\EnrollClassroomRequest;
 use App\Http\Controllers\Controller;
+use App\Models\Post;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Throwable;
@@ -85,5 +88,31 @@ class ClassroomController extends Controller
     {
         $result = GetPostsClassroomHandler::handle($id, $request);
         return response()->json($result);
+    }
+
+    /***
+     * @param CreateActivityRequest $request
+     * @return JsonResponseg
+     */
+    public function storeActivity(CreateActivityRequest $request) : JsonResponse
+    {
+        Post::create($request->all());
+
+        return response()->json([
+            'message' => 'Activity successfully registered',
+        ],201);
+    }
+
+    /***
+     * @param CreateNewsRequest $request
+     * @return JsonResponse
+     */
+    public function storeNews(CreateNewsRequest $request) : JsonResponse
+    {
+        Post::create($request->all());
+
+        return response()->json([
+            'message' => 'News successfully registered',
+        ], 201);
     }
 }
