@@ -6,8 +6,6 @@ use App\Http\Requests\CreateCommentRequest;
 use App\Models\Comment;
 use App\Http\Controllers\Controller;
 use App\Models\Post;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use function PHPUnit\Framework\isNull;
 
 class CommentController extends Controller
 {
