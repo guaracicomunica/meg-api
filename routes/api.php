@@ -6,8 +6,9 @@ use App\Http\Controllers\API\AuthController;
 use \App\Http\Controllers\API\UserController;
 use \App\Http\Controllers\API\CategoryController;
 use \App\Http\Controllers\API\RoleController;
-use \App\Http\Controllers\API\EmailVerificationController;
+use \App\Http\Controllers\API\PostController;
 use \App\Http\Controllers\API\VerifyEmailController;
+use \App\Http\Controllers\API\CommentController;
 
 
 /*
@@ -68,4 +69,23 @@ Route::group([
     Route::get('', [ClassroomController::class, 'index']);
     Route::post('', [ClassroomController::class, 'store']);
     Route::post('enrollment', [ClassroomController::class, 'enrollment']);
+    Route::get('{id}/participants', [ClassroomController::class, 'participants']);
+});
+
+Route::group([
+    'prefix' => 'posts',
+], function ($router) {
+    Route::get('', [PostController::class, 'index']);
+    Route::get('{id}', [PostController::class, 'show']);
+    Route::post('activities', [PostController::class, 'storeActivity']);
+    Route::post('activities/delivery', [PostController::class, 'deliveryActivity']);
+    Route::post('news', [PostController::class, 'storeNews']);
+});
+
+Route::group([
+    'prefix' => 'comments',
+], function ($router) {
+    Route::get('{id}', [CommentController::class, 'index']);
+    Route::post('', [CommentController::class, 'store']);
+    Route::delete('{id}',[CommentController::class, 'delete']);
 });

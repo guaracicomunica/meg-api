@@ -22,13 +22,10 @@ class AuthController extends Controller
 
     public function __construct(EmailVerificationController $emailVerificatoinController)
     {
-
         $this->middleware(
             'auth:api',
             ['except' => ['unauthorized', 'login', 'register']]
         );
-
-      //  $this->middleware('verified', ['except' => ['unauthorized', 'register']]);
 
         $this->emailVerificatoinController = $emailVerificatoinController;
     }
@@ -42,27 +39,25 @@ class AuthController extends Controller
                 return response()->json(['error' => 'Unauthorized'], 401);
             }
 
+            $this->emailVerificatoinController->verify($request);
+
             $user = User::where('email', $request->input('email'))->first();
+
             $user->role = $user->withRoleId();
 
             $result = array_merge(['user'=> $user],$this->respondWithToken($token));
 
-            $this->emailVerificatoinController->verify($request);
-
             return response()->json($result);
         } catch (\Throwable $e) {
-            return response()->json(['error' => $e->getMessage()], $e->getCode());
+            $statusCode = $e->getCode() != 2002 ? $e->getCode() : 500;
+            return response()->json(['error' => $e->getMessage()], $statusCode);
         }
     }
 
     public function logout()
     {
-        try {
-            auth('api')->logout();
-            return response()->json(['message' => 'Successfully logged out']);
-        } catch (\Throwable $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
-        }
+        auth('api')->logout();
+        return response()->json(['message' => 'Successfully logged out']);
     }
 
     public function register(Request $request)
@@ -109,20 +104,15 @@ class AuthController extends Controller
 
         } catch (ValidationException $e) {
             DB::rollBack();
-            return response()->json(['error' => $e->getMessage()], 500);
+            return response()->json(['error' => $e->getMessage()], 400);
         }
-
     }
 
     public function user()
     {
-        try {
-            $user = auth('api')->user();
-            $user->role = $user->withRoleId();
-            return response()->json($user);
-        } catch (\Throwable $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
-        }
+        $user = auth('api')->user();
+        $user->role = $user->withRoleId();
+        return response()->json($user);
     }
 
     protected function respondWithToken($token)
@@ -137,6 +127,5 @@ class AuthController extends Controller
     public function unauthorized() {
         return response()->json(['message' => 'Unauthorized'], 401);
     }
-
 }
 

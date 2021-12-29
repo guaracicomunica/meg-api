@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
-class EnrollClassroomRequest extends FormRequest
+class GetAllPostsRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,7 +25,7 @@ class EnrollClassroomRequest extends FormRequest
     public function rules()
     {
         return [
-            'code' => 'required|string|exists:classrooms,code',
+            'classroom_id' => 'required|numeric|exists:classrooms,id'
         ];
     }
 
@@ -38,9 +38,9 @@ class EnrollClassroomRequest extends FormRequest
     public function messages()
     {
         return [
-            'code.required' => 'O preenchimento do código da turma é necessário',
-            'code.string' => 'O código da turma deve estar em formato de texto',
-            'code.exists' => 'O código não existe',
+            'classroom_id.required' => 'Deve ser informada qual a turma',
+            'classroom_id.numeric' => 'O id da turma deve ter formato numérico',
+            'classroom_id.exists' => 'O id da turma não foi encontrado',
         ];
     }
 }

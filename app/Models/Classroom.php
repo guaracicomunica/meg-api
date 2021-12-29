@@ -10,10 +10,13 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 /**
  * @method static create(array $assignedValues)
  * @method static where(string $string, mixed $id)
+ * @method static findOrFail(int $id)
  */
 class Classroom extends Model
 {
     use HasFactory;
+
+    protected $hidden = ['pivot', 'created_at', 'updated_at'];
 
     protected $fillable = [
         'name',
@@ -32,6 +35,16 @@ class Classroom extends Model
     public function skills(): HasMany
     {
         return $this->hasMany(Skill::class, 'classroom_id');
+    }
+
+    public function participants()
+    {
+        return $this->belongsToMany(User::class, 'users_classrooms', 'classroom_id', 'user_id');
+    }
+
+    public function posts(): HasMany
+    {
+        return $this->hasMany(Post::class, 'classroom_id');
     }
 
     public function uploadBanner($file)

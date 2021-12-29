@@ -32,6 +32,11 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
     protected $hidden = [
         'password',
         'remember_token',
+        'pivot',
+        'created_at',
+        'updated_at',
+        'deleted_at',
+        'email_verified_at',
     ];
 
     /**
@@ -51,6 +56,11 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
     public function isTeacher()
     {
         return $this->withRoleId() == 2;
+    }
+
+    public function isStudent()
+    {
+        return $this->withRoleId() == 3;
     }
 
     public function roles()

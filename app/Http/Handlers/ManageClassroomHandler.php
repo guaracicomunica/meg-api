@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Handlers;
+namespace App\Http\Handlers;
 
 use App\Jobs\MailJob;
 use App\Mail\ClassroomInvitationMail;
@@ -12,8 +12,9 @@ use App\Utils\UniqueCode;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Throwable;
+use function dispatch;
 
-class CreateClassroomHandler
+class ManageClassroomHandler
 {
     /**
      * @throws Throwable
@@ -42,15 +43,15 @@ class CreateClassroomHandler
                     $classroom->uploadBanner($data['file']);
                     $classroom->save();
                 };
-
-                ClassroomParticipant::assignParticipant(
-                    $classroom->creator_id,
-                    $classroom->id
-                );
             } else {
                 if(isset($data['file'])) $classroom->uploadBanner($data['file']);
                 $classroom->updateSafely($assignedValues);
             }
+
+            ClassroomParticipant::assignParticipant(
+                $classroom->creator_id,
+                $classroom->id
+            );
 
             AlterClassroomGamificationRatesHandler::handle(
                 Level::class,

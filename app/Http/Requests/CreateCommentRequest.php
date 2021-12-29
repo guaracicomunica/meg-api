@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
-class EnrollClassroomRequest extends FormRequest
+class CreateCommentRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -14,7 +14,7 @@ class EnrollClassroomRequest extends FormRequest
      */
     public function authorize()
     {
-        return Auth::user()->hasVerifiedEmail();
+        return Auth::user()->isTeacher() || Auth::user()->isStudent();
     }
 
     /**
@@ -25,10 +25,12 @@ class EnrollClassroomRequest extends FormRequest
     public function rules()
     {
         return [
-            'code' => 'required|string|exists:classrooms,code',
+            'body' => ['required', 'string', 'max:150'],
+            'post_id' => ['required', 'numeric'],
+            'user_id' => ['required', 'numeric'],
         ];
-    }
 
+    }
 
     /**
      * Custom validation messages.
@@ -38,9 +40,11 @@ class EnrollClassroomRequest extends FormRequest
     public function messages()
     {
         return [
-            'code.required' => 'O preenchimento do código da turma é necessário',
-            'code.string' => 'O código da turma deve estar em formato de texto',
-            'code.exists' => 'O código não existe',
+            //post body
+            'body.required' => 'O preenchimento do conteúdo do comentário é necessário',
+            'body.string' => 'O conteúdo do comentário deve estar em formato de texto',
+            'body.max' => 'O conteúdo da atividade deve ter no máximo :max caracteres',
         ];
+
     }
 }

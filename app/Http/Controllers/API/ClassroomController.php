@@ -2,11 +2,16 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Handlers\CreateClassroomHandler;
-use App\Http\Requests\CreateClassroomRequest;
-use App\Http\Requests\EnrollClassroomRequest;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
+use App\Http\Handlers\EnrollClassroomHandler;
+use App\Http\Handlers\GetAllClassroomHandler;
+use App\Http\Handlers\GetParticipantsClassroomHandler;
+use App\Http\Handlers\GetPostsClassroomHandler;
+use App\Http\Handlers\ManageClassroomHandler;
+use App\Http\Requests\EnrollClassroomRequest;
+use App\Http\Requests\ManageClassroomRequest;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Throwable;
 
 class ClassroomController extends Controller
@@ -21,40 +26,52 @@ class ClassroomController extends Controller
         $this->middleware('auth:api');
     }
 
-    public function index()
+    /****
+     * Get all classrooms
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function index(Request $request) : JsonResponse
     {
-        try {
-            $classes = Auth::user()->classes()->latest()->paginate(10);
-            return response()->json($classes);
-        } catch(Throwable $ex)
-        {
-            return response($ex->getMessage(), 500);
-        }
+        $classes = GetAllClassroomHandler::handle($request);
+        return response()->json($classes);
     }
 
-    public function store(CreateClassroomRequest $request)
+    /****
+     * Manage classroom - create and update as draft or not
+     * @param ManageClassroomRequest $request
+     * @return JsonResponse
+     * @throws Throwable
+     */
+    public function store(ManageClassroomRequest $request) : JsonResponse
     {
-        try {
-            CreateClassroomHandler::handle($request->all());
-            return response([
-                'message' => 'Classroom successfully registered'
-            ], 200);
-        } catch(Throwable $ex)
-        {
-            return response($ex->getMessage(), 500);
-        }
+        ManageClassroomHandler::handle($request->all());
+        return response()->json([
+            'message' => 'Classroom successfully managed'
+        ], 201);
     }
 
-    public function enrollment(EnrollClassroomRequest $request)
+    /***
+     * Make an enrollment - user get in a classroom
+     * @param EnrollClassroomRequest $request
+     * @return JsonResponse
+     */
+    public function enrollment(EnrollClassroomRequest $request) : JsonResponse
     {
-        try {
-            return response()->json([
-                'message' => 'Classroom successfully registered',
-                'request' => $request->all()
-            ]);
-        } catch(Throwable $ex)
-        {
-            return response($ex->getMessage(), 500);
-        }
+        EnrollClassroomHandler::handle($request->all());
+        return response()->json([
+            'message' => 'Enrollment successfully done',
+        ], 201);
+    }
+
+    /****
+     * Get all participants of a classroom
+     * @param int $id
+     * @return JsonResponse
+     */
+    public function participants(int $id) : JsonResponse
+    {
+        $result = GetParticipantsClassroomHandler::handle($id);
+        return response()->json($result);
     }
 }
