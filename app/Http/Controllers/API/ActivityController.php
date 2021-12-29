@@ -19,7 +19,7 @@ class ActivityController extends Controller
 
     public function show(int $id)
     {
-        $result = Activity::findOrFail($id)->with(['post']);
+        $result = Activity::with(['post', 'post.comments'])->findOrFail($id);
         return response()->json($result);
     }
 
