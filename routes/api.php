@@ -85,6 +85,7 @@ Route::group([
 Route::group([
     'prefix' => 'comments',
 ], function ($router) {
-    //Route::get('', [PostController::class, 'index']);
+    Route::get('{id}', [CommentController::class, 'index']);
     Route::post('', [CommentController::class, 'store']);
+    Route::delete('{id}',[CommentController::class, 'delete']);
 });
