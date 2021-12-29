@@ -30,12 +30,12 @@ class PostController extends Controller
         ]);
 
         if($validator->fails()){
-            return response()->json(['error' => $validator->errors()->toJson()], 401);
+            return response()->json(['error' => $validator->errors()->toJson()], 400);
         }
 
         try {
 
-            $posts = Post::where('classroom_id', $request->classroom_id)->get();
+            $posts = Post::where('classroom_id', $request->classroom_id)->paginate(10);
 
             return response()->json($posts);
 
