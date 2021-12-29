@@ -15,18 +15,11 @@ class CreatePostsTable extends Migration
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
-
             $table->string('name', 100);
-
             $table->longText('body');
-
-            $table->boolean('is_private')->default(false);
-
             $table->boolean('disabled')->default(false);
-
             $table->unsignedBigInteger('classroom_id');
             $table->foreign('classroom_id')->references('id')->on('classrooms');
-
             $table->timestamps();
         });
     }

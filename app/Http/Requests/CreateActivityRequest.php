@@ -31,9 +31,7 @@ class CreateActivityRequest extends FormRequest
             'points' => ['required','numeric', 'between:1,100'],
             'coins' => ['required','numeric'],
             'xp' => ['required','numeric'],
-            'is_private' => ['required', 'boolean'],
             'disabled' => ['required', 'boolean'],
-            'post_type_id' => ['required', 'numeric'],
             'classroom_id' => ['required', 'numeric', 'exists:classrooms,id'],
         ];
     }
