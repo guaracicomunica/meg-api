@@ -4,12 +4,11 @@ namespace App\Http\Controllers\API;
 
 use App\Handlers\CreateClassroomHandler;
 use App\Handlers\EnrollClassroomHandler;
+use App\Handlers\GetAllClassroomHandler;
 use App\Http\Requests\CreateClassroomRequest;
 use App\Http\Requests\EnrollClassroomRequest;
 use App\Http\Controllers\Controller;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use App\Models\Classroom;
 use Throwable;
 
@@ -28,19 +27,7 @@ class ClassroomController extends Controller
     public function index(Request $request)
     {
         try {
-            $classes = Auth::user()
-                ->classes()
-                ->with([
-                    'levels',
-                    'skills',
-                    'participants' => function($query) {
-                        $query->whereHas('roles', function(Builder $query){
-                            $query->where('roles.id', 2);
-                        })->select('email');
-                    }
-                ])
-                ->latest()
-                ->paginate($request->per_page);
+            $classes = GetAllClassroomHandler::handle($request);
             return response()->json($classes);
         } catch(Throwable $ex)
         {
