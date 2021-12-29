@@ -10,6 +10,7 @@ use App\Http\Requests\EnrollClassroomRequest;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Classroom;
+use mysql_xdevapi\Exception;
 use Throwable;
 
 class ClassroomController extends Controller
@@ -26,39 +27,24 @@ class ClassroomController extends Controller
 
     public function index(Request $request)
     {
-        try {
-            $classes = GetAllClassroomHandler::handle($request);
-            return response()->json($classes);
-        } catch(Throwable $ex)
-        {
-            return response($ex->getMessage(), 500);
-        }
+        $classes = GetAllClassroomHandler::handle($request);
+        return response()->json($classes);
     }
 
     public function store(CreateClassroomRequest $request)
     {
-        try {
-            CreateClassroomHandler::handle($request->all());
-            return response([
-                'message' => 'Classroom successfully registered'
-            ]);
-        } catch(Throwable $ex)
-        {
-            return response($ex->getMessage(), 500);
-        }
+        CreateClassroomHandler::handle($request->all());
+        return response([
+            'message' => 'Classroom successfully registered'
+        ]);
     }
 
     public function enrollment(EnrollClassroomRequest $request)
     {
-        try {
-            EnrollClassroomHandler::handle($request->all());
-            return response()->json([
-                'message' => 'Enrollment successfully done',
-            ]);
-        } catch(Throwable $ex)
-        {
-            return response($ex->getMessage(), 500);
-        }
+        EnrollClassroomHandler::handle($request->all());
+        return response()->json([
+            'message' => 'Enrollment successfully done',
+        ]);
     }
 
     public function participants(int $id)
