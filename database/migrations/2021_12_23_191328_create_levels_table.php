@@ -17,6 +17,7 @@ class CreateLevelsTable extends Migration
             $table->id();
             $table->string('name');
             $table->integer('xp');
+            $table->string('path')->nullable();
             $table->unsignedBigInteger('classroom_id');
             $table->foreign('classroom_id')->references('id')->on('classrooms');
             $table->timestamps();

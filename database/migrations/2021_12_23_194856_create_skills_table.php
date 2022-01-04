@@ -17,6 +17,7 @@ class CreateSkillsTable extends Migration
             $table->id();
             $table->string('name');
             $table->integer('coins');
+            $table->string('path')->nullable();
             $table->unsignedBigInteger('classroom_id');
             $table->foreign('classroom_id')->references('id')->on('classrooms');
             $table->timestamps();
