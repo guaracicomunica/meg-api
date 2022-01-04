@@ -3,12 +3,18 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Handlers\CreatePostHandler;
+use App\Http\Handlers\GetAllPostsHandler;
+use App\Http\Handlers\DeliveryActivityHandler;
 use App\Http\Requests\CreateActivityRequest;
 use App\Http\Requests\CreateNewRequest;
+use App\Http\Requests\CreateNewsRequest;
+use App\Http\Requests\GetAllPostsRequest;
 use App\Http\Requests\PostRequest;
+use App\Http\Requests\DeliveryActivityRequest;
 use App\Models\Post;
-use Illuminate\Support\Facades\Validator;
-use \Illuminate\Http\Request;
+use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
 
 class PostController extends Controller
 {
@@ -22,59 +28,63 @@ class PostController extends Controller
         $this->middleware('auth:api');
     }
 
-    public function index(Request $request)
+    /***
+     * Get all posts
+     * @param GetAllPostsRequest $request
+     * @return JsonResponse
+     */
+    public function index(GetAllPostsRequest $request): JsonResponse
     {
-        $validator = Validator::make($request->all(), [
-            'classroom_id' => 'required',
+        $result = GetAllPostsHandler::handle($request);
+        return response()->json($result);
+    }
+
+    /***
+     * Show one post
+     * @param int $id
+     * @return JsonResponse
+     */
+    public function show(int $id): JsonResponse
+    {
+        $result = Post::findOrFail($id);
+        return response()->json($result);
+    }
+
+    /****
+     * Create activity
+     * @param CreateActivityRequest $request
+     * @return JsonResponse
+     */
+    public function storeActivity(CreateActivityRequest $request) : JsonResponse
+    {
+        CreatePostHandler::handle($request->all());
+        return response()->json([
+            'message' => 'Post successfully registered',
+        ], 201);
+    }
+
+    /****
+     * @param CreateNewsRequest $request
+     * @return JsonResponse
+     */
+    public function storeNews(CreateNewsRequest $request) : JsonResponse
+    {
+        CreatePostHandler::handle($request->all());
+        return response()->json([
+            'message' => 'Post successfully registered',
+        ], 201);
+    }
+
+
+    /***
+     * @param DeliveryActivityRequest $request
+     * @return JsonResponse
+     */
+    public function deliveryActivity(DeliveryActivityRequest $request): JsonResponse
+    {
+        DeliveryActivityHandler::handle($request->all());
+        return response()->json([
+            'message' => 'Activity successfully delivered',
         ]);
-
-        if($validator->fails()){
-            return response()->json(['error' => $validator->errors()->toJson()], 400);
-        }
-
-        try {
-
-            $posts = Post::where('classroom_id', $request->classroom_id)->paginate(10);
-
-            return response()->json($posts);
-
-        } catch(Throwable $ex)
-        {
-            return response($ex->getMessage(), $ex->getCode());
-        }
     }
-
-    public function storeActivity(CreateActivityRequest $request)
-    {
-        try {
-
-            $classroom = Post::create($request->all());
-
-            return response([
-                'message' => 'Post successfully registered',
-                'post' => $classroom
-            ], 200);
-        } catch(Throwable $ex)
-        {
-            return response($ex->getMessage(), $ex->getCode());
-        }
-    }
-
-    public function storeNew(CreateNewRequest $request)
-    {
-        try {
-
-            $classroom = Post::create($request->all());
-
-            return response([
-                'message' => 'Post successfully registered',
-                'post' => $classroom
-            ], 200);
-
-        } catch(Throwable $ex)
-        {
-            return response($ex->getMessage(), $ex->getCode());
-        }
-    }
-
 }

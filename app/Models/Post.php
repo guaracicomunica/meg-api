@@ -6,6 +6,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+/**
+ * @method static findOrFail(int $id)
+ */
 class Post extends Model
 {
     use HasFactory;
@@ -22,6 +25,11 @@ class Post extends Model
         'disabled',
         'classroom_id',
         'post_type_id'
+    ];
+
+    protected $hidden = [
+        'created_at',
+        'updated_at',
     ];
 
 

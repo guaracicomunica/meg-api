@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Handlers;
+namespace App\Http\Handlers;
 
 use App\Utils\Arr;
 

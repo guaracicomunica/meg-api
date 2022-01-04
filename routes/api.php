@@ -72,13 +72,14 @@ Route::group([
     Route::get('{id}/participants', [ClassroomController::class, 'participants']);
 });
 
-
 Route::group([
     'prefix' => 'posts',
 ], function ($router) {
-   Route::get('', [PostController::class, 'index']);
-   Route::post('activity', [PostController::class, 'storeActivity']);
-   Route::post('new', [PostController::class, 'storeNew']);
+    Route::get('', [PostController::class, 'index']);
+    Route::get('{id}', [PostController::class, 'show']);
+    Route::post('activities', [PostController::class, 'storeActivity']);
+    Route::post('activities/delivery', [PostController::class, 'deliveryActivity']);
+    Route::post('news', [PostController::class, 'storeNews']);
 });
 
 Route::group([

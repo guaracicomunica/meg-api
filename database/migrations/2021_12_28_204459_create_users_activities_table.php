@@ -26,8 +26,8 @@ class CreateUsersActivitiesTable extends Migration
 
             $table->timestamp('scored_at')->nullable();
 
-            $table->unsignedBigInteger('classroom_id');
-            $table->foreign('classroom_id')->references('id')->on('classrooms');
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('user_id')->references('id')->on('users');
 
             $table->unsignedBigInteger('post_id');
             $table->foreign('post_id')->references('id')->on('posts');
