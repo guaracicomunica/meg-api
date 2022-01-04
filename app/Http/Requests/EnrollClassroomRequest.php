@@ -26,9 +26,14 @@ class EnrollClassroomRequest extends FormRequest
     public function rules()
     {
         return [
-            'code' => ['required', 'string', Rule::exists('classrooms', 'code')->where(function($query){
-                $query->where('status', 1);
-            })],
+            'code' => [
+                'required',
+                'string',
+                Rule::exists('classrooms', 'code')
+                    ->where(function($query){
+                        $query->where('status', 1);
+                    })
+            ],
         ];
     }
 
