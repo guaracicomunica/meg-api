@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Handlers\CreateActivityHandler;
+use App\Http\Handlers\DeliveryActivityHandler;
 use App\Http\Handlers\GetAllActivityHandler;
 use App\Http\Handlers\GetOneActivityHandler;
 use App\Http\Requests\CreateActivityRequest;
@@ -33,9 +34,16 @@ class ActivityController extends Controller
         ]);
     }
 
-    public function delivery(DeliveryActivityRequest $request)
+    /***
+     * @param DeliveryActivityRequest $request
+     * @return JsonResponse
+     */
+    public function delivery(DeliveryActivityRequest $request): JsonResponse
     {
-        dd($request->all());
+        DeliveryActivityHandler::handle($request->all());
+        return response()->json([
+            'message' => 'activity successfully delivered'
+        ]);
     }
 
     public function rate(Request $request)
