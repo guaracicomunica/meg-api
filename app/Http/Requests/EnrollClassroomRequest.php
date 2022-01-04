@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
 class EnrollClassroomRequest extends FormRequest
 {
@@ -25,7 +26,9 @@ class EnrollClassroomRequest extends FormRequest
     public function rules()
     {
         return [
-            'code' => 'required|string|exists:classrooms,code',
+            'code' => ['required', 'string', Rule::exists('classrooms')->where(function($query){
+                $query->where('status', 1);
+            })],
         ];
     }
 
@@ -40,7 +43,7 @@ class EnrollClassroomRequest extends FormRequest
         return [
             'code.required' => 'O preenchimento do código da turma é necessário',
             'code.string' => 'O código da turma deve estar em formato de texto',
-            'code.exists' => 'O código não existe',
+            'code.exists' => 'O código não existe ou está associado a uma turma inativa',
         ];
     }
 }
