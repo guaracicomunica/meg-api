@@ -47,6 +47,16 @@ class Classroom extends Model
         return $this->hasMany(Post::class, 'classroom_id');
     }
 
+    public function teacher()
+    {
+        return $this->belongsToMany(User::class, 'users_classrooms', 'classroom_id', 'user_id');
+    }
+
+    public function activities(): HasMany
+    {
+        return $this->hasMany(Post::class, 'classroom_id');
+    }
+
     public function uploadBanner($file)
     {
         $path = File::saveAs(

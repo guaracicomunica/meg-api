@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Http\Handlers\EnrollClassroomHandler;
 use App\Http\Handlers\GetAllClassroomHandler;
+use App\Http\Handlers\GetByIdClassroomHandler;
 use App\Http\Handlers\GetParticipantsClassroomHandler;
 use App\Http\Handlers\GetPostsClassroomHandler;
 use App\Http\Handlers\ManageClassroomHandler;
@@ -72,6 +73,17 @@ class ClassroomController extends Controller
     public function participants(int $id) : JsonResponse
     {
         $result = GetParticipantsClassroomHandler::handle($id);
+        return response()->json($result);
+    }
+
+    /****
+     * Get all participants of a classroom
+     * @param int $id
+     * @return JsonResponse
+     */
+    public function getById(int $id): JsonResponse
+    {
+        $result = GetByIdClassroomHandler::handle($id);
         return response()->json($result);
     }
 }

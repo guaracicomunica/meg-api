@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /**
  * @method static findOrFail(int $id)
@@ -48,5 +49,10 @@ class Post extends Model
     public function classroom()
     {
         return $this->belongsTo(Post::class);
+    }
+
+    public function post_type() : HasOne
+    {
+        return $this->hasOne(PostType::class, 'id', 'post_type_id');
     }
 }

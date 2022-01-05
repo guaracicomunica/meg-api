@@ -72,13 +72,13 @@ class UserController extends Controller
                 'name' => 'string|between:2,100',
                 'email' => 'string|email|max:100|unique:users',
                 'password' => 'string|confirmed|min:6',
-                'avatar_path' => '',
+                'avatar_path' => 'sometimes',
             ]);
 
             if($validator->fails()){
                 return response()->json(['error' => $validator->errors()->toJson()], 401);
             }
-            dd($request->all());
+
             $user->update($validator->validated());
 
             return response()->json([
