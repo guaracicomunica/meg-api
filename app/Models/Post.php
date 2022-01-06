@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 /**
  * @method static findOrFail(int $id)
@@ -22,8 +24,7 @@ class Post extends Model
         'coins',
         'xp',
         'disabled',
-        'classroom_id',
-        'post_type_id'
+        'classroom_id'
     ];
 
     protected $hidden = [
@@ -39,5 +40,10 @@ class Post extends Model
     public function comments()
     {
         return $this->hasMany(Comment::class);
+    }
+
+    public function activity()
+    {
+        return $this->hasOne(Activity::class);
     }
 }

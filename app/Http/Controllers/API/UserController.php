@@ -72,6 +72,7 @@ class UserController extends Controller
                 'name' => 'string|between:2,100',
                 'email' => 'string|email|max:100|unique:users',
                 'password' => 'string|confirmed|min:6',
+                'avatar_path' => 'sometimes',
             ]);
 
             if($validator->fails()){

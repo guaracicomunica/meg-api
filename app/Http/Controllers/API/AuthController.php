@@ -49,8 +49,12 @@ class AuthController extends Controller
 
             return response()->json($result);
         } catch (\Throwable $e) {
-            $statusCode = $e->getCode() != 2002 ? $e->getCode() : 500;
-            return response()->json(['error' => $e->getMessage()], $statusCode);
+
+            return response()->json(['error' => $e->getMessage()],
+                $e->getCode() != 2002 && $e->getCode() != 0
+                    ? $e->getCode()
+                    : 500);
+
         }
     }
 
