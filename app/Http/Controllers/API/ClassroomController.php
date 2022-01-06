@@ -77,7 +77,7 @@ class ClassroomController extends Controller
     }
 
     /****
-     * Get all participants of a classroom
+     * Get classroom by id
      * @param int $id
      * @return JsonResponse
      */
