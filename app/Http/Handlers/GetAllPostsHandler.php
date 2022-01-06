@@ -11,7 +11,8 @@ class GetAllPostsHandler
     {
         return Post::with([
             'comments',
-            'activity'
+            'activity',
+            'attachments'
         ])->where('classroom_id', $request->classroom_id)->paginate();
     }
 }

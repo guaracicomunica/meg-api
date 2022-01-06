@@ -2,7 +2,9 @@
 
 namespace App\Models;
 
+use App\Utils\File;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -109,5 +111,22 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
             'name' => $this->name,
             'email' => $this->email,
         ];
+    }
+
+    public function uploadAvatar($file)
+    {
+        $hash_file = Str::random($this->id);
+        $path = File::saveAs(
+            "public/users/{$this->id}",
+            $file,
+            "{$hash_file}"
+        );
+
+        if($path != null)
+        {
+            $this->avatar_path  = $path;
+
+            $this->save();
+        }
     }
 }

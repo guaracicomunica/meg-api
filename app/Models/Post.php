@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Utils\File;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -19,10 +20,6 @@ class Post extends Model
     protected $fillable = [
         'name',
         'body',
-        'deadline',
-        'points',
-        'coins',
-        'xp',
         'disabled',
         'classroom_id'
     ];
@@ -46,4 +43,11 @@ class Post extends Model
     {
         return $this->hasOne(Activity::class);
     }
+
+    public function attachments()
+    {
+        return $this->hasMany(PostFile::class);
+    }
+
+
 }

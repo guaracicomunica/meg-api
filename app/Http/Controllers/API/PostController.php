@@ -54,6 +54,7 @@ class PostController extends Controller
      */
     public function store(CreatePostRequest $request) : JsonResponse
     {
+       // dd($request->all());
         CreatePostHandler::handle($request->all());
         return response()->json([
             'message' => 'Post successfully registered',
