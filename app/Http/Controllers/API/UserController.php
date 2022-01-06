@@ -70,14 +70,20 @@ class UserController extends Controller
 
             $validator = Validator::make($request->all(), [
                 'name' => 'string|between:2,100',
-                'email' => 'string|email|max:100|unique:users',
                 'password' => 'string|confirmed|min:6',
-                'avatar_path' => 'sometimes',
+                'avatar_path' => ['file', 'max:500', 'mimes:png,jpeg,jpg'],
             ]);
 
-            if($validator->fails()){
-                return response()->json(['error' => $validator->errors()->toJson()], 401);
+            if($request->has('email')){
+                return response()->json(['error' => 'O e-mail não pode ser atualizado'], 400);
             }
+
+            if($validator->fails()){
+                return response()->json(['error' => $validator->errors()->toJson()], 400);
+            }
+
+            if(isset($request->avatar_path))
+                $user->uploadAvatar($request->avatar_path);
 
             $user->update($validator->validated());
 
