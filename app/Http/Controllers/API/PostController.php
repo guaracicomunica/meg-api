@@ -5,13 +5,11 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Http\Handlers\CreatePostHandler;
 use App\Http\Handlers\GetAllPostsHandler;
-use App\Http\Handlers\DeliveryActivityHandler;
-use App\Http\Requests\CreateActivityRequest;
+use App\Http\Handlers\UpdatePostRequest;
 use App\Http\Requests\CreateNewRequest;
-use App\Http\Requests\CreateNewsRequest;
+use App\Http\Requests\CreatePostRequest;
 use App\Http\Requests\GetAllPostsRequest;
 use App\Http\Requests\PostRequest;
-use App\Http\Requests\DeliveryActivityRequest;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
@@ -51,40 +49,14 @@ class PostController extends Controller
     }
 
     /****
-     * Create activity
-     * @param CreateActivityRequest $request
+     * @param CreatePostRequest $request
      * @return JsonResponse
      */
-    public function storeActivity(CreateActivityRequest $request) : JsonResponse
+    public function store(CreatePostRequest $request) : JsonResponse
     {
         CreatePostHandler::handle($request->all());
         return response()->json([
             'message' => 'Post successfully registered',
         ], 201);
-    }
-
-    /****
-     * @param CreateNewsRequest $request
-     * @return JsonResponse
-     */
-    public function storeNews(CreateNewsRequest $request) : JsonResponse
-    {
-        CreatePostHandler::handle($request->all());
-        return response()->json([
-            'message' => 'Post successfully registered',
-        ], 201);
-    }
-
-
-    /***
-     * @param DeliveryActivityRequest $request
-     * @return JsonResponse
-     */
-    public function deliveryActivity(DeliveryActivityRequest $request): JsonResponse
-    {
-        DeliveryActivityHandler::handle($request->all());
-        return response()->json([
-            'message' => 'Activity successfully delivered',
-        ]);
     }
 }

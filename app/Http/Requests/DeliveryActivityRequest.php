@@ -26,6 +26,7 @@ class DeliveryActivityRequest extends FormRequest
     {
         return [
             'files.*' => ['sometimes', 'file', 'max:500', 'mimes:jpeg,png,svg,doc,docx,pdf,xls,xlsx'],
+            'activity_id' => ['required', 'numeric', 'exists:users_activities,activity_id'],
         ];
     }
 
@@ -41,6 +42,11 @@ class DeliveryActivityRequest extends FormRequest
             'files.*.file' => 'Apenas arquivos são válidos para este campo',
             'files.*.max' => 'O arquivo deve ter no máximo :max kilobytes',
             'files.*.mimes' => 'O arquivo deve ter uma das seguintes extensões: :values',
+
+            //activity_id
+            'activity_id.required' => 'É obrigatório informar a atividade',
+            'activity_id.numeric' => 'O id da atividade deve estar em formato numérico',
+            'activity_id.exists' => 'A atividade não existe',
         ];
     }
 }

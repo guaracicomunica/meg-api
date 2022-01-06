@@ -42,12 +42,16 @@ class Classroom extends Model
         return $this->belongsToMany(User::class, 'users_classrooms', 'classroom_id', 'user_id');
     }
 
+    public function creator()
+    {
+        return $this->belongsTo(User::class, 'creator_id');
+    }
     public function posts(): HasMany
     {
         return $this->hasMany(Post::class, 'classroom_id');
     }
 
-    public function teacher()
+    public function teachers()
     {
         return $this->belongsToMany(User::class, 'users_classrooms', 'classroom_id', 'user_id');
     }

@@ -18,6 +18,8 @@ class CreateCommentsTable extends Migration
 
             $table->mediumText('body');
 
+            $table->boolean('is_private')->default(false);
+
             $table->unsignedBigInteger('post_id');
             $table->foreign('post_id')->references('id')->on('posts');
 

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Facades\DB;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -56,6 +57,19 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
     public function isTeacher()
     {
         return $this->withRoleId() == 2;
+    }
+
+    public function isMemberOfClassroom($classroomId)
+    {
+        return DB::table('users_classrooms')
+            ->where('user_id', $this->id)
+            ->where('classroom_id', $classroomId)
+            ->exists();
+    }
+
+    public function isTeacherOfClassroom($classroomId)
+    {
+        return $this->isTeacher() && $this->isMemberOfClassroom($classroomId);
     }
 
     public function isStudent()

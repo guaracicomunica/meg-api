@@ -45,6 +45,5 @@ class CreateCommentRequest extends FormRequest
             'body.string' => 'O conteúdo do comentário deve estar em formato de texto',
             'body.max' => 'O conteúdo da atividade deve ter no máximo :max caracteres',
         ];
-
     }
 }

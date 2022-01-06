@@ -15,27 +15,11 @@ class CreatePostsTable extends Migration
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
-
             $table->string('name', 100);
-
             $table->longText('body');
-
-            $table->dateTime('deadline')->nullable();
-
-            $table->integer('points')->default(0);
-
-            $table->integer('coins')->default(0);
-
-            $table->integer('xp')->default(0);
-
             $table->boolean('disabled')->default(false);
-
             $table->unsignedBigInteger('classroom_id');
             $table->foreign('classroom_id')->references('id')->on('classrooms');
-
-            $table->unsignedBigInteger('post_type_id');
-            $table->foreign('post_type_id')->references('id')->on('post_types');
-
             $table->timestamps();
         });
     }
