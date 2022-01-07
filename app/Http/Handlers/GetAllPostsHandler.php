@@ -16,6 +16,6 @@ class GetAllPostsHandler
         ])
             ->where('classroom_id', $request->classroom_id)
             ->orderByDesc('created_at')
-            ->paginate();
+            ->paginate($request->per_page);
     }
 }
