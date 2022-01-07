@@ -13,6 +13,9 @@ class GetAllPostsHandler
             'comments',
             'activity',
             'attachments'
-        ])->where('classroom_id', $request->classroom_id)->paginate();
+        ])
+            ->where('classroom_id', $request->classroom_id)
+            ->orderByDesc('created_at')
+            ->paginate();
     }
 }
