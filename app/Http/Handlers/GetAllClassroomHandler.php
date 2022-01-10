@@ -26,7 +26,7 @@ class GetAllClassroomHandler
                     })->select('email');
                 }
             ])
-            ->latest()
+            ->orderBy('status', 'desc')
             ->paginate($request->per_page);
     }
 }
