@@ -5,10 +5,10 @@ namespace App\Http\Controllers\API;
 use App\Models\User;
 use App\Http\Controllers\Controller;
 use App\Models\UserRole;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Auth\Events\Registered;
 
 class AuthController extends Controller
@@ -30,7 +30,7 @@ class AuthController extends Controller
         $this->emailVerificatoinController = $emailVerificatoinController;
     }
 
-    public function login(Request $request)
+    public function login(Request $request): JsonResponse
     {
         try {
             $credentials = $request->only(['email', 'password']);
@@ -57,13 +57,7 @@ class AuthController extends Controller
         }
     }
 
-    public function logout()
-    {
-        auth('api')->logout();
-        return response()->json(['message' => 'Successfully logged out']);
-    }
-
-    public function register(Request $request)
+    public function register(Request $request): JsonResponse
     {
         try {
             $validator = Validator::make($request->all(), [
@@ -104,24 +98,30 @@ class AuthController extends Controller
         }
     }
 
-    public function user()
+    public function user(): JsonResponse
     {
         $user = auth('api')->user();
         $user->role = $user->role_id;
         return response()->json($user);
     }
 
-    protected function respondWithToken($token)
+    protected function respondWithToken($token): array
     {
         return [
             'access_token' => $token,
             'token_type' => 'bearer',
-            'expires_in' => 60*60*24
+            'expires_in' => auth('api')->factory()->getTTL() * 60 * 24
         ];
     }
 
-    public function unauthorized() {
+    public function logout(): JsonResponse
+    {
+        auth('api')->logout();
+        return response()->json(['message' => 'Successfully logged out']);
+    }
+
+    public function unauthorized(): JsonResponse
+    {
         return response()->json(['message' => 'Unauthorized'], 401);
     }
 }
-
