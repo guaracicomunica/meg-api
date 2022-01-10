@@ -2,6 +2,7 @@
 
 namespace App\Http\Handlers;
 
+use App\Http\Resources\ParticipantsResource;
 use App\Models\Classroom;
 
 class GetParticipantsClassroomHandler
@@ -9,7 +10,9 @@ class GetParticipantsClassroomHandler
     public static function handle(int $id)
     {
         $classroom = Classroom::findOrFail($id);
-        return $classroom->participants()->get();
+        $participants = $classroom->participants()->get();
+
+        return ParticipantsResource::collection($participants);
     }
 
 }
