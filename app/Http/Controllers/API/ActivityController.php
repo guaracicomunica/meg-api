@@ -14,6 +14,16 @@ use Illuminate\Http\Request;
 
 class ActivityController extends Controller
 {
+    /**
+     * Create a new ActivityController instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth:api');
+    }
+
     public function index() : JsonResponse
     {
         $result = GetAllActivityHandler::handle();
