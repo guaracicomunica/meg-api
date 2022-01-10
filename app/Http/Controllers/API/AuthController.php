@@ -43,7 +43,7 @@ class AuthController extends Controller
 
             $user = User::where('email', $request->input('email'))->first();
 
-            $user->role = $user->withRoleId();
+            $user->role = $user->role_id;
 
             $result = array_merge(['user'=> $user],$this->respondWithToken($token));
 
@@ -54,7 +54,6 @@ class AuthController extends Controller
                 $e->getCode() != 2002 && $e->getCode() != 0
                     ? $e->getCode()
                     : 500);
-
         }
     }
 
@@ -78,27 +77,21 @@ class AuthController extends Controller
                 return response()->json(["error" => $validator->errors()->toJson()], 400);
             }
 
-            DB::beginTransaction();
-
             $user = User::create(array_merge(
                 $validator->validated(),
-                ['password' => bcrypt($request->password)]
+                [
+                    'password' => bcrypt($request->password),
+                    'role_id' => $request->role,
+                ]
             ));
 
-            UserRole::create([
-                'user_id' => $user->id,
-                'role_id' => $request->role,
-            ]);
-
             event(new Registered($user));
-
-            DB::commit();
 
             $credentials = $request->only(['email', 'password']);
 
             $token = auth('api')->attempt($credentials);
 
-            $user->role = $user->withRoleId();
+            $user->role = $user->role_id;
 
             return response()->json([
                 'message' => 'User successfully registered',
@@ -107,7 +100,6 @@ class AuthController extends Controller
             ], 201);
 
         } catch (ValidationException $e) {
-            DB::rollBack();
             return response()->json(['error' => $e->getMessage()], 400);
         }
     }
@@ -115,7 +107,7 @@ class AuthController extends Controller
     public function user()
     {
         $user = auth('api')->user();
-        $user->role = $user->withRoleId();
+        $user->role = $user->role_id;
         return response()->json($user);
     }
 
