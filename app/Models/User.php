@@ -89,6 +89,11 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
         return $this->belongsToMany(Classroom::class, 'users_classrooms', 'user_id', 'classroom_id');
     }
 
+    public function gamefication()
+    {
+        return $this->hasOne(UserStatusGamefication::class, 'user_id');
+    }
+
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.
      *

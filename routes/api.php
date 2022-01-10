@@ -71,6 +71,8 @@ Route::group([
     Route::post('', [ClassroomController::class, 'store']);
     Route::post('enrollment', [ClassroomController::class, 'enrollment']);
     Route::get('{id}/participants', [ClassroomController::class, 'participants']);
+    Route::get('{id}/students', [ClassroomController::class, 'students']);
+    Route::get('{id}/teachers', [ClassroomController::class, 'teachers']);
     Route::get('{id}', [ClassroomController::class, 'getById']);
 });
 

@@ -7,6 +7,8 @@ use App\Http\Handlers\EnrollClassroomHandler;
 use App\Http\Handlers\GetAllClassroomHandler;
 use App\Http\Handlers\GetByIdClassroomHandler;
 use App\Http\Handlers\GetParticipantsClassroomHandler;
+use App\Http\Handlers\GetStudentsClassroomHandler;
+use App\Http\Handlers\GetTeachersClassroomHandler;
 use App\Http\Handlers\ManageClassroomHandler;
 use App\Http\Requests\EnrollClassroomRequest;
 use App\Http\Requests\ManageClassroomRequest;
@@ -72,6 +74,28 @@ class ClassroomController extends Controller
     public function participants(int $id) : JsonResponse
     {
         $result = GetParticipantsClassroomHandler::handle($id);
+        return response()->json($result);
+    }
+
+    /****
+     * Get all students of a classroom
+     * @param int $id
+     * @return JsonResponse
+     */
+    public function students(int $id) : JsonResponse
+    {
+        $result = GetStudentsClassroomHandler::handle($id);
+        return response()->json($result);
+    }
+
+    /****
+     * Get all teachers of a classroom
+     * @param int $id
+     * @return JsonResponse
+     */
+    public function teachers(int $id) : JsonResponse
+    {
+        $result = GetTeachersClassroomHandler::handle($id);
         return response()->json($result);
     }
 

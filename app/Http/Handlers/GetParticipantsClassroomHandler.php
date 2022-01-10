@@ -2,7 +2,7 @@
 
 namespace App\Http\Handlers;
 
-use App\Http\Resources\ParticipantsResource;
+use App\Http\Resources\ParticipantResource;
 use App\Models\Classroom;
 
 class GetParticipantsClassroomHandler
@@ -12,7 +12,7 @@ class GetParticipantsClassroomHandler
         $classroom = Classroom::findOrFail($id);
         $participants = $classroom->participants()->get();
 
-        return ParticipantsResource::collection($participants);
+        return ParticipantResource::collection($participants);
     }
 
 }
