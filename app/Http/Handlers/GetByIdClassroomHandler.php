@@ -10,12 +10,13 @@ class GetByIdClassroomHandler
 {
     public static function handle(int $classroom_id): ClassroomResource
     {
+        $classroom = Classroom::with(['creator'])->findOrFail($classroom_id);
+
         if(!Auth::user()->isMemberOfClassroom($classroom_id))
         {
             throw new AccessDeniedHttpException();
         }
 
-        $classroom = Classroom::with(['creator'])->findOrFail($classroom_id);
         return new ClassroomResource($classroom);
     }
 }
