@@ -4,6 +4,7 @@ namespace App\Http\Handlers;
 
 use App\Models\Activity;
 use App\Models\Post;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class CreateActivityHandler
@@ -23,8 +24,10 @@ class CreateActivityHandler
                 'disabled' => $data['disabled'],
                 'classroom_id' => $data['classroom_id']
             ];
-
-            $post = Post::create($assignedPostData);
+            
+            $post = Post::create(
+                array_merge($assignedPostData, ['creator_id' => Auth::user()->id])
+            );
 
             $assignedActivityData = [
                 'deadline' => $data['deadline'] ?? null,
