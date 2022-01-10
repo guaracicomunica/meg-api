@@ -19,6 +19,6 @@ class GetAllPostsHandler
             ->orderByDesc('created_at')
             ->paginate($request->per_page);
 
-        return PostResource::collection($posts);
+        return PostResource::collection($posts)->response()->getData();
     }
 }
