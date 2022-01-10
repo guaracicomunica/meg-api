@@ -21,9 +21,7 @@ class GetAllClassroomHandler
                 'levels',
                 'skills',
                 'participants' => function($query) {
-                    $query->whereHas('role', function(Builder $query){
-                        $query->where('role.id', 2);
-                    })->select('email');
+                    $query->where('role_id', 2)->select('email');
                 }
             ])
             ->orderBy('status', 'desc')
