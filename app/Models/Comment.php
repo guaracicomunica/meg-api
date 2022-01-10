@@ -16,5 +16,9 @@ class Comment extends Model
         'post_id'
     ];
 
+    public function creator()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 
 }

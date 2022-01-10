@@ -7,7 +7,6 @@ use App\Http\Handlers\EnrollClassroomHandler;
 use App\Http\Handlers\GetAllClassroomHandler;
 use App\Http\Handlers\GetByIdClassroomHandler;
 use App\Http\Handlers\GetParticipantsClassroomHandler;
-use App\Http\Handlers\GetPostsClassroomHandler;
 use App\Http\Handlers\ManageClassroomHandler;
 use App\Http\Requests\EnrollClassroomRequest;
 use App\Http\Requests\ManageClassroomRequest;

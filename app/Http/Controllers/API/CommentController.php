@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Requests\CreateCommentRequest;
+use App\Http\Resources\CommentResource;
 use App\Models\Comment;
 use App\Http\Controllers\Controller;
 use App\Models\Post;
@@ -21,7 +22,14 @@ class CommentController extends Controller
      */
     public function index(int $postId)
     {
-        $result = Comment::where('post_id', $postId)->latest()->paginate();
+        $comments = Comment::with('creator')->where('post_id', $postId)->latest()->paginate();
+        $result = CommentResource::collection($comments);
+        /*
+         * id
+         * date - created_at
+         * body
+         * creator
+         * */
         return response()->json($result);
     }
 
