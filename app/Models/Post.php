@@ -21,7 +21,8 @@ class Post extends Model
         'name',
         'body',
         'disabled',
-        'classroom_id'
+        'classroom_id',
+        'creator_id',
     ];
 
     protected $hidden = [
@@ -48,5 +49,9 @@ class Post extends Model
         return $this->hasMany(PostFile::class);
     }
 
+    public function creator()
+    {
+        return $this->belongsTo(User::class, 'creator_id');
+    }
 
 }

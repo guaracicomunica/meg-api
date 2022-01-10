@@ -4,6 +4,7 @@ namespace App\Http\Handlers;
 
 use App\Models\Post;
 use App\Models\PostFile;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use mysql_xdevapi\Exception;
 
@@ -15,7 +16,9 @@ class CreatePostHandler
 
             DB::beginTransaction();
 
-            $post = Post::create($data);
+            $post = Post::create(
+                array_merge($data, ['creator_id' => Auth::user()->id])
+            );
 
             if(isset($data['attachments']))
                 foreach ($data['attachments'] as $file)
