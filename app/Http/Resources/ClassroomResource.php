@@ -21,7 +21,7 @@ class ClassroomResource extends JsonResource
             'nickname' => $this->nickname,
             'banner' => $this->banner,
             'code' => $this->code,
-            'roleUser' => Auth::user()->withRoleId(),
+            'roleUser' => Auth::user()->role_id,
             'teacher' => $this->creator->name,
         ];
     }

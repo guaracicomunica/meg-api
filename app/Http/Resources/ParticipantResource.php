@@ -19,7 +19,7 @@ class ParticipantResource extends JsonResource
             'name' => $this->name,
             'email' => $this->email,
             'avatar_path' => $this->avatar_path,
-            'role' => $this->roles()->first()->id,
+            'role' => $this->role->id,
         ];
     }
 }

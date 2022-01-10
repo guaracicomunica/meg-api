@@ -18,9 +18,7 @@ class RolePolicy
      */
     public function viewAny(User $user)
     {
-        foreach($user->roles as $role){
-            return $role->id == 1;
-        }
+        return $user->role->id == 1;
     }
 
     /**
@@ -32,9 +30,7 @@ class RolePolicy
      */
     public function view(User $user, Role $role)
     {
-        foreach($user->roles as $role){
-            return $role->id == 1;
-        }
+        return $user->role->id == 1;
     }
 
     /**
@@ -45,9 +41,7 @@ class RolePolicy
      */
     public function create(User $user)
     {
-        foreach($user->roles as $role){
-            return $role->id == 1;
-        }
+        return $user->role->id == 1;
     }
 
     /**
@@ -59,9 +53,7 @@ class RolePolicy
      */
     public function update(User $user, Role $role)
     {
-        foreach($user->roles as $role){
-            return $role->id == 1;
-        }
+        return $role->id == 1;
     }
 
     /**
@@ -73,9 +65,7 @@ class RolePolicy
      */
     public function delete(User $user, Role $role)
     {
-        foreach($user->roles as $role){
-            return $role->id == 1;
-        }
+        return $user->role->id == 1;
     }
 
     /**
@@ -87,9 +77,7 @@ class RolePolicy
      */
     public function restore(User $user, Role $role)
     {
-        foreach($user->roles as $role){
-            return $role->id == 1;
-        }
+        return $user->role->id == 1;
     }
 
     /**
@@ -101,8 +89,6 @@ class RolePolicy
      */
     public function forceDelete(User $user, Role $role)
     {
-        foreach($user->roles as $role){
-            return $role->id == 1;
-        }
+        return $user->role->id == 1;
     }
 }

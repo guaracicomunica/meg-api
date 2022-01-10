@@ -53,14 +53,10 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
-    public function withRoleId()
-    {
-        return $this->roles()->first()->id;
-    }
 
     public function isTeacher()
     {
-        return $this->withRoleId() == 2;
+        return $this->role_id == 2;
     }
 
     public function isMemberOfClassroom($classroomId)
@@ -78,12 +74,12 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
 
     public function isStudent()
     {
-        return $this->withRoleId() == 3;
+        return $this->role_id == 3;
     }
 
-    public function roles()
+    public function role()
     {
-        return $this->belongsToMany(Role::class, 'users_roles', 'user_id', 'role_id');
+        return $this->belongsTo(Role::class);
     }
 
     public function classes()

@@ -54,17 +54,13 @@ class Classroom extends Model
     public function teachers()
     {
         return $this->belongsToMany(User::class, 'users_classrooms', 'classroom_id', 'user_id')
-            ->whereHas('roles', function($query) {
-                $query->where('roles.id', 2);
-            });
+            ->where('role_id', 2);
     }
 
     public function students()
     {
         return $this->belongsToMany(User::class, 'users_classrooms', 'classroom_id', 'user_id')
-            ->whereHas('roles', function($query) {
-                $query->where('roles.id', 3);
-            });
+            ->where('role_id', 3);
     }
 
     public function activities(): HasMany
