@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Handlers\EnrollClassroomHandler;
+use App\Http\Handlers\EnrollmentCancellationHandler;
 use App\Http\Handlers\GetAllClassroomHandler;
 use App\Http\Handlers\GetByIdClassroomHandler;
 use App\Http\Handlers\GetParticipantsClassroomHandler;
@@ -11,6 +12,7 @@ use App\Http\Handlers\GetStudentsClassroomHandler;
 use App\Http\Handlers\GetTeachersClassroomHandler;
 use App\Http\Handlers\ManageClassroomHandler;
 use App\Http\Requests\EnrollClassroomRequest;
+use App\Http\Requests\EnrollmentCancellationRequest;
 use App\Http\Requests\ManageClassroomRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -65,6 +67,19 @@ class ClassroomController extends Controller
             'message' => 'Enrollment successfully done',
         ], 201);
     }
+
+    /***
+     * @param EnrollmentCancelationRequest $request
+     * @return JsonResponse
+     */
+    public function enrollmentCancellation(EnrollmentCancellationRequest $request): JsonResponse
+    {
+        EnrollmentCancellationHandler::handle($request->all());
+        return response()->json([
+            'message' => 'User is no longer participant of classroom',
+        ]);
+    }
+
 
     /****
      * Get all participants of a classroom

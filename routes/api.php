@@ -70,6 +70,7 @@ Route::group([
     Route::get('', [ClassroomController::class, 'index']);
     Route::post('', [ClassroomController::class, 'store']);
     Route::post('enrollment', [ClassroomController::class, 'enrollment']);
+    Route::post('enrollment/cancellation', [ClassroomController::class, 'enrollmentCancellation']);
     Route::get('{id}/participants', [ClassroomController::class, 'participants']);
     Route::get('{id}/students', [ClassroomController::class, 'students']);
     Route::get('{id}/teachers', [ClassroomController::class, 'teachers']);
