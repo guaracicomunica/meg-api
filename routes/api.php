@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\API\ActivityController;
 use App\Http\Controllers\API\ClassroomController;
+use App\Http\Controllers\API\TopicController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\AuthController;
 use \App\Http\Controllers\API\UserController;
@@ -75,6 +76,13 @@ Route::group([
     Route::get('{id}/students', [ClassroomController::class, 'students']);
     Route::get('{id}/teachers', [ClassroomController::class, 'teachers']);
     Route::get('{id}', [ClassroomController::class, 'getById']);
+});
+
+Route::group([
+    'prefix' => 'topics',
+], function ($router) {
+    Route::get('', [TopicController::class, 'index']);
+    Route::post('', [TopicController::class, 'store']);
 });
 
 Route::group([
