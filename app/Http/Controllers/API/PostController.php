@@ -11,7 +11,6 @@ use App\Http\Requests\CreatePostRequest;
 use App\Http\Requests\GetAllPostsRequest;
 use App\Http\Requests\PostRequest;
 use App\Models\Post;
-use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 
 class PostController extends Controller
