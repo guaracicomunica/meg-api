@@ -35,6 +35,7 @@ class CreateActivityRequest extends FormRequest
             'xp' => ['required','numeric'],
             'disabled' => ['required', 'boolean'],
             'classroom_id' => ['required', 'numeric', 'exists:classrooms,id'],
+            'topic_id' => ['required', 'numeric', 'exists:topics,id'],
             'attachments.*' => ['sometimes', 'file', 'max:3000', 'mimes:pdf,doc,docx'],
         ];
     }
@@ -79,6 +80,11 @@ class CreateActivityRequest extends FormRequest
             'classroom_id.required' => 'O preenchimento da turma é necessário',
             'classroom_id.numeric' => 'A id da turma deve estar no formato númerico',
             'classroom_id.exists' => 'Não foi encontrada a turma',
+
+            //topic_id
+            'topic_id.required' => 'O id do tópico é obrigatório',
+            'topic_id.numeric' => 'O id do tópico deve estar em formato numérico',
+            'topic_id.exists' => 'O tópico não foi encontrado',
 
             //files
             'attachments.*.max'  => 'Os arquivos precisam ter tamanho máximo de 3000KB',

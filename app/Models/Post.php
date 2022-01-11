@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Utils\File;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -24,7 +23,6 @@ class Post extends Model
         'disabled',
         'classroom_id',
         'creator_id',
-        'topic_id'
     ];
 
     protected $hidden = [
@@ -54,10 +52,5 @@ class Post extends Model
     public function creator(): BelongsTo
     {
         return $this->belongsTo(User::class, 'creator_id');
-    }
-
-    public function topic(): BelongsTo
-    {
-        return $this->belongsTo(Topic::class, 'topic_id');
     }
 }

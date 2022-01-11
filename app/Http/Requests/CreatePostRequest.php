@@ -30,7 +30,6 @@ class CreatePostRequest extends FormRequest
             'disabled' => ['sometimes', 'boolean'],
             'is_private' => ['required', 'boolean'],
             'classroom_id' => ['required', 'numeric', 'exists:classrooms,id'],
-            'topic_id' => ['required', 'numeric', 'exists:topics,id'],
             'attachments.*' => ['sometimes', 'file', 'max:3000', 'mimes:pdf,doc,docx'],
         ];
     }
@@ -64,11 +63,6 @@ class CreatePostRequest extends FormRequest
             'classroom_id.required' => 'O id da turma é obrigatório',
             'classroom_id.numeric' => 'O id da turma deve estar em formato numérico',
             'classroom_id.exists' => 'A turma não foi encontrada',
-
-            //classroom
-            'topic_id.required' => 'O id do tópico é obrigatório',
-            'topic_id.numeric' => 'O id do tópico deve estar em formato numérico',
-            'topic_id.exists' => 'O tópico não foi encontrado',
 
             //files
             'attachments.*.max'  => 'Os arquivos precisam ter tamanho máximo de 3000KB',

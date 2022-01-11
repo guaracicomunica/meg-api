@@ -35,7 +35,8 @@ class CreateActivityHandler
                 'coins' => $data['coins'],
                 'xp' => $data['coins'],
                 'points' => $data['points'],
-                'post_id' => $post->id
+                'post_id' => $post->id,
+                'topic_id' => $data['topic_id'],
             ];
 
             Activity::create($assignedActivityData);
