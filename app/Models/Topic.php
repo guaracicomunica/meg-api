@@ -13,5 +13,6 @@ class Topic extends Model
 
     protected $fillable = [
         'name',
+        'classroom_id'
     ];
 }

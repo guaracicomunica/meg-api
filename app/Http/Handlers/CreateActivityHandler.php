@@ -4,6 +4,7 @@ namespace App\Http\Handlers;
 
 use App\Models\Activity;
 use App\Models\Post;
+use App\Models\PostFile;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -24,7 +25,7 @@ class CreateActivityHandler
                 'disabled' => $data['disabled'],
                 'classroom_id' => $data['classroom_id']
             ];
-            
+
             $post = Post::create(
                 array_merge($assignedPostData, ['creator_id' => Auth::user()->id])
             );
@@ -38,6 +39,14 @@ class CreateActivityHandler
             ];
 
             Activity::create($assignedActivityData);
+
+            //uplaod de arquivos em anexo
+            if(isset($data['attachments']))
+                foreach ($data['attachments'] as $file)
+                {
+                    $postFile = new PostFile();
+                    $postFile->uploadAttachments($file, $post->id);
+                }
 
             DB::commit();
         } catch (\Throwable $ex)

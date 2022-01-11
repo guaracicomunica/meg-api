@@ -7,6 +7,9 @@ use App\Http\Handlers\CreateTopicHandler;
 use App\Http\Handlers\GetAllTopicsClassroomHandler;
 use App\Http\Requests\GetAllTopicsRequest;
 use Illuminate\Http\JsonResponse;
+use App\Http\Requests\CreateTopicRequest;
+use App\Models\Topic;
+
 
 class TopicController extends Controller
 {
@@ -20,7 +23,6 @@ class TopicController extends Controller
         $this->middleware('auth:api');
     }
 
-
     /**
      * @param GetAllTopicsRequest $request
      * @return JsonResponse
@@ -31,11 +33,17 @@ class TopicController extends Controller
         return response()->json($result);
     }
 
+    public function getOne(int $id)
+    {
+        return response()->json(Topic::findOrFail($id),200);
+    }
+
     /**
      * @param CreateTopicRequest $request
      * @return JsonResponse
      */
     public function store(CreateTopicRequest $request): JsonResponse
+
     {
         CreateTopicHandler::handle($request->all());
         return response()->json([

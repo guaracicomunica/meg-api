@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
 class CreateTopicRequest extends FormRequest
@@ -14,7 +15,9 @@ class CreateTopicRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return
+            Auth::user()->hasVerifiedEmail()
+            && Auth::user()->isTeacherOfClassroom($this->request->get('classroom_id'));
     }
 
     /**
@@ -29,7 +32,13 @@ class CreateTopicRequest extends FormRequest
                 'required',
                 'string',
                 'min:5',
-                'max:191'
+                'max:191',
+              /* TO DO: validação de name único em caso de mesmo classroom_id
+                Rule::exists('topics', 'name')
+                    ->where(function($query)
+                {
+                    $query->where('classroom_id',  $this->request->get('classroom_id'));
+                })*/
             ],
             'classroom_id' => [
                 'required',
