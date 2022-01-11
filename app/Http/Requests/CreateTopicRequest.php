@@ -30,7 +30,12 @@ class CreateTopicRequest extends FormRequest
                 'string',
                 'min:5',
                 'max:191'
-            ]
+            ],
+            'classroom_id' => [
+                'required',
+                'numeric',
+                'exists:classrooms,id'
+            ],
         ];
     }
 
@@ -47,6 +52,11 @@ class CreateTopicRequest extends FormRequest
             'name.string' => 'O nome do tópico deve estar em formato de texto',
             'name.min' => 'O nome do tópico deve ter no mínimo 5 caracteres',
             'name.max' => 'O nome do tópico deve ter no máximo 5 caracteres',
+
+            //classroom_id
+            'classroom_id.required' => 'É obrigatório informar a turma à qual o tópico está associado',
+            'classroom_id.string' => 'O id da turma deve estar em formato numérico',
+            'classroom_id.exsits' => 'Não há turma existente com o id informado',
         ];
     }
 }
