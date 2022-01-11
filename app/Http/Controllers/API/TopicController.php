@@ -18,6 +18,10 @@ class TopicController extends Controller
         $this->middleware('auth:api');
     }
 
+    /**
+     * @param CreateTopicRequest $request
+     * @return JsonResponse
+     */
     public function store(CreateTopicRequest $request): JsonResponse
     {
         CreateTopicHandler::handle($request->all());
