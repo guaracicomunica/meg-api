@@ -10,7 +10,7 @@ use \App\Http\Controllers\API\RoleController;
 use \App\Http\Controllers\API\PostController;
 use \App\Http\Controllers\API\VerifyEmailController;
 use \App\Http\Controllers\API\CommentController;
-
+use \App\Http\Controllers\API\TopicController;
 
 /*
 |--------------------------------------------------------------------------
@@ -100,4 +100,14 @@ Route::group([
     Route::get('{id}', [CommentController::class, 'index']);
     Route::post('', [CommentController::class, 'store']);
     Route::delete('{id}',[CommentController::class, 'delete']);
+});
+
+
+Route::group(
+    [
+        'prefix' => 'topics' ,
+    ], function ($router) {
+        Route::get('', [TopicController::class, 'index']);
+        Route::get('{id}', [TopicController::class, 'getOne']);
+        Route::post('', [TopicController::class, 'store']);
 });

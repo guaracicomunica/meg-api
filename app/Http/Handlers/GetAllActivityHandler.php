@@ -8,6 +8,8 @@ class GetAllActivityHandler
 {
     public static function handle()
     {
-        return Activity::with(['post'])->paginate();
+        return Activity::with(
+            ['post', 'post.attachments', 'post.comments']
+        )->paginate();
     }
 }
