@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Handlers\CreateTopicHandler;
+use Illuminate\Http\JsonResponse;
 
 class TopicController extends Controller
 {
@@ -17,7 +18,7 @@ class TopicController extends Controller
         $this->middleware('auth:api');
     }
 
-    public function store(CreateTopicRequest $request)
+    public function store(CreateTopicRequest $request): JsonResponse
     {
         CreateTopicHandler::handle($request->all());
         return response()->json([
