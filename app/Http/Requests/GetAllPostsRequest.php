@@ -25,7 +25,8 @@ class GetAllPostsRequest extends FormRequest
     public function rules()
     {
         return [
-            'classroom_id' => 'required|numeric|exists:classrooms,id'
+            'classroom_id' => 'required|numeric|exists:classrooms,id',
+            'topic_id' => 'sometimes|numeric|exists:topics,id',
         ];
     }
 
@@ -40,7 +41,10 @@ class GetAllPostsRequest extends FormRequest
         return [
             'classroom_id.required' => 'Deve ser informada qual a turma',
             'classroom_id.numeric' => 'O id da turma deve ter formato numérico',
-            'classroom_id.exists' => 'O id da turma não foi encontrado',
+            'classroom_id.exists' => 'A turma não foi encontrada',
+
+            'topic_id.numeric' => 'O id do tópico deve ter formato numérico',
+            'topic_id.exists' => 'O id do tópico não foi encontrado',
         ];
     }
 }

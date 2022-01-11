@@ -16,6 +16,9 @@ class GetAllPostsHandler
             'attachments'
         ])
             ->where('classroom_id', $request->classroom_id)
+            ->when($request->get('topic_id'), function($query, $topicId) {
+                $query->where('topic_id', $topicId);
+            })
             ->orderByDesc('created_at')
             ->paginate($request->per_page);
 
