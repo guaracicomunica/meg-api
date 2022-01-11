@@ -16,6 +16,8 @@ class CreateTopicsTable extends Migration
         Schema::create('topics', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->unsignedBigInteger('classroom_id');
+            $table->foreign('classroom_id')->references('id')->on('classrooms');
             $table->timestamps();
         });
     }

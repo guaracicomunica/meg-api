@@ -18,6 +18,7 @@ class TopicController extends Controller
 
     public function store(CreateTopicRequest $request)
     {
+        Cre
         return response()->json([
             'message' => 'Topic successfully registered',
         ], 201);
