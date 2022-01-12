@@ -64,7 +64,8 @@ class AuthController extends Controller
                 'name' => 'required|string|between:2,100',
                 'email' => 'required|string|email|max:100|unique:users',
                 'password' => 'required|string|confirmed|min:6',
-                'role' => 'required|numeric|between:2,3'
+                'role' => 'required|numeric|between:2,3',
+                'avatar' => 'sometimes|file|mimes:jpeg,png,svg'
             ]);
 
             if($validator->fails()){
@@ -78,6 +79,9 @@ class AuthController extends Controller
                     'role_id' => $request->role,
                 ]
             ));
+
+            if(isset($request->avatar))
+                $user->uploadAvatar($request->avatar);
 
             event(new Registered($user));
 

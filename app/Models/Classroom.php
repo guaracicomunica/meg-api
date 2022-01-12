@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Utils\File;
+use App\Utils\StringUtil;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -119,5 +120,19 @@ class Classroom extends Model
         unset($items['code']);
         unset($items['creator_id']);
         return $this->fill($items)->save();
+    }
+
+    /**
+     * Get the classroom's banner updated to the correct URL disponibilization.
+     *
+     * @param  string  $value
+     * @return void
+     */
+    public function getBannerAttribute($value)
+    {
+        return
+            !is_null($value)
+            ? env('APP_URL').'/'.StringUtil::str_replace_limit('public/', 'storage/',$value, 1)
+            : null;
     }
 }
