@@ -16,7 +16,7 @@ class CreateUsersActivitiesTable extends Migration
         Schema::create('users_activities', function (Blueprint $table) {
             $table->id();
 
-            $table->decimal('points', 3, 2);
+            $table->decimal('points', 5, 2);
 
             $table->integer('xp');
 
