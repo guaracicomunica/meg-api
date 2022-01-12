@@ -7,8 +7,10 @@ use App\Http\Handlers\CreateActivityHandler;
 use App\Http\Handlers\DeliveryActivityHandler;
 use App\Http\Handlers\GetAllActivityHandler;
 use App\Http\Handlers\GetOneActivityHandler;
+use App\Http\Handlers\GradeStudentsActivityHandler;
 use App\Http\Requests\CreateActivityRequest;
 use App\Http\Requests\DeliveryActivityRequest;
+use App\Http\Requests\GradeStudentsActivityRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -56,8 +58,15 @@ class ActivityController extends Controller
         ]);
     }
 
-    public function rate(Request $request)
+    /**
+     * @param GradeStudentsActivityRequest $request
+     * @return JsonResponse
+     */
+    public function grade(GradeStudentsActivityRequest $request): JsonResponse
     {
-        dd($request->all());
+        GradeStudentsActivityHandler::handle($request);
+        return response()->json([
+            'message' => 'students who solved activity are successfully graded'
+        ]);
     }
 }

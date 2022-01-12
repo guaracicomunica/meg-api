@@ -38,6 +38,16 @@ class Activity extends Model
         return $this->belongsTo(Topic::class, 'topic_id');
     }
 
+    public function calcXpFromStudentGrade($studentPoints)
+    {
+        return ($studentPoints * $this->xp) / $this->points;
+    }
+
+    public function calcCoinsFromStudentGrade($studentPoints)
+    {
+        return ($studentPoints * $this->coins) / $this->points;
+    }
+
     public function assignStudents(int $classroomId)
     {
         $students = Classroom::findOrFail($classroomId)

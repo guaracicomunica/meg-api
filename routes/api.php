@@ -98,6 +98,7 @@ Route::group([
     Route::get('{id}', [ActivityController::class, 'show']);
     Route::post('', [ActivityController::class, 'store']);
     Route::post('delivery', [ActivityController::class, 'delivery']);
+    Route::post('grade', [ActivityController::class, 'grade']);
 });
 
 
