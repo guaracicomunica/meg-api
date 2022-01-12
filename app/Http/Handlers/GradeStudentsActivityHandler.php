@@ -48,20 +48,12 @@ class GradeStudentsActivityHandler
 
                         $act = UserStatusGamefication::firstOrCreate(
                             ['user_id' => $student['id']],
-                            ['points' => $xp, 'coins' => $coins, 'user_id' => $student['id']]
+                            ['points' => 0, 'coins' => 0, 'user_id' => $student['id']]
                         );
 
-                        if($act->xp != $xp)
-                        {
-                            $act->xp += $xp;
-                            $act->save();
-                        }
-
-                        if($act->coins != $coins)
-                        {
-                            $act->coins += $coins;
-                            $act->save();
-                        }
+                        $act->xp += $xp;
+                        $act->coins += $coins;
+                        $act->save();
                     }
                 });
             DB::commit();
