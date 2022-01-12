@@ -11,6 +11,7 @@ use \App\Http\Controllers\API\RoleController;
 use \App\Http\Controllers\API\PostController;
 use \App\Http\Controllers\API\VerifyEmailController;
 use \App\Http\Controllers\API\CommentController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes

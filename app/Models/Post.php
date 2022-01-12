@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
-use App\Utils\File;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
@@ -29,29 +29,28 @@ class Post extends Model
         'updated_at',
     ];
 
-    public function classroom()
+    public function classroom(): BelongsTo
     {
         return $this->belongsTo(Post::class);
     }
 
-    public function comments()
+    public function comments(): HasMany
     {
         return $this->hasMany(Comment::class);
     }
 
-    public function activity()
+    public function activity(): HasOne
     {
         return $this->hasOne(Activity::class);
     }
 
-    public function attachments()
+    public function attachments(): HasMany
     {
         return $this->hasMany(PostFile::class);
     }
 
-    public function creator()
+    public function creator(): BelongsTo
     {
         return $this->belongsTo(User::class, 'creator_id');
     }
-
 }

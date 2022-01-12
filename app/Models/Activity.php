@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Activity extends Model
 {
@@ -17,6 +18,7 @@ class Activity extends Model
         'coins',
         'deadline',
         'post_id',
+        'topic_id',
     ];
 
     protected $hidden = [
@@ -27,5 +29,10 @@ class Activity extends Model
     public function post()
     {
         return $this->belongsTo(Post::class, 'post_id');
+    }
+
+    public function topic(): BelongsTo
+    {
+        return $this->belongsTo(Topic::class, 'topic_id');
     }
 }

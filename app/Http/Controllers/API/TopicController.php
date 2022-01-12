@@ -33,7 +33,11 @@ class TopicController extends Controller
         return response()->json($result);
     }
 
-    public function getOne(int $id)
+    /**
+     * @param int $id
+     * @return JsonResponse
+     */
+    public function getOne(int $id): JsonResponse
     {
         return response()->json(Topic::findOrFail($id),200);
     }
