@@ -6,6 +6,7 @@ use App\Utils\File;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Str;
 
 /**
  * @method static create(array $assignedValues)
@@ -68,6 +69,11 @@ class Classroom extends Model
         return $this->hasMany(Post::class, 'classroom_id');
     }
 
+
+    /**
+     * Upload classroom's banner file to filesystem API
+     * @returns void
+     */
     public function uploadBanner($file)
     {
         $path = File::saveAs(
@@ -82,6 +88,25 @@ class Classroom extends Model
 
             $this->save();
         }
+    }
+    /**
+     * Upload classroom's file related to filesystem's API
+     * @returns string
+     * @param $file
+     * file to be stored
+     * @param $prefixFolder
+     * prefix to be used inside 'classroom' folder in filesystem
+     */
+    public function uploadFile($file, $prefixFolder, $classroom_id)
+    {
+        $hash_file = Str::random($classroom_id ?? 999);
+        $path = File::saveAs(
+            "public/classrooms/{$classroom_id}/{$prefixFolder}",
+            $file,
+            "{$prefixFolder}_{$hash_file}"
+        );
+
+        return $path;
     }
 
     /**
