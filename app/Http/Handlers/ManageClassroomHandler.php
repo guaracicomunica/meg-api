@@ -21,7 +21,6 @@ class ManageClassroomHandler
      */
     public static function handle(array $data) : Classroom
     {
-        //dd($data);
         $assignedValues = [
             'id' => isset($data['id']) ?? $data['id'],
             'name'=> $data['name'],
@@ -34,7 +33,7 @@ class ManageClassroomHandler
         try {
             DB::beginTransaction();
 
-            $classroom = Classroom::where('id', isset($data['id']) ?? $data['id'])->first();
+            $classroom = Classroom::where('id', $data['id'])->first();
 
             if($classroom == null)
             {

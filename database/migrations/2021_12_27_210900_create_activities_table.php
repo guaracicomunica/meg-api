@@ -15,7 +15,7 @@ class CreateActivitiesTable extends Migration
     {
         Schema::create('activities', function (Blueprint $table) {
             $table->id();
-            $table->integer('points')->default(0);
+            $table->decimal('points', 3, 2)->default(0);
             $table->integer('xp')->default(0);
             $table->integer('coins')->default(0);
             $table->timestamp('deadline')->nullable();
