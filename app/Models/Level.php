@@ -15,6 +15,7 @@ class Level extends Model
 
     protected $fillable = [
         'name',
+        'path',
         'xp',
         'classroom_id'
     ];

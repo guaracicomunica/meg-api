@@ -23,6 +23,7 @@ use \App\Http\Controllers\API\CommentController;
 |
 */
 
+//auth
 Route::group([
     'prefix' => 'auth'
 ], function ($router) {
@@ -31,7 +32,6 @@ Route::group([
     Route::post('register', [AuthController::class, 'register']);
     Route::post('logout', [AuthController::class, 'logout'])->middleware('verified');
     Route::post('user', [AuthController::class, 'user'])->middleware('verified');
-
 });
 
 
@@ -48,7 +48,7 @@ Route::post('/email/verify/resend', function (Request $request) {
 })->middleware(['auth:api', 'throttle:6,1'])->name('verification.send');
 
 
-
+//users
 Route::group([
     'prefix' => 'users'
 ], function ($router) {
@@ -58,12 +58,16 @@ Route::group([
     Route::delete('{id}', [UserController::class, 'destroy']);
 });
 
+
+//roles
 Route::group([
     'prefix' => 'roles'
 ], function ($router) {
     Route::get('', [RoleController::class, 'index']);
 });
 
+
+//classes
 Route::group([
     'prefix' => 'classes'
 ], function ($router) {
@@ -77,13 +81,7 @@ Route::group([
     Route::get('{id}', [ClassroomController::class, 'getById']);
 });
 
-Route::group([
-    'prefix' => 'topics',
-], function ($router) {
-    Route::get('', [TopicController::class, 'index']);
-    Route::post('', [TopicController::class, 'store']);
-});
-
+//posts
 Route::group([
     'prefix' => 'posts',
 ], function ($router) {
@@ -92,6 +90,7 @@ Route::group([
     Route::post('', [PostController::class, 'store']);
 });
 
+//activities
 Route::group([
     'prefix' => 'activities',
 ], function ($router) {
@@ -101,6 +100,8 @@ Route::group([
     Route::post('delivery', [ActivityController::class, 'delivery']);
 });
 
+
+//comments
 Route::group([
     'prefix' => 'comments',
 ], function ($router) {
@@ -109,12 +110,11 @@ Route::group([
     Route::delete('{id}',[CommentController::class, 'delete']);
 });
 
-
-Route::group(
-    [
+//topics
+Route::group([
         'prefix' => 'topics' ,
-    ], function ($router) {
-        Route::get('', [TopicController::class, 'index']);
-        Route::get('{id}', [TopicController::class, 'getOne']);
-        Route::post('', [TopicController::class, 'store']);
+], function ($router) {
+    Route::get('', [TopicController::class, 'index']);
+    Route::get('{id}', [TopicController::class, 'getOne']);
+    Route::post('', [TopicController::class, 'store']);
 });
