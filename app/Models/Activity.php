@@ -76,7 +76,7 @@ class Activity extends Model
 
         if(count($data) > 0)
         {
-            UserActivity::firstOrCreate($data);
+            DB::table('users_activities')->insert($data);
         }
     }
 
