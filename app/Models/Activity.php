@@ -48,7 +48,11 @@ class Activity extends Model
         return ($studentPoints * $this->coins) / $this->points;
     }
 
-    public function assignStudents(int $classroomId)
+    /**
+     * @param int $classroomId
+     * @return void
+     */
+    public function assignToAllStudents(int $classroomId)
     {
         $students = Classroom::findOrFail($classroomId)
             ->students()->pluck('users.id');
@@ -72,7 +76,28 @@ class Activity extends Model
 
         if(count($data) > 0)
         {
-            DB::table('users_activities')->insert($data);
+            UserActivity::firstOrCreate($data);
         }
+    }
+
+    /***
+     * @param $studentId
+     * @return void
+     */
+    public function assignToStudent($studentId)
+    {
+        $data = [
+            'points' => 0,
+            'coins' => 0,
+            'xp' => 0,
+            'delivered_at' => null,
+            'scored_at' => null,
+            'user_id' => $studentId,
+            'activity_id' => $this->id,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ];
+
+        UserActivity::firstOrCreate($data);
     }
 }

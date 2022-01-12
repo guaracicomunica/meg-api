@@ -44,7 +44,7 @@ class CreateActivityHandler
             $activity = Activity::create($assignedActivityData);
 
             //atribui atividade aos alunos da turma
-            $activity->assignStudents($assignedPostData['classroom_id']);
+            $activity->assignToAllStudents($assignedPostData['classroom_id']);
 
             //upload de arquivos em anexo
             if(isset($data['attachments']))
