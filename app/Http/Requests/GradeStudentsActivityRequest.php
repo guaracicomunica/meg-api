@@ -14,7 +14,7 @@ class GradeStudentsActivityRequest extends FormRequest
      */
     public function authorize()
     {
-        return Auth::user()->isStudent();
+        return Auth::user()->isTeacher();
     }
 
     /**
