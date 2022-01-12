@@ -26,6 +26,7 @@ class CreateActivityHandler
                 'classroom_id' => $data['classroom_id']
             ];
 
+            //cria post
             $post = Post::create(
                 array_merge($assignedPostData, ['creator_id' => Auth::user()->id])
             );
@@ -39,9 +40,13 @@ class CreateActivityHandler
                 'topic_id' => $data['topic_id'],
             ];
 
-            Activity::create($assignedActivityData);
+            //cria atividade
+            $activity = Activity::create($assignedActivityData);
 
-            //uplaod de arquivos em anexo
+            //atribui atividade aos alunos da turma
+            $activity->assignStudents($assignedPostData['classroom_id']);
+
+            //upload de arquivos em anexo
             if(isset($data['attachments']))
                 foreach ($data['attachments'] as $file)
                 {
