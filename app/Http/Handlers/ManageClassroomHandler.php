@@ -33,7 +33,12 @@ class ManageClassroomHandler
         try {
             DB::beginTransaction();
 
-            $classroom = Classroom::where('id', $data['id'])->first();
+            $classroom = null;
+
+            if(isset($data['id']))
+            {
+                $classroom = Classroom::where('id', $data['id'])->first();
+            }
 
             if($classroom == null)
             {
