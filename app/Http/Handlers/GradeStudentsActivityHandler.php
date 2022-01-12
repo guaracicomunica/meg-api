@@ -46,14 +46,14 @@ class GradeStudentsActivityHandler
                             ->where('activity_id', $activity->id)
                             ->update($data);
 
-                        $act = UserStatusGamefication::firstOrCreate(
+                        $gamification = UserStatusGamefication::firstOrCreate(
                             ['user_id' => $student['id']],
                             ['points' => 0, 'coins' => 0, 'user_id' => $student['id']]
                         );
 
-                        $act->xp += $xp;
-                        $act->coins += $coins;
-                        $act->save();
+                        $gamification->xp += $xp;
+                        $gamification->coins += $coins;
+                        $gamification->save();
                     }
                 });
             DB::commit();
