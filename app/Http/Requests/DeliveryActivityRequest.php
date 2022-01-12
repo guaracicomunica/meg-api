@@ -25,7 +25,7 @@ class DeliveryActivityRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'files.*' => ['sometimes', 'file', 'max:500', 'mimes:jpeg,png,svg,doc,docx,pdf,xls,xlsx'],
+            'files.*' => ['sometimes', 'file', 'max:3000', 'mimes:jpeg,png,svg,doc,docx,pdf,xls,xlsx'],
             'activity_id' => ['required', 'numeric', 'exists:users_activities,activity_id'],
         ];
     }
