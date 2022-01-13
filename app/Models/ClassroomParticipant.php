@@ -35,7 +35,7 @@ class ClassroomParticipant extends Model
         ]);
     }
 
-    public function levelUp($classroom, $userActivity)
+    public function levelUp($classroom, $userActivity, $previousRecord)
     {
         $newLevel = null;
 
@@ -46,11 +46,15 @@ class ClassroomParticipant extends Model
             }
         }
 
+        /*
+         * se houver nota previamente dada a usuário, remova a quantidade de xp adicionado ao seu perfil na turma
+         * e atualize-o com base na nova nota.
+         * **/
         if($userActivity->scored_at != null)
         {
-            $this->xp += $userActivity->xp;
+            $this->xp += ($this->xp - $previousRecord->xp) + $userActivity->xp;
         } else {
-            $this->xp = $userActivity->xp;
+            $this->xp += $userActivity->xp;
         }
 
         if($newLevel != $this->level_id)

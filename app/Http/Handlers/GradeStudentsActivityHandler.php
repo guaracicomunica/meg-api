@@ -32,49 +32,18 @@ class GradeStudentsActivityHandler
             DB::table('users_activities')
                 ->where('activity_id', $request->get('activity_id'))
                 ->whereNotNull('delivered_at')
-                ->whereNull('scored_at')
                 ->whereIn('user_id', $studentIds)
-                ->chunkById(100, function() use ($request, $activity) {
-                    foreach($request->get('users') as $student)
+                ->chunkById(100, function($records) use ($request, $activity) {
+                    foreach($records as $record)
                     {
-                        $xp = $activity->calcXpFromStudentGrade($student['grade']);
-                        $coins = $activity->calcCoinsFromStudentGrade($student['grade']);
+                        $student = self::getStudentFromRequest($request, $record);
 
-                        $data = [
-                            'points' => $student['grade'],
-                            'xp' => $xp,
-                            'coins' => $coins,
-                            'scored_at' => Carbon::now()
-                        ];
+                        $grade = $student['grade'];
+                        $xp = $activity->calcXpFromStudentGrade($grade);
+                        $coins = $activity->calcCoinsFromStudentGrade($grade);
 
-                        $userActivity = UserActivity::
-                            where('user_id', $student['id'])
-                            ->where('activity_id', $activity->id)->firstOrFail();
-
-                        $userActivity->update($data);
-
-                        $gamification = UserStatusGamefication::firstOrCreate(
-                            ['user_id' => $student['id']],
-                            ['coins' => 0, 'user_id' => $student['id']]
-                        );
-
-                        if($userActivity->scored_at != null)
-                        {
-                            $gamification->coins += $coins;
-                        } else {
-                            $gamification->coins = $coins;
-                        }
-
-                        $gamification->save();
-
-                        $classroom = $activity->post->classroom;
-
-                        $participant = ClassroomParticipant::
-                            where('user_id', $student['id'])
-                            ->where('classroom_id', $classroom->id)
-                            ->firstOrFail();
-
-                        $participant->levelUp($classroom, $userActivity);
+                        $userActivity = UserActivity::findByKeys($student['id'], $activity->id);
+                        $userActivity->updateActivitySituation($grade, $xp, $coins);
                     }
                 });
             DB::commit();
@@ -83,5 +52,15 @@ class GradeStudentsActivityHandler
             DB::rollBack();
             throw $ex;
         }
+    }
+
+    private static function getStudentFromRequest($request, $record)
+    {
+        return array_filter(
+            $request->get('users'),
+            function($item) use ($record) {
+                return $item['id'] == $record->user_id;
+            }
+        )[0];
     }
 }
