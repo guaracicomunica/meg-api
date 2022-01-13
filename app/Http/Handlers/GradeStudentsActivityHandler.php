@@ -29,8 +29,8 @@ class GradeStudentsActivityHandler
                 return $item['id'];
             }, $request->get('users'));
 
-            DB::table('users_activities')
-                ->where('activity_id', $request->get('activity_id'))
+            UserActivity::
+                where('activity_id', $request->get('activity_id'))
                 ->whereNotNull('delivered_at')
                 ->whereIn('user_id', $studentIds)
                 ->chunkById(100, function($records) use ($request, $activity) {
