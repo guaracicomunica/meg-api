@@ -21,6 +21,7 @@ class UserStatusGamefication extends Model
 
     /***
      * Ao modificar a nota do aluno, é recalculada a quantidade de moedas.
+     * Se a nota atual for maior que a anterior,
      * Seu status global deve receber as novas e excluir as últimas ganhas
      * pela mesma atividade, pois já não valem mais após retificação.
      * @param $newCoins
@@ -29,6 +30,11 @@ class UserStatusGamefication extends Model
      */
     public function recalculateCoins(int $newCoins, int $oldCoins): int
     {
-        return ($this->coins - $oldCoins) + $newCoins;
+        if($newCoins > $oldCoins)
+        {
+            return ($this->coins - $oldCoins) + $newCoins;
+        } else {
+            return $this->coins - ($newCoins - $oldCoins);
+        }
     }
 }

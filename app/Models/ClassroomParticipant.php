@@ -52,7 +52,12 @@ class ClassroomParticipant extends Model
      */
     public function recalculateXp(int $newXp, int $oldXp): int
     {
-        return ($this->xp - $oldXp) + $newXp;
+        if($newXp > $oldXp)
+        {
+            return ($this->xp - $oldXp) + $newXp;
+        } else {
+            return $this->xp - ($newXp - $oldXp);
+        }
     }
 
     /***
