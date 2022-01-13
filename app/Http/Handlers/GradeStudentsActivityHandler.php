@@ -34,15 +34,12 @@ class GradeStudentsActivityHandler
                 ->whereNotNull('delivered_at')
                 ->whereIn('user_id', $studentIds)
                 ->chunkById(100, function($records) use ($request, $activity) {
-                    foreach($records as $record)
+                    foreach($records as $userActivity)
                     {
                         //get data from request
-                        $student = self::getStudentFromRequest($request, $record);
+                        $student = self::getStudentFromRequest($request, $userActivity);
                         $grade = $student['grade'];
                         $studentId = $student['id'];
-
-                        //get data from db
-                        $userActivity = UserActivity::findByKeys($student['id'], $activity->id);
 
                         //calculate xp and coins by grade
                         $xp = $activity->calcXpFromStudentGrade($grade);
@@ -56,7 +53,7 @@ class GradeStudentsActivityHandler
 
                         if($userActivity->alreadyScored())
                         {
-                            $globalStatus->coins += $globalStatus->recalculateCoins($coins, $activity->coins);
+                            $globalStatus->coins += $globalStatus->recalculateCoins($coins, $userActivity->coins);
                         } else {
                             $globalStatus->coins += $coins;
                         }
@@ -69,7 +66,7 @@ class GradeStudentsActivityHandler
 
                         if($userActivity->alreadyScored())
                         {
-                            $classroomStatus->xp += $classroomStatus->recalculateXp($xp, $activity->xp);
+                            $classroomStatus->xp += $classroomStatus->recalculateXp($xp, $userActivity->xp);
                         } else {
                             $classroomStatus->xp += $xp;
                         }
