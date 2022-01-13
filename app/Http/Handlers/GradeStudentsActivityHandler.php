@@ -66,7 +66,7 @@ class GradeStudentsActivityHandler
 
                         if($userActivity->alreadyScored())
                         {
-                            $classroomStatus->xp += $classroomStatus->recalculateXp($xp, $userActivity->xp);
+                            $classroomStatus->xp += $classroomStatus->recalculateXp($grade, $xp, $userActivity->points, $userActivity->xp);
                         } else {
                             $classroomStatus->xp += $xp;
                         }
