@@ -17,6 +17,8 @@ class ClassroomParticipant extends Model
     protected $fillable = [
         'user_id',
         'classroom_id',
+        'xp',
+        'level_id'
     ];
 
     /***
@@ -31,5 +33,24 @@ class ClassroomParticipant extends Model
             'user_id' => $creatorId,
             'classroom_id' => $classroomId,
         ]);
+    }
+
+    public function levelUp($classroom, $xp)
+    {
+        foreach($classroom->levels as $levelOfClassroom)
+        {
+            if($levelOfClassroom->xp <= $xp) {
+                $newLevel = $levelOfClassroom->id;
+            }
+        }
+
+        $this->xp += $xp;
+
+        if($newLevel != $this->level_id)
+        {
+            $this->level_id = $newLevel;
+        }
+
+        $this->save();
     }
 }

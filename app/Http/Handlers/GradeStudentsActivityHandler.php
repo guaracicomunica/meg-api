@@ -4,6 +4,7 @@ namespace App\Http\Handlers;
 
 use App\Http\Requests\GradeStudentsActivityRequest;
 use App\Models\Activity;
+use App\Models\ClassroomParticipant;
 use App\Models\UserActivity;
 use App\Models\UserStatusGamefication;
 use Carbon\Carbon;
@@ -18,7 +19,11 @@ class GradeStudentsActivityHandler
     {
         try {
             DB::beginTransaction();
-            $activity = Activity::findOrFail($request->get('activity_id'));
+
+            $activity = Activity::with([
+                'post.classroom',
+                'post.classroom.levels'
+            ])->findOrFail($request->get('activity_id'));
 
             $studentIds = array_map(function($item){
                 return $item['id'];
@@ -48,12 +53,20 @@ class GradeStudentsActivityHandler
 
                         $gamification = UserStatusGamefication::firstOrCreate(
                             ['user_id' => $student['id']],
-                            ['points' => 0, 'coins' => 0, 'user_id' => $student['id']]
+                            ['coins' => 0, 'user_id' => $student['id']]
                         );
 
-                        $gamification->xp += $xp;
                         $gamification->coins += $coins;
                         $gamification->save();
+
+                        $classroom = $activity->post->classroom;
+
+                        $participant = ClassroomParticipant::
+                            where('user_id', $student['id'])
+                            ->where('classroom_id', $classroom->id)
+                            ->firstOrFail();
+
+                        $participant->levelUp($classroom, $xp);
                     }
                 });
             DB::commit();

@@ -31,7 +31,7 @@ class Post extends Model
 
     public function classroom(): BelongsTo
     {
-        return $this->belongsTo(Post::class);
+        return $this->belongsTo(Classroom::class);
     }
 
     public function comments(): HasMany

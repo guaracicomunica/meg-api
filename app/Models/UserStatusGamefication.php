@@ -14,7 +14,6 @@ class UserStatusGamefication extends Model
     protected $table = 'user_status_gamefications';
     protected $fillable = [
         'coins',
-        'xp',
         'user_id',
         'created_at',
         'updated_at',
