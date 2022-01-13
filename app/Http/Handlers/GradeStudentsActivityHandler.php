@@ -53,7 +53,7 @@ class GradeStudentsActivityHandler
 
                         if($userActivity->alreadyScored())
                         {
-                            $globalStatus->coins += $globalStatus->recalculateCoins($coins, $userActivity->coins);
+                            $globalStatus->coins = $globalStatus->recalculateCoins($coins, $userActivity->coins);
                         } else {
                             $globalStatus->coins += $coins;
                         }
@@ -66,7 +66,7 @@ class GradeStudentsActivityHandler
 
                         if($userActivity->alreadyScored())
                         {
-                            $classroomStatus->xp += $classroomStatus->recalculateXp($grade, $xp, $userActivity->points, $userActivity->xp);
+                            $classroomStatus->xp = $classroomStatus->recalculateXp($xp, $userActivity->xp);
                         } else {
                             $classroomStatus->xp += $xp;
                         }
