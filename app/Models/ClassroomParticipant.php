@@ -37,6 +37,8 @@ class ClassroomParticipant extends Model
 
     public function levelUp($classroom, $xp)
     {
+        $newLevel = null;
+
         foreach($classroom->levels as $levelOfClassroom)
         {
             if($levelOfClassroom->xp <= $xp) {
