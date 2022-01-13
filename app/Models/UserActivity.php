@@ -32,7 +32,7 @@ class UserActivity extends Model
             ->firstOrFail();
     }
 
-    public function updateActivitySituation(float $grade, int $xp, int $coins)
+    public function updateActivitySituation(float $grade, int $xp, int $coins): bool
     {
         return $this->update([
             'points' => $grade,
@@ -40,5 +40,10 @@ class UserActivity extends Model
             'coins' => $coins,
             'scored_at' => Carbon::now(),
         ]);
+    }
+
+    public function alreadyScored(): bool
+    {
+        return $this->scored_at != null;
     }
 }

@@ -35,6 +35,13 @@ class ClassroomParticipant extends Model
         ]);
     }
 
+    public static function findByKeys(int $studentId, int $classroomId)
+    {
+        return self::where('user_id', $studentId)
+            ->where('classroom_id', $classroomId)
+            ->firstOrFail();
+    }
+
     public function levelUp($classroom, $userActivity, $previousRecord)
     {
         $newLevel = null;
