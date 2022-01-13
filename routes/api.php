@@ -106,7 +106,8 @@ Route::group([
 Route::group([
     'prefix' => 'comments',
 ], function ($router) {
-    Route::get('{id}', [CommentController::class, 'index']);
+    Route::get('{id}', [CommentController::class, 'index']); //publicos
+    Route::get('{id}/privates', [CommentController::class, 'getAllPrivate']); //privados
     Route::post('', [CommentController::class, 'store']);
     Route::delete('{id}',[CommentController::class, 'delete']);
 });
