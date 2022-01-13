@@ -44,19 +44,27 @@ class GradeStudentsActivityHandler
                             'points' => $student['grade'],
                             'xp' => $xp,
                             'coins' => $coins,
+                            'scored_at' => Carbon::now()
                         ];
 
-                        UserActivity::
+                        $userActivity = UserActivity::
                             where('user_id', $student['id'])
-                            ->where('activity_id', $activity->id)
-                            ->update($data);
+                            ->where('activity_id', $activity->id)->firstOrFail();
+
+                        $userActivity->update($data);
 
                         $gamification = UserStatusGamefication::firstOrCreate(
                             ['user_id' => $student['id']],
                             ['coins' => 0, 'user_id' => $student['id']]
                         );
 
-                        $gamification->coins += $coins;
+                        if($userActivity->scored_at != null)
+                        {
+                            $gamification->coins += $coins;
+                        } else {
+                            $gamification->coins = $coins;
+                        }
+
                         $gamification->save();
 
                         $classroom = $activity->post->classroom;
@@ -66,7 +74,7 @@ class GradeStudentsActivityHandler
                             ->where('classroom_id', $classroom->id)
                             ->firstOrFail();
 
-                        $participant->levelUp($classroom, $xp);
+                        $participant->levelUp($classroom, $userActivity);
                     }
                 });
             DB::commit();

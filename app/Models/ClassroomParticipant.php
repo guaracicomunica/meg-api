@@ -35,18 +35,23 @@ class ClassroomParticipant extends Model
         ]);
     }
 
-    public function levelUp($classroom, $xp)
+    public function levelUp($classroom, $userActivity)
     {
         $newLevel = null;
 
         foreach($classroom->levels as $levelOfClassroom)
         {
-            if($levelOfClassroom->xp <= $xp) {
+            if($levelOfClassroom->xp <= $userActivity->xp) {
                 $newLevel = $levelOfClassroom->id;
             }
         }
 
-        $this->xp += $xp;
+        if($userActivity->scored_at != null)
+        {
+            $this->xp += $userActivity->xp;
+        } else {
+            $this->xp = $userActivity->xp;
+        }
 
         if($newLevel != $this->level_id)
         {
