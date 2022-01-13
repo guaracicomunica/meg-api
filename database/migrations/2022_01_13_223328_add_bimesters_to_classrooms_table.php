@@ -14,7 +14,7 @@ class AddBimestersToClassroomsTable extends Migration
     public function up()
     {
         Schema::table('classrooms', function (Blueprint $table) {
-            $table->boolean('is_anual')->default(true);
+            $table->boolean('is_annual')->default(true);
         });
     }
 
@@ -26,7 +26,7 @@ class AddBimestersToClassroomsTable extends Migration
     public function down()
     {
         Schema::table('classrooms', function (Blueprint $table) {
-            $table->dropColumn('is_anual');
+            $table->dropColumn('is_annual');
         });
     }
 }
