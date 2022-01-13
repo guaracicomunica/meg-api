@@ -36,37 +36,51 @@ class GradeStudentsActivityHandler
                 ->chunkById(100, function($records) use ($request, $activity) {
                     foreach($records as $record)
                     {
-                        //map data from request
+                        //get data from request
                         $student = self::getStudentFromRequest($request, $record);
                         $grade = $student['grade'];
                         $studentId = $student['id'];
 
+                        //get data from db
+                        $userActivity = UserActivity::findByKeys($student['id'], $activity->id);
+
                         //calculate xp and coins by grade
                         $xp = $activity->calcXpFromStudentGrade($grade);
                         $coins = $activity->calcCoinsFromStudentGrade($grade);
-
-                        //find activity and update situation
-                        $userActivity = UserActivity::findByKeys($student['id'], $activity->id);
-                        $oldCoins = $userActivity->coins;
-                        $userActivity->updateActivitySituation($grade, $xp, $coins);
 
                         //update student global status (quantity of coins)
                         $globalStatus = UserStatusGamefication::firstOrCreate(
                             ['user_id' => $studentId],
                             ['coins' => 0, 'user_id' => $studentId]
                         );
+
                         if($userActivity->alreadyScored())
                         {
-                            $globalStatus->coins += $globalStatus->recalculateCoins($coins, $oldCoins);
+                            $globalStatus->coins += $globalStatus->recalculateCoins($coins, $activity->coins);
                         } else {
                             $globalStatus->coins += $coins;
                         }
+
                         $globalStatus->save();
 
-                        //update classroom status (student xp) and level up if must
+                        //update classroom status (student xp)
                         $classroom = $activity->post->classroom;
                         $classroomStatus = ClassroomParticipant::findByKeys($studentId, $classroom->id);
 
+                        if($userActivity->alreadyScored())
+                        {
+                            $classroomStatus->xp += $classroomStatus->recalculateXp($xp, $activity->xp);
+                        } else {
+                            $classroomStatus->xp += $xp;
+                        }
+
+                        //try level up student
+                        $classroomStatus->tryLevelUp($classroom->levels, $xp);
+
+                        $classroomStatus->save();
+
+                        //update activity situation
+                        $userActivity->updateActivitySituation($grade, $xp, $coins);
                     }
                 });
             DB::commit();

@@ -42,33 +42,39 @@ class ClassroomParticipant extends Model
             ->firstOrFail();
     }
 
-    public function levelUp($classroom, $userActivity, $previousRecord)
+    /***
+     * Ao modificar a nota do aluno, é recalculada a quantidade de xp.
+     * Seu status da turma deve receber a quantidade e excluir a última ganha
+     * pela mesma atividade, pois já não vale mais após retificação.
+     * @param $newXp
+     * @param $oldXp
+     * @return int
+     */
+    public function recalculateXp(int $newXp, int $oldXp): int
+    {
+        return ($this->xp - $oldXp) + $newXp;
+    }
+
+    /***
+     * Seta novo nível para aluno caso tenha obtido quantidade de xp suficiente.
+     * @param $levelsOfClassroom
+     * @param $currentStudentXp
+     * @return void
+     */
+    public function tryLevelUp($levelsOfClassroom, $currentStudentXp)
     {
         $newLevel = null;
 
-        foreach($classroom->levels as $levelOfClassroom)
+        foreach($levelsOfClassroom as $levelOfClassroom)
         {
-            if($levelOfClassroom->xp <= $userActivity->xp) {
+            if($levelOfClassroom->xp <= $currentStudentXp) {
                 $newLevel = $levelOfClassroom->id;
             }
-        }
-
-        /*
-         * se houver nota previamente dada a usuário, remova a quantidade de xp adicionado ao seu perfil na turma
-         * e atualize-o com base na nova nota.
-         * **/
-        if($userActivity->scored_at != null)
-        {
-            $this->xp += ($this->xp - $previousRecord->xp) + $userActivity->xp;
-        } else {
-            $this->xp += $userActivity->xp;
         }
 
         if($newLevel != $this->level_id)
         {
             $this->level_id = $newLevel;
         }
-
-        $this->save();
     }
 }
