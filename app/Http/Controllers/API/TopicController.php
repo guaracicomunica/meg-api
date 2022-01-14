@@ -43,6 +43,16 @@ class TopicController extends Controller
     }
 
     /**
+     * @param int $id
+     * @return JsonResponse
+     */
+    public function getByClassroomId(int $id) : JsonResponse
+    {
+        return response()->json(Topic::where('classroom_id', $id)->get());
+    }
+
+
+    /**
      * @param CreateTopicRequest $request
      * @return JsonResponse
      */

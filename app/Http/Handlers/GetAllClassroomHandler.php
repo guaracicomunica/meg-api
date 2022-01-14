@@ -19,6 +19,7 @@ class GetAllClassroomHandler
             ->with([
                 'levels',
                 'skills',
+                'topics',
                 'participants' => function($query) {
                     $query->where('role_id', 2)->select('email');
                 }
