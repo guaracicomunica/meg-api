@@ -126,5 +126,6 @@ Route::group([
     'prefix' => 'report-cards'
 ], function($router){
     Route::get('', [ReportCardController::class, 'index']);
+    Route::get('student', [ReportCardController::class, 'show']);
     Route::post('', [ReportCardController::class, 'store']);
 });

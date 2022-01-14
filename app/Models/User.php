@@ -72,6 +72,11 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
         return $this->isTeacher() && $this->isMemberOfClassroom($classroomId);
     }
 
+    public function isStudentOfClassroom($classroomId)
+    {
+        return $this->isStudent() && $this->isMemberOfClassroom($classroomId);
+    }
+
     public function isStudent()
     {
         return $this->role_id == 3;
