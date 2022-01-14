@@ -96,6 +96,7 @@ Route::group([
     'prefix' => 'activities',
 ], function ($router) {
     Route::get('', [ActivityController::class, 'index']);
+    Route::get('solvers', [ActivityController::class, 'getSolvers']);
     Route::get('{id}', [ActivityController::class, 'show']);
     Route::post('', [ActivityController::class, 'store']);
     Route::post('delivery', [ActivityController::class, 'delivery']);

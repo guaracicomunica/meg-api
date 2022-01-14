@@ -30,6 +30,11 @@ class UserActivity extends Model
         return $this->belongsTo(Activity::class, 'activity_id');
     }
 
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
     public static function findByKeys(int $studentId, int $activityId)
     {
         return self::where('user_id', $studentId)
