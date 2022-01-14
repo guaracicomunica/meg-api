@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateUsersClassrooms extends Migration
+class CreateReportCardsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,19 +13,19 @@ class CreateUsersClassrooms extends Migration
      */
     public function up()
     {
-        Schema::create('users_classrooms', function (Blueprint $table) {
+        Schema::create('report_cards', function (Blueprint $table) {
             $table->id();
+
+            $table->decimal('average', 5, 2)->default(0);
 
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
 
-            $table->integer('xp')->default(0);
-
-            $table->unsignedBigInteger('level_id')->nullable();
-            $table->foreign('level_id')->references('id')->on('levels');
-
             $table->unsignedBigInteger('classroom_id');
             $table->foreign('classroom_id')->references('id')->on('classrooms');
+
+            $table->unsignedBigInteger('unit_id');
+            $table->foreign('unit_id')->references('id')->on('units');
 
             $table->timestamps();
         });
@@ -38,6 +38,6 @@ class CreateUsersClassrooms extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users_classrooms');
+        Schema::dropIfExists('report_cards');
     }
 }

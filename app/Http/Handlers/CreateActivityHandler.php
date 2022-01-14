@@ -38,6 +38,7 @@ class CreateActivityHandler
                 'points' => $data['points'],
                 'post_id' => $post->id,
                 'topic_id' => $data['topic_id'],
+                'unit_id' => $data['unit_id'],
             ];
 
             //cria atividade

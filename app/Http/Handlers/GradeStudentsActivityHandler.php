@@ -4,42 +4,97 @@ namespace App\Http\Handlers;
 
 use App\Http\Requests\GradeStudentsActivityRequest;
 use App\Models\Activity;
+use App\Models\ClassroomParticipant;
+use App\Models\UserActivity;
+use App\Models\UserStatusGamefication;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
 class GradeStudentsActivityHandler
 {
+    /**
+     * @throws \Exception
+     */
     public static function handle(GradeStudentsActivityRequest $request)
     {
-        $activity = Activity::findOrFail($request->get('activity_id'));
+        try {
+            DB::beginTransaction();
 
-        $studentIds = array_map(function($item){
-            return $item['id'];
-        }, $request->get('users'));
+            $activity = Activity::with([
+                'post.classroom',
+                'post.classroom.levels'
+            ])->findOrFail($request->get('activity_id'));
 
-        DB::table('users_activities')
-            ->where('activity_id', $request->get('activity_id'))
-            ->whereNotNull('delivered_at')
-            ->whereNull('scored_at')
-            ->whereIn('user_id', $studentIds)
-            ->chunkById(100, function() use ($request, $activity) {
-                foreach($request->get('users') as $student)
-                {
-                    DB::table('users_activities')
-                        ->where('user_id', $student['id'])
-                        ->update([
-                            'points' => $student['grade'],
-                            'xp' => $activity->calcXpFromStudentGrade($student['grade']),
-                            'coins' => $activity->calcCoinsFromStudentGrade($student['grade']),
-                            'scored_at' => Carbon::now(),
-                            'updated_at' => Carbon::now(),
-                        ]);
-                }
-            });
+            $studentIds = array_map(function($item){
+                return $item['id'];
+            }, $request->get('users'));
+
+            UserActivity::
+                where('activity_id', $request->get('activity_id'))
+                ->whereNotNull('delivered_at')
+                ->whereIn('user_id', $studentIds)
+                ->chunkById(100, function($records) use ($request, $activity) {
+                    foreach($records as $userActivity)
+                    {
+                        //get data from request
+                        $student = self::getStudentFromRequest($request, $userActivity);
+                        $grade = $student['grade'];
+                        $studentId = $student['id'];
+
+                        //calculate xp and coins by grade
+                        $xp = $activity->calcXpFromStudentGrade($grade);
+                        $coins = $activity->calcCoinsFromStudentGrade($grade);
+
+                        //update student global status (quantity of coins)
+                        $globalStatus = UserStatusGamefication::firstOrCreate(
+                            ['user_id' => $studentId],
+                            ['coins' => 0, 'user_id' => $studentId]
+                        );
+
+                        if($userActivity->alreadyScored())
+                        {
+                            $globalStatus->coins = $globalStatus->recalculateCoins($coins, $userActivity->coins);
+                        } else {
+                            $globalStatus->coins += $coins;
+                        }
+
+                        $globalStatus->save();
+
+                        //update classroom status (student xp)
+                        $classroom = $activity->post->classroom;
+                        $classroomStatus = ClassroomParticipant::findByKeys($studentId, $classroom->id);
+
+                        if($userActivity->alreadyScored())
+                        {
+                            $classroomStatus->xp = $classroomStatus->recalculateXp($xp, $userActivity->xp);
+                        } else {
+                            $classroomStatus->xp += $xp;
+                        }
+
+                        //try level up student
+                        $classroomStatus->tryLevelUp($classroom->levels, $xp);
+
+                        $classroomStatus->save();
+
+                        //update activity situation
+                        $userActivity->updateActivitySituation($grade, $xp, $coins);
+                    }
+                });
+            DB::commit();
+        } catch(\Exception $ex)
+        {
+            DB::rollBack();
+            throw $ex;
+        }
     }
 
-    public static function grade($students, $activity)
+    private static function getStudentFromRequest($request, $record)
     {
-
+        return array_filter(
+            $request->get('users'),
+            function($item) use ($record) {
+                return $item['id'] == $record->user_id;
+            }
+        )[0];
     }
 }

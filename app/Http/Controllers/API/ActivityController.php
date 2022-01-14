@@ -6,10 +6,12 @@ use App\Http\Controllers\Controller;
 use App\Http\Handlers\CreateActivityHandler;
 use App\Http\Handlers\DeliveryActivityHandler;
 use App\Http\Handlers\GetAllActivityHandler;
+use App\Http\Handlers\GetAllSolversActivityHandler;
 use App\Http\Handlers\GetOneActivityHandler;
 use App\Http\Handlers\GradeStudentsActivityHandler;
 use App\Http\Requests\CreateActivityRequest;
 use App\Http\Requests\DeliveryActivityRequest;
+use App\Http\Requests\GetAllSolversActivityRequest;
 use App\Http\Requests\GradeStudentsActivityRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -26,9 +28,9 @@ class ActivityController extends Controller
         $this->middleware('auth:api');
     }
 
-    public function index() : JsonResponse
+    public function index(Request $request) : JsonResponse
     {
-        $result = GetAllActivityHandler::handle();
+        $result = GetAllActivityHandler::handle($request);
         return response()->json($result);
     }
 
@@ -44,6 +46,16 @@ class ActivityController extends Controller
         return response()->json([
             'message' => 'activity successfully registered'
         ]);
+    }
+
+    /***
+     * @param GetAllSolversActivityRequest $request
+     * @return JsonResponse
+     */
+    public function getSolvers(GetAllSolversActivityRequest $request) : JsonResponse
+    {
+        $result = GetAllSolversActivityHandler::handle($request);
+        return response()->json($result);
     }
 
     /***

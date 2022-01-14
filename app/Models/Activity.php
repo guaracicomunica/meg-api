@@ -21,6 +21,7 @@ class Activity extends Model
         'deadline',
         'post_id',
         'topic_id',
+        'unit_id',
     ];
 
     protected $hidden = [
@@ -76,7 +77,7 @@ class Activity extends Model
 
         if(count($data) > 0)
         {
-            UserActivity::firstOrCreate($data);
+            DB::table('users_activities')->insert($data);
         }
     }
 

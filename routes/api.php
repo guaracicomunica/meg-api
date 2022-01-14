@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\API\ActivityController;
 use App\Http\Controllers\API\ClassroomController;
+use App\Http\Controllers\API\ReportCardController;
+use App\Http\Controllers\API\StoreController;
 use App\Http\Controllers\API\TopicController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\AuthController;
@@ -95,6 +97,7 @@ Route::group([
     'prefix' => 'activities',
 ], function ($router) {
     Route::get('', [ActivityController::class, 'index']);
+    Route::get('solvers', [ActivityController::class, 'getSolvers']);
     Route::get('{id}', [ActivityController::class, 'show']);
     Route::post('', [ActivityController::class, 'store']);
     Route::post('delivery', [ActivityController::class, 'delivery']);
@@ -106,7 +109,8 @@ Route::group([
 Route::group([
     'prefix' => 'comments',
 ], function ($router) {
-    Route::get('{id}', [CommentController::class, 'index']);
+    Route::get('{id}', [CommentController::class, 'index']); //publicos
+    Route::get('{id}/privates', [CommentController::class, 'getAllPrivate']); //privados
     Route::post('', [CommentController::class, 'store']);
     Route::delete('{id}',[CommentController::class, 'delete']);
 });
@@ -117,5 +121,21 @@ Route::group([
 ], function ($router) {
     Route::get('', [TopicController::class, 'index']);
     Route::get('{id}', [TopicController::class, 'getOne']);
+    Route::get('classroom/{id}', [TopicController::class, 'getByClassroomId']);
     Route::post('', [TopicController::class, 'store']);
+});
+
+Route::group([
+    'prefix' => 'report-cards'
+], function($router){
+    Route::get('', [ReportCardController::class, 'index']);
+    Route::get('student', [ReportCardController::class, 'show']);
+    Route::post('', [ReportCardController::class, 'store']);
+});
+
+Route::group([
+    'prefix' => 'store',
+], function ($router) {
+    Route::get('skills', [StoreController::class, 'showClaimedSkills']);
+    Route::post('skills', [StoreController::class, 'buySkill']);
 });

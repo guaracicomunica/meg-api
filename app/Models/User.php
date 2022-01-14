@@ -72,6 +72,11 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
         return $this->isTeacher() && $this->isMemberOfClassroom($classroomId);
     }
 
+    public function isStudentOfClassroom($classroomId)
+    {
+        return $this->isStudent() && $this->isMemberOfClassroom($classroomId);
+    }
+
     public function isStudent()
     {
         return $this->role_id == 3;
@@ -80,6 +85,11 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
     public function role()
     {
         return $this->belongsTo(Role::class);
+    }
+
+    public function activities()
+    {
+        return $this->belongsToMany(Activity::class, 'users_activities', 'user_id', 'activity_id');
     }
 
     public function classes()

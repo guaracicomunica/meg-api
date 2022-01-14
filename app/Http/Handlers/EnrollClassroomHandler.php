@@ -21,13 +21,13 @@ class EnrollClassroomHandler
 
             $classroomId = Classroom::where('code', $data['code'])->first()->id;
 
-            $validActivities = Activity::where('deadline', '>=', Carbon::now())->get();
+            $activities = Activity::all();
 
             DB::beginTransaction();
 
             ClassroomParticipant::assignParticipant($userId, $classroomId);
 
-            foreach($validActivities as $activity)
+            foreach($activities as $activity)
             {
                 $activity->assignToStudent($userId);
             }

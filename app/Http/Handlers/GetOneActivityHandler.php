@@ -8,8 +8,11 @@ class GetOneActivityHandler
 {
     public static function handle(int $id)
     {
-        return Activity::with(
-            ['post', 'post.comments', 'post.attachments']
-        )->findOrFail($id);
+        return Activity::with([
+                'post',
+                'post.attachments',
+                'post.comments' => function($query){
+                    $query->where('is_private', false);
+                }])->findOrFail($id);
     }
 }

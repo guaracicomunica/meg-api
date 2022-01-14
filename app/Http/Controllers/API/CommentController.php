@@ -22,7 +22,11 @@ class CommentController extends Controller
      */
     public function index(int $postId)
     {
-        $comments = Comment::with('creator')->where('post_id', $postId)->latest()->paginate();
+        $comments = Comment::with('creator')
+            ->where('post_id', $postId)
+            ->where('is_private', false)
+            ->latest()
+            ->paginate();
         $result = CommentResource::collection($comments);
         /*
          * id
@@ -30,6 +34,22 @@ class CommentController extends Controller
          * body
          * creator
          * */
+        return response()->json($result);
+    }
+
+    /***
+     *
+     * @param int $postId
+     * id do post associado ao comentário
+     */
+    public function getAllPrivate(int $postId)
+    {
+        $comments = Comment::with('creator')
+            ->where('post_id', $postId)
+            ->where('is_private', true)
+            ->latest()
+            ->paginate();
+        $result = CommentResource::collection($comments);
         return response()->json($result);
     }
 
