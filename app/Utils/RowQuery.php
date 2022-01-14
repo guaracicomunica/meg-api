@@ -20,6 +20,7 @@ class RowQuery
     /***
      * Display report card of classroom one student.
      * @param $classroomId
+     * @param $studentId
      * @return array
      */
     public static function getReportCardOfStudent($classroomId, $studentId)
