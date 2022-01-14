@@ -48,9 +48,15 @@ class Classroom extends Model
     {
         return $this->belongsTo(User::class, 'creator_id');
     }
+
     public function posts(): HasMany
     {
         return $this->hasMany(Post::class, 'classroom_id');
+    }
+
+    public function topics() : HasMany
+    {
+        return $this->hasMany(Topic::class, 'classroom_id');
     }
 
     public function teachers()

@@ -119,6 +119,7 @@ Route::group([
 ], function ($router) {
     Route::get('', [TopicController::class, 'index']);
     Route::get('{id}', [TopicController::class, 'getOne']);
+    Route::get('classroom/{id}', [TopicController::class, 'getByClassroomId']);
     Route::post('', [TopicController::class, 'store']);
 });
 
