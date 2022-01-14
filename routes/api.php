@@ -3,6 +3,7 @@
 use App\Http\Controllers\API\ActivityController;
 use App\Http\Controllers\API\ClassroomController;
 use App\Http\Controllers\API\ReportCardController;
+use App\Http\Controllers\API\StoreController;
 use App\Http\Controllers\API\TopicController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\AuthController;
@@ -130,4 +131,11 @@ Route::group([
     Route::get('', [ReportCardController::class, 'index']);
     Route::get('student', [ReportCardController::class, 'show']);
     Route::post('', [ReportCardController::class, 'store']);
+});
+
+Route::group([
+    'prefix' => 'store',
+], function ($router) {
+    Route::get('skills', [StoreController::class, 'showClaimedSkills']);
+    Route::post('skills', [StoreController::class, 'buySkill']);
 });
