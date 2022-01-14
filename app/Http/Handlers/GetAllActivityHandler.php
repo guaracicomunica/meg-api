@@ -2,12 +2,13 @@
 
 namespace App\Http\Handlers;
 
+use Illuminate\Http\Request;
 use App\Http\Requests\GetAllActivityRequest;
 use App\Models\Activity;
 
 class GetAllActivityHandler
 {
-    public static function handle()
+    public static function handle(Request $request)
     {
         return Activity::with([
                 'post',
@@ -15,6 +16,6 @@ class GetAllActivityHandler
                 'post.comments' => function($query){
                     $query->where('is_private', false);
                 }
-            ])->paginate();
+            ])->paginate($request->per_page);
     }
 }

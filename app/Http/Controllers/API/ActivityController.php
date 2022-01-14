@@ -14,6 +14,7 @@ use App\Http\Requests\DeliveryActivityRequest;
 use App\Http\Requests\GetAllSolversActivityRequest;
 use App\Http\Requests\GradeStudentsActivityRequest;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class ActivityController extends Controller
 {
@@ -27,9 +28,9 @@ class ActivityController extends Controller
         $this->middleware('auth:api');
     }
 
-    public function index() : JsonResponse
+    public function index(Request $request) : JsonResponse
     {
-        $result = GetAllActivityHandler::handle();
+        $result = GetAllActivityHandler::handle($request);
         return response()->json($result);
     }
 
