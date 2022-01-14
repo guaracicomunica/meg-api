@@ -5,11 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Bimester extends Model
+/**
+ * @method static create(string[] $array)
+ */
+class Unit extends Model
 {
     use HasFactory;
 
-    protected $table = 'bimesters';
+    protected $table = 'units';
 
     protected $fillable = [
         'name',

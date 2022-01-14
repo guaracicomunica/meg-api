@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddBimestersToClassroomsTable extends Migration
+class CreateUnitsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,10 @@ class AddBimestersToClassroomsTable extends Migration
      */
     public function up()
     {
-        Schema::table('classrooms', function (Blueprint $table) {
-            $table->boolean('is_annual')->default(true);
+        Schema::create('units', function (Blueprint $table) {
+            $table->id();
+            $table->string('name');
+            $table->timestamps();
         });
     }
 
@@ -25,8 +27,6 @@ class AddBimestersToClassroomsTable extends Migration
      */
     public function down()
     {
-        Schema::table('classrooms', function (Blueprint $table) {
-            $table->dropColumn('is_annual');
-        });
+        Schema::dropIfExists('units');
     }
 }

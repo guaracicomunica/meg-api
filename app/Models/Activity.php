@@ -21,6 +21,7 @@ class Activity extends Model
         'deadline',
         'post_id',
         'topic_id',
+        'unit_id',
     ];
 
     protected $hidden = [

@@ -36,6 +36,7 @@ class CreateActivityRequest extends FormRequest
             'disabled' => ['required', 'boolean'],
             'classroom_id' => ['required', 'numeric', 'exists:classrooms,id'],
             'topic_id' => ['required', 'numeric', 'exists:topics,id'],
+            'unit_id' => ['required', 'numeric', 'exists:units,id'],
             'attachments.*' => ['sometimes', 'file', 'max:3000', 'mimes:pdf,doc,docx'],
         ];
     }
@@ -85,6 +86,11 @@ class CreateActivityRequest extends FormRequest
             'topic_id.required' => 'O id do tópico é obrigatório',
             'topic_id.numeric' => 'O id do tópico deve estar em formato numérico',
             'topic_id.exists' => 'O tópico não foi encontrado',
+
+            //unit_id
+            'unit_id.required' => 'É obrigatório informar à qual unidade esta atividade será vinculada',
+            'unit_id.numeric' => 'O id da unidade deve estar em formato numérico',
+            'unit_id.exists' => 'A unidade não foi encontrada (existem até 4)',
 
             //files
             'attachments.*.max'  => 'Os arquivos precisam ter tamanho máximo de 3000KB',
