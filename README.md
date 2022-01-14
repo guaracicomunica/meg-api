@@ -41,11 +41,6 @@ Esse projeto foi desenvolvido com as seguintes tecnologias:
 - Uma vez configurado o ambiente, você pode executar:
     - `php artisan serve` 😃💘🌟
 
-## 😀Continue Estudando
-- [PHP Introductory Course](https://laracasts.com/series/php-for-beginners)
-- [Laravel Tips](https://www.youtube.com/playlist?list=PLi_gvjv-JgXqop7hgVKZMGPiT9rUYy1sr)
-- [Laravel Community](https://laracasts.com/discuss)
-
 ---
 
 Feito com ♥ by Guaraci development team.
