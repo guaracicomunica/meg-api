@@ -25,6 +25,11 @@ class UserActivity extends Model
 
     protected $table = 'users_activities';
 
+    public function activity()
+    {
+        return $this->belongsTo(Activity::class, 'activity_id');
+    }
+
     public static function findByKeys(int $studentId, int $activityId)
     {
         return self::where('user_id', $studentId)

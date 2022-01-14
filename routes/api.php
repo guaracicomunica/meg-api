@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\API\ActivityController;
 use App\Http\Controllers\API\ClassroomController;
+use App\Http\Controllers\API\ReportCardController;
 use App\Http\Controllers\API\TopicController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\API\AuthController;
@@ -119,4 +120,11 @@ Route::group([
     Route::get('', [TopicController::class, 'index']);
     Route::get('{id}', [TopicController::class, 'getOne']);
     Route::post('', [TopicController::class, 'store']);
+});
+
+Route::group([
+    'prefix' => 'report-cards'
+], function($router){
+    Route::get('', [ReportCardController::class, 'index']);
+    Route::post('', [ReportCardController::class, 'store']);
 });
