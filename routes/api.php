@@ -34,6 +34,7 @@ Route::group([
     Route::post('register', [AuthController::class, 'register']);
     Route::post('logout', [AuthController::class, 'logout'])->middleware('verified');
     Route::post('user', [AuthController::class, 'user'])->middleware('verified');
+    Route::post('refresh', [AuthController::class, 'refreshToken']);
 });
 
 
