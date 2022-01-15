@@ -4,12 +4,18 @@ namespace App\Http\Handlers;
 
 use App\Http\Requests\GetAllReportCardRequest;
 use App\Http\Resources\ReportCardResource;
+use App\Models\User;
 use App\Utils\RowQuery;
 
 class GetAllReportCardHandler
 {
     public static function handle(GetAllReportCardRequest $request)
     {
-        return RowQuery::getReportCard($request->get('classroom_id'));
+        $users = User::whereHas('reportCards',
+            function ($query) use ($request){
+                $query->where('classroom_id', $request->get('classroom_id'));
+        })->paginate($request->get('per_page'));
+
+        return ReportCardResource::collection($users)->response()->getData();
     }
 }
