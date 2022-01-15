@@ -38,6 +38,8 @@ class CreateActivityRequest extends FormRequest
             'topic_id' => ['required', 'numeric', 'exists:topics,id'],
             'unit_id' => ['required', 'numeric', 'exists:units,id'],
             'attachments.*' => ['sometimes', 'file', 'max:3000', 'mimes:jpeg,png,svg,doc,docx,pdf,xls,xlsx'],
+            'links' => ['sometimes', 'array'],
+            'links.*' => ['string'],
         ];
     }
 
@@ -96,6 +98,10 @@ class CreateActivityRequest extends FormRequest
             'attachments.*.max'  => 'Os arquivos precisam ter tamanho máximo de 3000KB',
             'attachments.*.file'  => 'Os arquivos precisam ser do tipo docx, doc ou pdf',
             'attachments.*.mimes'  => 'Os arquivos precisam ser do tipo docx, doc ou pdf',
+
+            //links
+            'links.array' => 'Espera-se os links em formato de array',
+            'links.*.string' => 'Espera-se links em formato de texto',
         ];
     }
 }

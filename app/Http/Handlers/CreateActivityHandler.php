@@ -55,6 +55,14 @@ class CreateActivityHandler
                     $postFile->uploadAttachments($file, $post->id);
                 }
 
+            if(isset($data['links']))
+            {
+                foreach ($data['links'] as $link)
+                {
+                    PostFile::firstOrCreate(['path' => $link, 'post_id' => $post->id]);
+                }
+            }
+
             DB::commit();
         } catch (\Throwable $ex)
         {
