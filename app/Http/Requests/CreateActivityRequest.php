@@ -29,7 +29,7 @@ class CreateActivityRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:100'],
             'body' => ['required', 'string', 'max:800'],
-            'deadline' => ['required', 'date_format:Y-m-d H:i:s' ],
+            'deadline' => ['required', 'date_format:Y-m-d H:i:s', 'after:'.date(DATE_ATOM, time())],
             'points' => ['required','numeric', 'between:1,100'],
             'coins' => ['required','numeric'],
             'xp' => ['required','numeric'],
@@ -61,8 +61,8 @@ class CreateActivityRequest extends FormRequest
 
             //post deadline
             'deadline.dateformat' => 'O prazo deve ser do tipo data e hora',
-            'deadline.required' => 'O preenchimento do prazo da atividade é necessário',
-
+            'deadline.required' => 'O preenchimento do prazo da atividade é obrigatório',
+            'deadline.after' => 'O prazo de entrega da atividade não pode anteceder a data de cadastro',
 
             //post points
             'points.required' => 'O preenchimento dos pontos da atividade é necessário',
