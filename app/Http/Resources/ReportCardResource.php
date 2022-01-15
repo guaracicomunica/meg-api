@@ -23,14 +23,14 @@ class ReportCardResource extends JsonResource
         ];
     }
 
-    public function getAverage($reportCards, $unit)
+    public function getAverage($reportCards, $unit) : float
     {
-        if($reportCards == null) return null;
+        if($reportCards == null) return 0;
 
         $filteredReports = $reportCards->filter(function($record) use ($unit) {
             return $record->unit_id == $unit;
         });
 
-        return count($filteredReports) > 0 ? $filteredReports->first()->average : null;
+        return count($filteredReports) > 0 ? $filteredReports->first()->average : 0;
     }
 }
