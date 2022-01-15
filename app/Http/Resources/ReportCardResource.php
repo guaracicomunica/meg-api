@@ -25,12 +25,12 @@ class ReportCardResource extends JsonResource
 
     public function getAverage($reportCards, $unit)
     {
-        if($reportCards == null) return '-';
+        if($reportCards == null) return null;
 
         $filteredReports = $reportCards->filter(function($record) use ($unit) {
             return $record->unit_id == $unit;
         });
 
-        return count($filteredReports) > 0 ? $filteredReports->first()->average : '-';
+        return count($filteredReports) > 0 ? $filteredReports->first()->average : null;
     }
 }
