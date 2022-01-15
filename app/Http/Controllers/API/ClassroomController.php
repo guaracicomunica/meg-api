@@ -69,7 +69,7 @@ class ClassroomController extends Controller
     }
 
     /***
-     * @param EnrollmentCancelationRequest $request
+     * @param EnrollmentCancellationRequest $request
      * @return JsonResponse
      */
     public function enrollmentCancellation(EnrollmentCancellationRequest $request): JsonResponse
