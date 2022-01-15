@@ -12,6 +12,7 @@ class GetAllSolversActivityHandler
     {
         return User::whereHas('activities', function($query) use ($request){
             $query->where('activities.id', $request->get('activity_id'));
+            $query->whereNotNull('delivered_at');
         })->paginate();
     }
 }
