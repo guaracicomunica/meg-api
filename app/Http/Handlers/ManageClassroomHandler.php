@@ -50,7 +50,7 @@ class ManageClassroomHandler
                 };
             } else {
                 if(isset($data['file'])) {
-                    $classroom->banner = $classroom->uploadFile($data['file'], "banners", $classroom->id);
+                    $classroom->banner = $classroom->uploadFile($data['file'], "banners", $classroom->id, true);
                 };
                 $classroom->updateSafely($assignedValues);
             }
