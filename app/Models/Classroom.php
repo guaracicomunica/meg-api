@@ -76,26 +76,6 @@ class Classroom extends Model
         return $this->hasMany(Post::class, 'classroom_id');
     }
 
-
-    /**
-     * Upload classroom's banner file to filesystem API
-     * @returns void
-     */
-    public function uploadBanner($file)
-    {
-        $path = File::saveAs(
-            "public/classrooms/{$this->id}",
-            $file,
-            "banner"
-        );
-
-        if($path != null)
-        {
-            $this->banner = $path;
-
-            $this->save();
-        }
-    }
     /**
      * Upload classroom's file related to filesystem's API
      * @returns string

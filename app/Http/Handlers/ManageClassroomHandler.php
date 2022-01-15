@@ -45,11 +45,13 @@ class ManageClassroomHandler
                 $classroom = Classroom::create($assignedValues);
 
                 if(isset($data['file'])) {
-                    $classroom->uploadBanner($data['file']);
+                    $classroom->banner = $classroom->uploadFile($data['file'], "banners", $classroom->id);
                     $classroom->save();
                 };
             } else {
-                if(isset($data['file'])) $classroom->uploadBanner($data['file']);
+                if(isset($data['file'])) {
+                    $classroom->banner = $classroom->uploadFile($data['file'], "banners", $classroom->id);
+                };
                 $classroom->updateSafely($assignedValues);
             }
 
