@@ -3,7 +3,7 @@
 namespace App\Http\Handlers;
 
 use App\Http\Requests\GetAllReportCardRequest;
-use App\Http\Resources\ReportCardResource;
+use App\Http\Resources\ReportCardTeacherResource;
 use App\Models\User;
 use App\Utils\RowQuery;
 
@@ -16,6 +16,6 @@ class GetAllReportCardHandler
                 $query->where('classroom_id', $request->get('classroom_id'));
         })->paginate($request->get('per_page'));
 
-        return ReportCardResource::collection($users)->response()->getData();
+        return ReportCardTeacherResource::collection($users)->response()->getData();
     }
 }
