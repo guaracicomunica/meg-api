@@ -40,4 +40,9 @@ class PostFile extends Model
             $this->save();
         }
     }
+
+    public function getPathAttribute($value)
+    {
+        return is_null($value) ? $value : File::formatLink($value);
+    }
 }
