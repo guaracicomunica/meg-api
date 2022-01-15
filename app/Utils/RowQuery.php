@@ -13,7 +13,7 @@ class RowQuery
      */
     public static function getReportCard($classroomId): array
     {
-        return DB::select(self::getQuery($classroomId));
+        return DB::select(self::getQuery($classroomId, null));
     }
 
 

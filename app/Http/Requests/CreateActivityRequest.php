@@ -29,7 +29,7 @@ class CreateActivityRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:100'],
             'body' => ['required', 'string', 'max:800'],
-            'deadline' => ['required', 'date_format:Y-m-d H:i:s' ],
+            'deadline' => ['required', 'date_format:Y-m-d H:i:s', 'after:'.date(DATE_ATOM, time())],
             'points' => ['required','numeric', 'between:1,100'],
             'coins' => ['required','numeric'],
             'xp' => ['required','numeric'],
@@ -37,7 +37,9 @@ class CreateActivityRequest extends FormRequest
             'classroom_id' => ['required', 'numeric', 'exists:classrooms,id'],
             'topic_id' => ['required', 'numeric', 'exists:topics,id'],
             'unit_id' => ['required', 'numeric', 'exists:units,id'],
-            'attachments.*' => ['sometimes', 'file', 'max:3000', 'mimes:pdf,doc,docx'],
+            'attachments.*' => ['sometimes', 'file', 'max:3000', 'mimes:jpeg,png,svg,doc,docx,pdf,xls,xlsx'],
+            'links' => ['sometimes', 'array'],
+            'links.*' => ['string'],
         ];
     }
 
@@ -61,8 +63,8 @@ class CreateActivityRequest extends FormRequest
 
             //post deadline
             'deadline.dateformat' => 'O prazo deve ser do tipo data e hora',
-            'deadline.required' => 'O preenchimento do prazo da atividade é necessário',
-
+            'deadline.required' => 'O preenchimento do prazo da atividade é obrigatório',
+            'deadline.after' => 'O prazo de entrega da atividade não pode anteceder a data de cadastro',
 
             //post points
             'points.required' => 'O preenchimento dos pontos da atividade é necessário',
@@ -96,6 +98,10 @@ class CreateActivityRequest extends FormRequest
             'attachments.*.max'  => 'Os arquivos precisam ter tamanho máximo de 3000KB',
             'attachments.*.file'  => 'Os arquivos precisam ser do tipo docx, doc ou pdf',
             'attachments.*.mimes'  => 'Os arquivos precisam ser do tipo docx, doc ou pdf',
+
+            //links
+            'links.array' => 'Espera-se os links em formato de array',
+            'links.*.string' => 'Espera-se links em formato de texto',
         ];
     }
 }
