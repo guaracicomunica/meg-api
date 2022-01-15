@@ -25,7 +25,7 @@ class CreatePostRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required', 'string', 'max:100'],
+            'name' => ['sometimes', 'string', 'max:100'],
             'body' => ['required', 'string', 'max:800'],
             'disabled' => ['sometimes', 'boolean'],
             'is_private' => ['required', 'boolean'],
