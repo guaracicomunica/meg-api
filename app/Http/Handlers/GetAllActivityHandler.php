@@ -19,8 +19,8 @@ class GetAllActivityHandler
                     }
                     $query->when(
                         $request->get('classroom_id'),
-                        function($query, $request){
-                            $query->where('classroom_id', $request->get('classroom_id'));
+                        function($query, $classroomId){
+                            $query->where('classroom_id', $classroomId);
                     });
                 },
                 'post.attachments',
@@ -28,8 +28,8 @@ class GetAllActivityHandler
                     $query->where('is_private', false);
                 }
             ])->when($request->get('topic_id'),
-                function($query, $request){
-                    $query->where('topic_id', $request->get('topic_id'));
+                function($query, $topicId){
+                    $query->where('topic_id', $topicId);
                 })
             ->paginate($request->per_page);
     }
