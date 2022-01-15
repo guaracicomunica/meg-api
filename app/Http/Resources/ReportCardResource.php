@@ -16,12 +16,21 @@ class ReportCardResource extends JsonResource
     {
         return [
             'user' => $this->name,
-            'averages' => $this->reportCards->map(function($item) {
-                return [
-                    'unit' => $item->id,
-                    'average' => $item->average
-                ];
-            }),
+            'bim1' => $this->getAverage($this->reportCards, 1),
+            'bim2' => $this->getAverage($this->reportCards, 2),
+            'bim3' => $this->getAverage($this->reportCards, 3),
+            'bim4' => $this->getAverage($this->reportCards, 4),
         ];
+    }
+
+    public function getAverage($reportCards, $unit)
+    {
+        if($reportCards == null) return '-';
+
+        $filteredReports = $reportCards->filter(function($record) use ($unit) {
+            return $record->unit_id == $unit;
+        });
+
+        return count($filteredReports) > 0 ? $filteredReports->first()->average : '-';
     }
 }
