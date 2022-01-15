@@ -37,7 +37,7 @@ class CreateActivityRequest extends FormRequest
             'classroom_id' => ['required', 'numeric', 'exists:classrooms,id'],
             'topic_id' => ['required', 'numeric', 'exists:topics,id'],
             'unit_id' => ['required', 'numeric', 'exists:units,id'],
-            'attachments.*' => ['sometimes', 'file', 'max:3000', 'mimes:pdf,doc,docx'],
+            'attachments.*' => ['sometimes', 'file', 'max:3000', 'mimes:jpeg,png,svg,doc,docx,pdf,xls,xlsx'],
         ];
     }
 
