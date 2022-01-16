@@ -17,10 +17,9 @@ class GetAllSolversActivityHandler
             'activity.attachments'
         ])
             ->where('activity_id', $request->get('activity_id'))
-            ->whereNotNull('delivered_at')
             ->paginate($request->get('per_page'));
 
-        $totalDeliveredActivities = count($records);
+        $totalDeliveredActivities = UserActivity::where('activity_id', $request->get('activity_id'))->whereNotNull('delivered_at')->count();
         $totalAssignments = UserActivity::where('activity_id', $request->get('activity_id'))->count();
 
         return [
