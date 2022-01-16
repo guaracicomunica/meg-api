@@ -11,15 +11,22 @@ class GetAllSolversActivityHandler
 {
     public static function handle(GetAllSolversActivityRequest $request)
     {
-        $users = UserActivity::with([
+        $records = UserActivity::with([
             'user',
             'activity',
             'activity.attachments'
         ])
             ->where('activity_id', $request->get('activity_id'))
             ->whereNotNull('delivered_at')
-            ->paginate();
+            ->paginate($request->get('per_page'));
 
-        return SolverResource::collection($users)->response()->getData();
+        $totalDeliveredActivities = count($records);
+        $totalAssignments = UserActivity::where('activity_id', $request->get('activity_id'))->count();
+
+        return [
+            'totalDeliveredActivities' => $totalDeliveredActivities,
+            'totalAssignments' => $totalAssignments,
+            'users' => SolverResource::collection($records)
+        ];
     }
 }
