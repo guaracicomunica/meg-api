@@ -46,7 +46,7 @@ class DeliveryActivityRequest extends FormRequest
             //activity_id
             'activity_id.required' => 'É obrigatório informar a atividade',
             'activity_id.numeric' => 'O id da atividade deve estar em formato numérico',
-            'activity_id.exists' => 'A atividade não existe',
+            'activity_id.exists' => 'Não há usuários atribuídos para entregar esta atividade',
         ];
     }
 }
