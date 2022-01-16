@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\UserActivity;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class ActivityResource extends JsonResource
@@ -23,9 +24,12 @@ class ActivityResource extends JsonResource
             'deadline' => $this->deadline,
             'points' => floatval($this->points),
             'topicId' => $this->topic_id,
+            'postId' => $this->post_id,
             'disabled' => $this->post->disabled,
             'comments' => CommentResource::collection($this->post->comments),
-            'attachments' => AttachmentsResource::collection($this->post->attachments)
+            'attachments' => AttachmentsResource::collection($this->post->attachments),
+            'totalDeliveredActivities' => UserActivity::where('activity_id', $this->id)->whereNotNull('delivered_at')->count(),
+            'totalAssignments' => UserActivity::where('activity_id', $this->id)->count(),
         ];
 
         return $activity;
