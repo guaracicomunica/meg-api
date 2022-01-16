@@ -25,7 +25,7 @@ class UserActivityDeliveryFile extends Model
         $path = File::saveAs(
             "public/activity/{$activity_id}/$user_id",
             $file,
-            "deliveried_{$hash_file}"
+            "delivered_{$hash_file}"
         );
 
         if($path != null)
