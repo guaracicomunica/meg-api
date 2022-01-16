@@ -5,7 +5,6 @@ namespace App\Http\Handlers;
 use App\Http\Requests\GetAllSolversActivityRequest;
 use App\Http\Resources\SolverResource;
 use App\Models\UserActivity;
-use Illuminate\Validation\ValidationException;
 
 class GetAllSolversActivityHandler
 {
@@ -24,7 +23,7 @@ class GetAllSolversActivityHandler
 
         if(count($records) == 0)
         {
-            throw ValidationException::withMessages(['activity_id' => 'Não há alunos para atribuição desta atividade']);
+            return [];
         }
 
         $totalDeliveredActivities = UserActivity::where('activity_id', $request->get('activity_id'))->whereNotNull('delivered_at')->count();
