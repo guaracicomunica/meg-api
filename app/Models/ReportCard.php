@@ -19,4 +19,20 @@ class ReportCard extends Model
         'created_at',
         'updated_at',
     ];
+
+    /***
+     * @param $reportCards
+     * @param $unit
+     * @return null
+     */
+    public static function getAverageOfUnit($reportCards, $unit)
+    {
+        if($reportCards == null) return null;
+
+        $filteredReports = $reportCards->filter(function($record) use ($unit) {
+            return $record->unit_id == $unit;
+        });
+
+        return count($filteredReports) > 0 ? $filteredReports->first()->average : null;
+    }
 }

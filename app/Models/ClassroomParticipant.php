@@ -21,6 +21,21 @@ class ClassroomParticipant extends Model
         'level_id'
     ];
 
+    public function classroom()
+    {
+        return $this->belongsTo(Classroom::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function level()
+    {
+        return $this->belongsTo(Level::class);
+    }
+
     /***
      * It turns a user into a classroom participant
      * @param $creatorId

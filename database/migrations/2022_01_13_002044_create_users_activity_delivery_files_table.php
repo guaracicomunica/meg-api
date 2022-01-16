@@ -13,13 +13,13 @@ class CreateUsersActivityDeliveryFilesTable extends Migration
      */
     public function up()
     {
-        Schema::create('users_activity_delivery_files', function (Blueprint $table) {
+        Schema::create('users_activities_delivered_files', function (Blueprint $table) {
             $table->id();
 
             $table->string('path');
 
-            $table->unsignedBigInteger('activity_id');
-            $table->foreign('activity_id')->references('id')->on('activities');
+            $table->unsignedBigInteger('user_activity_id');
+            $table->foreign('user_activity_id')->references('id')->on('users_activities');
 
             $table->timestamps();
         });
@@ -32,6 +32,6 @@ class CreateUsersActivityDeliveryFilesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users_activity_delivery_files');
+        Schema::dropIfExists('users_activities_delivered_files');
     }
 }

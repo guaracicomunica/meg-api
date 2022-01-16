@@ -11,9 +11,9 @@ class UserActivityDeliveryFile extends Model
 {
     use HasFactory;
 
-    protected $table = 'users_activity_delivery_files';
+    protected $table = 'users_activities_delivered_files';
 
-    protected $fillable = [ 'path' , 'activity_id'];
+    protected $fillable = ['path', 'user_activity_id'];
 
     protected $hidden = [
         'created_at', 'updated_at'
@@ -31,10 +31,15 @@ class UserActivityDeliveryFile extends Model
         if($path != null)
         {
             $this->path = $path;
-
-            $this->activity_id  = $activity_id;
-
+            $this->user_activity_id = getUserActivityId($user_id, $activity_id);
             $this->save();
         }
+    }
+
+    public function getUserActivityId($user_id, $activity_id) {
+        return UserActivity::
+        where('activity_id', $activity_id)
+            ->where('user_id', $user_id)
+            ->firstOrFail()->id;
     }
 }
