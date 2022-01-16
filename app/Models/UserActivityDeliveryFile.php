@@ -23,7 +23,7 @@ class UserActivityDeliveryFile extends Model
     {
         $hash_file = Str::random($user_id);
         $path = File::saveAs(
-            "public/activity/{$activity_id}/$user_id/",
+            "public/activity/{$activity_id}/$user_id",
             $file,
             "deliveried_{$hash_file}"
         );
@@ -31,7 +31,7 @@ class UserActivityDeliveryFile extends Model
         if($path != null)
         {
             $this->path = $path;
-            $this->user_activity_id = getUserActivityId($user_id, $activity_id);
+            $this->user_activity_id = $this->getUserActivityId($user_id, $activity_id);
             $this->save();
         }
     }
