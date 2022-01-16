@@ -18,11 +18,8 @@ class CreateUsersActivityDeliveryFilesTable extends Migration
 
             $table->string('path');
 
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users');
-
-            $table->unsignedBigInteger('activity_id');
-            $table->foreign('activity_id')->references('id')->on('activities');
+            $table->unsignedBigInteger('user_activity_id');
+            $table->foreign('user_activity_id')->references('id')->on('users_activities');
 
             $table->timestamps();
         });

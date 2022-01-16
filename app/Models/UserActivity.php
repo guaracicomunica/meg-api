@@ -5,6 +5,7 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
  * @method static firstOrCreate(array $data)
@@ -30,9 +31,9 @@ class UserActivity extends Model
         return $this->belongsTo(Activity::class, 'activity_id');
     }
 
-    public function deliveredFiles()
+    public function deliveredFiles(): HasMany
     {
-        return $this->hasMany(UserActivityDeliveryFile::class);
+        return $this->hasMany(UserActivityDeliveryFile::class, 'user_activity_id');
     }
 
     public function user()
