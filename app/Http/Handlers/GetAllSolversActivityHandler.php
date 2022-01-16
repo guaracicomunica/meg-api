@@ -13,7 +13,6 @@ class GetAllSolversActivityHandler
     {
         $records = UserActivity::with([
             'user',
-            'deliveredFiles',
             'activity',
             'activity.post.classroom'
         ])
