@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Utils\File;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class UserActivityDeliveryFile extends Model
@@ -21,9 +22,12 @@ class UserActivityDeliveryFile extends Model
 
     public function uploadActivityAttachment($file, int $activity_id, int $user_id)
     {
+        $folder = "public/activity/{$activity_id}/$user_id";
+
         $hash_file = Str::random($user_id);
+
         $path = File::saveAs(
-            "public/activity/{$activity_id}/$user_id",
+            $folder,
             $file,
             "delivered_{$hash_file}"
         );
