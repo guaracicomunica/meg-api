@@ -71,7 +71,7 @@ class UserController extends Controller
             $validator = Validator::make($request->all(), [
                 'name' => 'string|between:2,100',
                 'password' => 'string|confirmed|min:6',
-                'avatar_path' => ['file', 'max:500', 'mimes:png,jpeg,jpg'],
+                'avatar_path' => ['file', 'max:2000', 'mimes:png,jpeg,jpg'],
             ]);
 
             if($request->has('email')){

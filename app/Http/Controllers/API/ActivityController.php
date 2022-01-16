@@ -34,9 +34,10 @@ class ActivityController extends Controller
         return response()->json($result);
     }
 
-    public function show(int $id): JsonResponse
+    public function show(int $id)
     {
         $result = GetOneActivityHandler::handle($id);
+        //dd($result);
         return response()->json($result);
     }
 
@@ -81,4 +82,7 @@ class ActivityController extends Controller
             'message' => 'students who solved activity are successfully graded'
         ]);
     }
+
+
+
 }
