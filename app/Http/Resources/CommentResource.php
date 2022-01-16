@@ -19,7 +19,10 @@ class CommentResource extends JsonResource
             'body' => $this->body,
             'date' => $this->created_at,
             'is_private' => $this->is_private,
-            'creator' => $this->creator->name,
+            'creator' => [
+                'name' => $this->creator->name,
+                'avatar' => $this->creator->avatar_path,
+            ],
         ];
     }
 }

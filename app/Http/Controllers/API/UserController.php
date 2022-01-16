@@ -69,9 +69,9 @@ class UserController extends Controller
             $this->authorize('update', $user);
 
             $validator = Validator::make($request->all(), [
-                'name' => 'string|between:2,100',
-                'password' => 'string|confirmed|min:6',
-                'avatar_path' => ['file', 'max:2000', 'mimes:png,jpeg,jpg'],
+                'name' => 'sometimes|string|between:2,100',
+                'password' => 'sometimes|string|confirmed|min:6',
+                'avatar_path' => ['sometimes','file', 'max:2000', 'mimes:png,jpeg,jpg'],
             ]);
 
             if($request->has('email')){

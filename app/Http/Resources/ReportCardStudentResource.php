@@ -18,7 +18,7 @@ class ReportCardStudentResource extends JsonResource
         return [
             'user' => $this->user->name,
             'classroom' => $this->classroom->name,
-            'level' => $this->level->name,
+            'level' => $this->level->name ?? null,
             'xp' => $this->xp,
             'coins' => $this->user->gamefication->coins,
             'bim1' => ReportCard::getAverageOfUnit($this->user->reportCards, 1),

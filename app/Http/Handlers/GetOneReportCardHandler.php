@@ -14,7 +14,8 @@ class GetOneReportCardHandler
 {
     public static function handle(GetOneReportCardRequest $request)
     {
-        $user = ClassroomParticipant::with([
+        $participant = ClassroomParticipant::with([
+            'level',
             'classroom',
             'user',
             'user.gamefication'
@@ -22,6 +23,6 @@ class GetOneReportCardHandler
                 ->where('classroom_id', $request->get('classroom_id'))
                 ->firstOrFail();
 
-        return new ReportCardStudentResource($user);
+        return new ReportCardStudentResource($participant);
     }
 }

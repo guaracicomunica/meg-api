@@ -131,6 +131,11 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
         ];
     }
 
+    public function getAvatarPathAttribute($value)
+    {
+        return is_null($value) ? $value : File::formatLink($value);
+    }
+
     public function uploadAvatar($file)
     {
         $hash_file = Str::random($this->id);

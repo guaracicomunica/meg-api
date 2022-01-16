@@ -20,7 +20,10 @@ class PostResource extends JsonResource
             'body' => $this->body,
             'date' => $this->created_at,
             'comments' => CommentResource::collection($this->comments),
-            'creator' => $this->creator->name,
+            'creator' => [
+                'name' => $this->creator->name,
+                'avatar' => $this->creator->avatar_path,
+            ],
             'activity' =>$this->activity,
         ];
     }
