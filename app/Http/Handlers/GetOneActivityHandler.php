@@ -19,8 +19,6 @@ class GetOneActivityHandler
                     $query->where('is_private', false);
                 }])->findOrFail($id);
 
-
-
         return new ActivityResource($activity);
     }
 }

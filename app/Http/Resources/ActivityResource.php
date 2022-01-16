@@ -14,8 +14,6 @@ class ActivityResource extends JsonResource
      */
     public function toArray($request)
     {
-       // dd($this);
-        //dd($this->post->comments);
         $activity = [
             'id' => $this->id,
             'name' => $this->post->name,
@@ -25,6 +23,7 @@ class ActivityResource extends JsonResource
             'deadline' => $this->deadline,
             'points' => floatval($this->points),
             'topicId' => $this->topic_id,
+            'disabled' => $this->post->disabled,
             'comments' => CommentResource::collection($this->post->comments),
             'attachments' => AttachmentsResource::collection($this->post->attachments)
         ];

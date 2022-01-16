@@ -37,7 +37,6 @@ class ActivityController extends Controller
     public function show(int $id)
     {
         $result = GetOneActivityHandler::handle($id);
-        //dd($result);
         return response()->json($result);
     }
 
