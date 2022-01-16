@@ -34,6 +34,11 @@ class Activity extends Model
         return $this->belongsTo(Post::class, 'post_id');
     }
 
+    public function attachments()
+    {
+        return $this->hasMany(UserActivityDeliveryFile::class, 'activity_id');
+    }
+
     public function topic(): BelongsTo
     {
         return $this->belongsTo(Topic::class, 'topic_id');
