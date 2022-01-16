@@ -35,4 +35,32 @@ class ReportCard extends Model
 
         return count($filteredReports) > 0 ? $filteredReports->first()->average : null;
     }
+
+    /***
+     * Create report with default values such as: average = zero
+     * @param $userId
+     * @param $classroomId
+     * @return void
+     */
+    public static function createDefaultForStudent($userId, $classroomId)
+    {
+        for($i = 0; $i <= 3; $i++)
+        {
+            ReportCard::firstOrCreate([
+                'unit_id' => $i + 1,
+                'user_id' => $userId,
+                'classroom_id' => $classroomId,
+            ]);
+        }
+    }
+
+    /***
+     * @param $userId
+     * @param $classroomId
+     * @return void
+     */
+    public static function exclude($userId, $classroomId)
+    {
+        ReportCard::where('user_id', $userId)->where('classroom_id', $classroomId)->delete();
+    }
 }

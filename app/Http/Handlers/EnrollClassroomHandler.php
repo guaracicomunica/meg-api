@@ -5,6 +5,7 @@ namespace App\Http\Handlers;
 use App\Models\Activity;
 use App\Models\Classroom;
 use App\Models\ClassroomParticipant;
+use App\Models\ReportCard;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -30,6 +31,11 @@ class EnrollClassroomHandler
             foreach($activities as $activity)
             {
                 $activity->assignToStudent($userId);
+            }
+
+            if(Auth::user()->isStudent())
+            {
+                ReportCard::createDefaultForStudent($userId, $classroomId);
             }
 
             DB::commit();
