@@ -30,6 +30,11 @@ class UserActivity extends Model
         return $this->belongsTo(Activity::class, 'activity_id');
     }
 
+    public function deliveredFiles()
+    {
+        return $this->hasMany(UserActivityDeliveryFile::class);
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');

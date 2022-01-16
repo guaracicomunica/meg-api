@@ -13,8 +13,9 @@ class GetAllSolversActivityHandler
     {
         $records = UserActivity::with([
             'user',
+            'deliveredFiles',
             'activity',
-            'activity.attachments'
+            'activity.post.classroom'
         ])
             ->where('activity_id', $request->get('activity_id'))
             ->paginate($request->get('per_page'));
@@ -25,6 +26,8 @@ class GetAllSolversActivityHandler
         return [
             'totalDeliveredActivities' => $totalDeliveredActivities,
             'totalAssignments' => $totalAssignments,
+            'classroom' => $records->first()->activity->post->classroom->name,
+            'deadline' => $records->first()->activity->deadline,
             'users' => SolverResource::collection($records)
         ];
     }

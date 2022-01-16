@@ -20,9 +20,7 @@ class SolverResource extends JsonResource
             'avatar' => $this->user->avatar,
             'points' => $this->points,
             'delivered_at' => $this->delivered_at,
-            'files' => $this->activity->attachments->map(function($item){
-                return $item->path;
-            }),
+            'files' => $this->deliveredFiles(),
         ];
     }
 }
