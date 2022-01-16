@@ -9,6 +9,7 @@ use App\Models\UserActivity;
 use App\Models\UserStatusGamefication;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\ValidationException;
 
 class GradeStudentsActivityHandler
 {
@@ -90,11 +91,10 @@ class GradeStudentsActivityHandler
 
     private static function getStudentFromRequest($request, $record)
     {
-        return array_filter(
-            $request->get('users'),
-            function($item) use ($record) {
-                return $item['id'] == $record->user_id;
-            }
-        )[0];
+        $filtered = array_filter($request->get('users'),(function($item) use ($record) {
+            return $item['id'] == $record->user_id;
+        }));
+
+        return current($filtered);
     }
 }
