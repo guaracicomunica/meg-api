@@ -23,6 +23,7 @@ class CommentResource extends JsonResource
                 'name' => $this->creator->name,
                 'avatar' => $this->creator->avatar_path,
             ],
+            'comments' => CommentResource::collection($this->comments)
         ];
     }
 }
