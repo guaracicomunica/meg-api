@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Utils\File;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -41,5 +42,16 @@ class Skill extends Model
     {
         $now = Carbon::now();
         return "{$user->name} requisitou a habilidade {$this->name} às {$now}";
+    }
+
+    /**
+     * Get the level's banner updated to the correct URL disponibilization.
+     *
+     * @param  string  $value
+     * @return void
+     */
+    public function getPathAttribute($value)
+    {
+        return is_null($value) ? $value : File::formatLink($value);
     }
 }
