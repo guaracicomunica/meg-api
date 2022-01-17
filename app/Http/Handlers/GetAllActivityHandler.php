@@ -2,6 +2,7 @@
 
 namespace App\Http\Handlers;
 
+use App\Http\Resources\ActivityResource;
 use Illuminate\Http\Request;
 use App\Http\Requests\GetAllActivityRequest;
 use App\Models\Activity;
@@ -11,7 +12,7 @@ class GetAllActivityHandler
 {
     public static function handle(Request $request)
     {
-        return Activity::with([
+        $activities = Activity::with([
                 'post' => function($query) use ($request) {
                     if(Auth::user()->isStudent())
                     {
@@ -32,5 +33,7 @@ class GetAllActivityHandler
                     $query->where('topic_id', $topicId);
                 })
             ->paginate($request->per_page);
+
+        return ActivityResource::collection($activities)->response()->getData();
     }
 }
