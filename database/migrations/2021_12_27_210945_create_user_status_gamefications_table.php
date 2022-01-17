@@ -16,7 +16,7 @@ class CreateUserStatusGameficationsTable extends Migration
         Schema::create('user_status_gamefications', function (Blueprint $table) {
             $table->id();
 
-            $table->integer('coins')->nullable();
+            $table->integer('coins')->default(0);
 
             $table->unsignedBigInteger('user_id');
 

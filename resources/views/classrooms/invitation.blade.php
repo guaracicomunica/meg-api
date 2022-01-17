@@ -27,9 +27,6 @@
             color: #fff !important;
         }
     </style>
-    <header class="header" align="center">
-        <img src="https://meg.vercel.app/icons/logo.svg"/>
-    </header>
     <main>
         <p>Olá, você foi convidado a participar da turma {{$name}}.</p>
         <p>Seu código de acesso é {{$code}}.</p>

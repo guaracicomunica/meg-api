@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use App\Models\ClaimedSkill;
+use App\Http\Resources\NotificationResource;
+use App\Models\UserSkill;
 use App\Models\Notification;
 use App\Models\Skill;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -26,18 +28,14 @@ class StoreController extends Controller
     /**
      * @throws \Exception
      */
-    public function buySkill(Request $request)
+    public function buySkill(int $id)
     {
         try {
-            if(!Auth::user()->isStudentOfClassroom($request->get('classroom_id')))
+            $skill = Skill::with('classroom')->findOrFail($id);
+
+            if(!Auth::user()->isStudentOfClassroom($skill->classroom->id))
             {
                 throw new AccessDeniedHttpException();
-            }
-
-            $skill = Skill::with('classroom')->findOrFail($request->get('skill_id'));
-
-            if($skill->classroom_id != $request->get('classroom_id')) {
-                return response()->json(['errors' => ["matrícula" => "A turma {$skill->classroom->name} não contém esta habilidade"]], 400);
             }
 
             $globalUserStatus = Auth::user()->gamefication;
@@ -58,35 +56,83 @@ class StoreController extends Controller
 
             $globalUserStatus->save();
 
-            $alreadyClaimedSkill = ClaimedSkill::
+            $alreadyUserSkill = UserSkill::
                 where('user_id', Auth::user()->id)
                 ->where('skill_id', $skill->id)
                 ->first();
 
-            if($alreadyClaimedSkill != null)
+            if($alreadyUserSkill != null)
             {
                 DB::rollBack();
                 return response()->json(['errors' => ['skill' => 'Você já comprou esta habilidade']], 400);
             }
 
-             ClaimedSkill::create([
+             UserSkill::create([
                 'user_id' => Auth::user()->id,
                 'skill_id' => $skill->id,
             ]);
 
-            Notification::create([
-                'content' => $skill->getClaimSkillMessage(Auth::user()),
-                'recipient_id' => $skill->classroom->creator_id,
-                'author_id' => Auth::user()->id,
-            ]);
-
             DB::commit();
 
-            return response()->json(['message' => 'Habilidade requerida com sucesso']);
+            return response()->json(['message' => 'Habilidade comprada com sucesso']);
         } catch(\Exception $ex)
         {
             DB::rollback();
             throw $ex;
         }
+    }
+
+    public function claimSkill(int $id) {
+        $skill = Skill::with('classroom')->findOrFail($id);
+
+        $user = Auth::user();
+
+        if(!$user->isStudentOfClassroom($skill->classroom->id))
+        {
+            throw new AccessDeniedHttpException();
+        }
+
+        $userSkill = UserSkill::where('user_id', $user->id)
+            ->where('skill_id', $skill->id)
+            ->first();
+
+        if($userSkill == null)
+        {
+            return response()->json(['errors' => ['skill' => 'Antes de reivindicar uma habilidade, você deve comprá-la']], 400);
+        }
+
+        if($userSkill->claimed == true)
+        {
+            return response()->json(['errors' => ['skill' => 'Você já reivindicou esta habilidade']], 400);
+        }
+
+        $userSkill->claimed = true;
+
+        $userSkill->save();
+
+        return response()->json(['message' => 'Habilidade reivindicada com sucesso']);
+
+    }
+
+    public function getTeacherNotifications(Request $request): JsonResponse
+    {
+        $user = Auth::user();
+
+        if(!$user->isTeacher()) {
+            new AccessDeniedHttpException();
+        }
+
+        $notifications = UserSkill::with([
+            'claimer',
+            'skill',
+            'skill.classroom' => function($query) use ($user) {
+                $query->where('creator_id', $user->id);
+            }
+        ])->where('claimed', 1)
+            ->paginate($request->get('per_page'));
+
+        $result = NotificationResource::collection($notifications)->response()->getData();
+
+        return response()->json($result);
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Utils\Arr;
+use App\Utils\File;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -32,4 +33,15 @@ class Level extends Model
         'classroom_id',
         'id'
     ];
+
+    /**
+     * Get the level's banner updated to the correct URL disponibilization.
+     *
+     * @param  string  $value
+     * @return void
+     */
+    public function getPathAttribute($value)
+    {
+        return is_null($value) ? $value : File::formatLink($value);
+    }
 }

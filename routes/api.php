@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\API\ActivityController;
 use App\Http\Controllers\API\ClassroomController;
+use App\Http\Controllers\API\NotificationController;
 use App\Http\Controllers\API\ReportCardController;
 use App\Http\Controllers\API\StoreController;
 use App\Http\Controllers\API\TopicController;
@@ -136,8 +137,9 @@ Route::group([
 });
 
 Route::group([
-    'prefix' => 'store',
+    'prefix' => 'store/skills',
 ], function ($router) {
-    Route::get('skills', [StoreController::class, 'showClaimedSkills']);
-    Route::post('skills', [StoreController::class, 'buySkill']);
+    Route::get('teacher/notifications', [StoreController::class, 'getTeacherNotifications']);
+    Route::post('{id}/buy', [StoreController::class, 'buySkill']);
+    Route::post('{id}/claim', [StoreController::class, 'claimSkill']);
 });
