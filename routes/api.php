@@ -137,8 +137,9 @@ Route::group([
 });
 
 Route::group([
-    'prefix' => 'store',
+    'prefix' => 'store/skills',
 ], function ($router) {
     Route::get('teacher/notifications', [StoreController::class, 'getTeacherNotifications']);
-    Route::post('skills', [StoreController::class, 'buySkill']);
+    Route::post('{id}/buy', [StoreController::class, 'buySkill']);
+    Route::post('{id}/claim', [StoreController::class, 'claimSkill']);
 });
