@@ -29,6 +29,11 @@ class Activity extends Model
         'updated_at',
     ];
 
+    /***
+     * palavras reservadas: proibidas para atualização em atividade caso ao menos um aluno tenha sido pontuado.
+     */
+    const reservedWords = ["xp", "coins", "points", "unit_id"];
+
     public function post()
     {
         return $this->belongsTo(Post::class, 'post_id');
@@ -100,5 +105,17 @@ class Activity extends Model
         ];
 
         UserActivity::firstOrCreate($data);
+    }
+
+    /**
+     * @return bool
+     */
+    public function atLeastOneStudentScored(): bool
+    {
+        $count = UserActivity::where('activity_id', $this->id)
+            ->whereNotNull('scored_at')
+            ->count();
+
+        return $count > 0;
     }
 }

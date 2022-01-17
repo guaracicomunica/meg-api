@@ -9,10 +9,12 @@ use App\Http\Handlers\GetAllActivityHandler;
 use App\Http\Handlers\GetAllSolversActivityHandler;
 use App\Http\Handlers\GetOneActivityHandler;
 use App\Http\Handlers\GradeStudentsActivityHandler;
+use App\Http\Handlers\UpdateActivityHandler;
 use App\Http\Requests\CreateActivityRequest;
 use App\Http\Requests\DeliveryActivityRequest;
 use App\Http\Requests\GetAllSolversActivityRequest;
 use App\Http\Requests\GradeStudentsActivityRequest;
+use App\Http\Requests\UpdateActivityRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -34,10 +36,23 @@ class ActivityController extends Controller
         return response()->json($result);
     }
 
-    public function show(int $id)
+    public function show(int $id): JsonResponse
     {
         $result = GetOneActivityHandler::handle($id);
         return response()->json($result);
+    }
+
+    /***
+     * @param int $id
+     * @param UpdateActivityRequest $request
+     * @return JsonResponse
+     */
+    public function update(int $id, UpdateActivityRequest $request): JsonResponse
+    {
+        UpdateActivityHandler::handle($id, $request);
+        return response()->json([
+            'message' => 'activity successfully updated'
+        ]);
     }
 
     public function store(CreateActivityRequest $request) : JsonResponse

@@ -100,6 +100,7 @@ Route::group([
     Route::get('', [ActivityController::class, 'index']);
     Route::get('solvers', [ActivityController::class, 'getSolvers']);
     Route::get('{id}', [ActivityController::class, 'show']);
+    Route::patch('{id}', [ActivityController::class, 'update']);
     Route::post('', [ActivityController::class, 'store']);
     Route::post('delivery', [ActivityController::class, 'delivery']);
     Route::post('grade', [ActivityController::class, 'grade']);
