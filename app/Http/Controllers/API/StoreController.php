@@ -4,7 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\NotificationResource;
-use App\Models\ClaimedSkill;
+use App\Models\UserSkill;
 use App\Models\Notification;
 use App\Models\Skill;
 use Illuminate\Http\JsonResponse;
@@ -60,25 +60,25 @@ class StoreController extends Controller
 
             $globalUserStatus->save();
 
-            $alreadyClaimedSkill = ClaimedSkill::
+            $alreadyUserSkill = UserSkill::
                 where('user_id', Auth::user()->id)
                 ->where('skill_id', $skill->id)
                 ->first();
 
-            if($alreadyClaimedSkill != null)
+            if($alreadyUserSkill != null)
             {
                 DB::rollBack();
                 return response()->json(['errors' => ['skill' => 'Você já comprou esta habilidade']], 400);
             }
 
-             ClaimedSkill::create([
+             UserSkill::create([
                 'user_id' => Auth::user()->id,
                 'skill_id' => $skill->id,
             ]);
 
             DB::commit();
 
-            return response()->json(['message' => 'Habilidade requerida com sucesso']);
+            return response()->json(['message' => 'Habilidade comprada com sucesso']);
         } catch(\Exception $ex)
         {
             DB::rollback();
@@ -94,7 +94,7 @@ class StoreController extends Controller
             new AccessDeniedHttpException();
         }
 
-        $notifications = ClaimedSkill::with([
+        $notifications = UserSkill::with([
             'claimer',
             'skill',
             'skill.classroom' => function($query) use ($user) {

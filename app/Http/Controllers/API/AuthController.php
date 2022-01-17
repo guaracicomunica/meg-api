@@ -5,8 +5,10 @@ namespace App\Http\Controllers\API;
 use App\Models\User;
 use App\Http\Controllers\Controller;
 use App\Models\UserRole;
+use App\Models\UserStatusGamefication;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Auth\Events\Registered;
@@ -57,6 +59,9 @@ class AuthController extends Controller
         }
     }
 
+    /**
+     * @throws ValidationException
+     */
     public function register(Request $request): JsonResponse
     {
         try {
@@ -72,6 +77,8 @@ class AuthController extends Controller
                 return response()->json(["error" => $validator->errors()->toJson()], 400);
             }
 
+            DB::beginTransaction();
+
             $user = User::create(array_merge(
                 $validator->validated(),
                 [
@@ -83,7 +90,14 @@ class AuthController extends Controller
             if(isset($request->avatar))
                 $user->uploadAvatar($request->avatar);
 
+            if($user->isStudent())
+            {
+                UserStatusGamefication::firstOrCreate(['user_id' => $user->id]);
+            }
+
             event(new Registered($user));
+
+            DB::commit();
 
             $credentials = $request->only(['email', 'password']);
 
@@ -99,6 +113,10 @@ class AuthController extends Controller
 
         } catch (ValidationException $e) {
             return response()->json(['error' => $e->getMessage()], 400);
+        } catch (\Exception $e)
+        {
+            DB::rollBack();
+            return response()->json(['error' => $e->getMessage()], 500);
         }
     }
 
