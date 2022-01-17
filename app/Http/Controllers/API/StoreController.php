@@ -82,7 +82,35 @@ class StoreController extends Controller
         }
     }
 
-    public function claimSkill() {
+    public function claimSkill(int $id) {
+        $skill = Skill::with('classroom')->findOrFail($id);
+
+        $user = Auth::user();
+
+        if(!$user->isStudentOfClassroom($skill->classroom->id))
+        {
+            throw new AccessDeniedHttpException();
+        }
+
+        $userSkill = UserSkill::where('user_id', $user->id)
+            ->where('skill_id', $skill->id)
+            ->first();
+
+        if($userSkill == null)
+        {
+            return response()->json(['errors' => ['skill' => 'Antes de reivindicar uma habilidade, você deve comprá-la']], 400);
+        }
+
+        if($userSkill->claimed == true)
+        {
+            return response()->json(['errors' => ['skill' => 'Você já reivindicou esta habilidade']], 400);
+        }
+
+        $userSkill->claimed = true;
+
+        $userSkill->save();
+
+        return response()->json(['message' => 'Habilidade reivindicada com sucesso']);
 
     }
 
