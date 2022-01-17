@@ -4,6 +4,8 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\NotificationResource;
+use App\Http\Resources\StudentSkillResource;
+use App\Models\User;
 use App\Models\UserSkill;
 use App\Models\Notification;
 use App\Models\Skill;
@@ -112,6 +114,21 @@ class StoreController extends Controller
 
         return response()->json(['message' => 'Habilidade reivindicada com sucesso']);
 
+    }
+
+    public function getStudentSkills(): JsonResponse
+    {
+        $user = Auth::user();
+
+        if(!$user->isStudent()) {
+            throw new AccessDeniedHttpException();
+        }
+
+        $userSkills = UserSkill::with('skill')->where('user_id', $user->id)->paginate();
+
+        $result = StudentSkillResource::collection($userSkills)->response()->getData();
+
+        return response()->json($result);
     }
 
     public function getTeacherNotifications(Request $request): JsonResponse
