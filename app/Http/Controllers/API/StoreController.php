@@ -28,18 +28,14 @@ class StoreController extends Controller
     /**
      * @throws \Exception
      */
-    public function buySkill(Request $request)
+    public function buySkill(int $id)
     {
         try {
-            if(!Auth::user()->isStudentOfClassroom($request->get('classroom_id')))
+            $skill = Skill::with('classroom')->findOrFail($id);
+
+            if(!Auth::user()->isStudentOfClassroom($skill->classroom->id))
             {
                 throw new AccessDeniedHttpException();
-            }
-
-            $skill = Skill::with('classroom')->findOrFail($request->get('skill_id'));
-
-            if($skill->classroom_id != $request->get('classroom_id')) {
-                return response()->json(['errors' => ["skill" => "A turma {$skill->classroom->name} não contém esta habilidade"]], 400);
             }
 
             $globalUserStatus = Auth::user()->gamefication;
@@ -86,6 +82,10 @@ class StoreController extends Controller
         }
     }
 
+    public function claimSkill() {
+
+    }
+
     public function getTeacherNotifications(Request $request): JsonResponse
     {
         $user = Auth::user();
@@ -100,7 +100,8 @@ class StoreController extends Controller
             'skill.classroom' => function($query) use ($user) {
                 $query->where('creator_id', $user->id);
             }
-        ])->paginate($request->get('per_page'));
+        ])->where('claimed', 1)
+            ->paginate($request->get('per_page'));
 
         $result = NotificationResource::collection($notifications)->response()->getData();
 
