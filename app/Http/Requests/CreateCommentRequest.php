@@ -28,6 +28,8 @@ class CreateCommentRequest extends FormRequest
             'body' => ['required', 'string', 'max:150'],
             'post_id' => ['required', 'numeric'],
             'user_id' => ['required', 'numeric'],
+            'activity_id' => ['sometimes', 'numeric'],
+            'is_private' => ['sometimes', 'boolean'],
         ];
 
     }
