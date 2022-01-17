@@ -22,14 +22,14 @@ class EnrollClassroomHandler
 
             $classroomId = Classroom::where('code', $data['code'])->first()->id;
 
-            $activities = Activity::all();
-
             DB::beginTransaction();
 
             ClassroomParticipant::assignParticipant($userId, $classroomId);
 
             if(Auth::user()->isStudent())
             {
+                $activities = Activity::all();
+
                 foreach($activities as $activity)
                 {
                     $activity->assignToStudent($userId);
