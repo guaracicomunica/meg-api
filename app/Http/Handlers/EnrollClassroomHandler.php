@@ -28,13 +28,12 @@ class EnrollClassroomHandler
 
             ClassroomParticipant::assignParticipant($userId, $classroomId);
 
-            foreach($activities as $activity)
-            {
-                $activity->assignToStudent($userId);
-            }
-
             if(Auth::user()->isStudent())
             {
+                foreach($activities as $activity)
+                {
+                    $activity->assignToStudent($userId);
+                }
                 ReportCard::createDefaultForStudent($userId, $classroomId);
             }
 
