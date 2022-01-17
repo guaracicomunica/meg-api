@@ -17,6 +17,7 @@ class GetAllClassroomHandler
         return Auth::user()
             ->classes()
             ->with([
+                'creator',
                 'levels',
                 'skills',
                 'topics',

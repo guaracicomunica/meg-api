@@ -89,8 +89,8 @@ class Classroom extends Model
     {
         if($mustRemoveOldFiles)
         {
-            $files = Storage::allFiles($prefixFolder);
-            Storage::delete($files);
+            $files = Storage::disk('s3')->allFiles($prefixFolder);
+            Storage::disk('s3')->delete($files);
         }
         $hash_file = Str::random($classroom_id ?? 999);
         $path = File::saveAs(
