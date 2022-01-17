@@ -27,7 +27,7 @@ class ManageClassroomRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:191'],
             'nickname' => ['required', 'string', 'max:191'],
-            'file' => ['sometimes', 'file', 'max:500', 'mimes:jpeg,png,svg'],
+            'file' => ['sometimes', 'file', 'max:500', 'mimes:jpeg,png,svg,gif'],
             'partners.*' => ['sometimes','email'],
             'levels' => ['required', 'array'],
             'levels.*.name' => ['required', 'string'],
