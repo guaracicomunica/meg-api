@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\API\ActivityController;
 use App\Http\Controllers\API\ClassroomController;
+use App\Http\Controllers\API\NotificationController;
 use App\Http\Controllers\API\ReportCardController;
 use App\Http\Controllers\API\StoreController;
 use App\Http\Controllers\API\TopicController;
@@ -115,6 +116,12 @@ Route::group([
     Route::get('{id}/privates', [CommentController::class, 'getAllPrivate']); //privados
     Route::post('', [CommentController::class, 'store']);
     Route::delete('{id}',[CommentController::class, 'delete']);
+});
+
+Route::group([
+    'prefix' => 'notifications',
+], function ($router) {
+    Route::get('', [NotificationController::class, 'index']);
 });
 
 //topics
