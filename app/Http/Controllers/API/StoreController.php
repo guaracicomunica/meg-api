@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\NotificationResource;
 use App\Models\ClaimedSkill;
 use App\Models\Notification;
 use App\Models\Skill;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -74,12 +76,6 @@ class StoreController extends Controller
                 'skill_id' => $skill->id,
             ]);
 
-            Notification::create([
-                'content' => $skill->getClaimSkillMessage(Auth::user()),
-                'recipient_id' => $skill->classroom->creator_id,
-                'author_id' => Auth::user()->id,
-            ]);
-
             DB::commit();
 
             return response()->json(['message' => 'Habilidade requerida com sucesso']);
@@ -88,5 +84,26 @@ class StoreController extends Controller
             DB::rollback();
             throw $ex;
         }
+    }
+
+    public function getTeacherNotifications(Request $request): JsonResponse
+    {
+        $user = Auth::user();
+
+        if(!$user->isTeacher()) {
+            new AccessDeniedHttpException();
+        }
+
+        $notifications = ClaimedSkill::with([
+            'claimer',
+            'skill',
+            'skill.classroom' => function($query) use ($user) {
+                $query->where('creator_id', $user->id);
+            }
+        ])->paginate($request->get('per_page'));
+
+        $result = NotificationResource::collection($notifications)->response()->getData();
+
+        return response()->json($result);
     }
 }

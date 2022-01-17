@@ -16,10 +16,11 @@ class NotificationResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'content' => $this->content,
-            'creator' => [
-                'name' => $this->creator->name,
-                'avatar' => $this->creator->avatar_path,
+            'skill' => $this->skill->name,
+            'classroom' => $this->skill->classroom->name,
+            'claimer' => [
+                'name' => $this->claimer->name,
+                'avatar' => $this->claimer->avatar_path,
             ],
             'created_at' => $this->created_at,
         ];

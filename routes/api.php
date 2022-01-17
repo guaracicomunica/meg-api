@@ -118,12 +118,6 @@ Route::group([
     Route::delete('{id}',[CommentController::class, 'delete']);
 });
 
-Route::group([
-    'prefix' => 'notifications',
-], function ($router) {
-    Route::get('', [NotificationController::class, 'index']);
-});
-
 //topics
 Route::group([
         'prefix' => 'topics' ,
@@ -145,6 +139,6 @@ Route::group([
 Route::group([
     'prefix' => 'store',
 ], function ($router) {
-    Route::get('skills', [StoreController::class, 'showClaimedSkills']);
+    Route::get('teacher/notifications', [StoreController::class, 'getTeacherNotifications']);
     Route::post('skills', [StoreController::class, 'buySkill']);
 });

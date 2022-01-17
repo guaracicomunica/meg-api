@@ -17,4 +17,14 @@ class ClaimedSkill extends Model
         'created_at',
         'updated_at',
     ];
+
+    public function claimer()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function skill()
+    {
+        return $this->belongsTo(Skill::class, 'skill_id');
+    }
 }
