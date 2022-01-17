@@ -11,7 +11,6 @@ class GetParticipantsClassroomHandler
     {
         $classroom = Classroom::findOrFail($id);
         $participants = $classroom->participants()->get();
-
         return ParticipantResource::collection($participants);
     }
 

@@ -19,7 +19,7 @@ class StudentResource extends JsonResource
             'name' => $this->name,
             'email' => $this->email,
             'avatar' => $this->avatar_path,
-            'points' => $this->gamefication->xp ?? 0,
+            'points' => $this->activities->sum('points') ?? 0,
             'coins' => $this->gamefication->coins ?? 0,
         ];
     }

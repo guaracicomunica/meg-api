@@ -11,7 +11,7 @@ class GetStudentsClassroomHandler
     public static function handle(int $id)
     {
         $classroom = Classroom::findOrFail($id);
-        $students = $classroom->students()->with('gamefication')->paginate();
+        $students = $classroom->students()->with('activities','gamefication')->paginate();
         return StudentResource::collection($students)->response()->getData();
     }
 }
