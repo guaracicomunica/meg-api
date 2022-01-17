@@ -2,19 +2,21 @@
 
 namespace App\Utils;
 
+use Illuminate\Support\Facades\Storage;
+
 class File
 {
     public static function saveAs($folder, $file, $name)
     {
         $path = null;
 
-        if($file != null && $file->isValid())
-        {
-            $path = $file->storeAs($folder, "{$name}.{$file->extension()}");
+        if($file != null && $file->isValid()) {
+            $path = Storage::disk('s3')->put("{$folder}/{$name}", $file);
         }
 
         return $path;
     }
+
 
     /**
      * @param $value
@@ -23,7 +25,7 @@ class File
     public static function formatLink($value)
     {
         if(!str_contains($value, "http")){
-            return env('APP_URL').'/'.StringUtil::str_replace_limit('public/', 'storage/',$value, 1);
+            return Storage::disk('s3')->temporaryUrl($value, now()->addDay());
         } else {
             return $value;
         }

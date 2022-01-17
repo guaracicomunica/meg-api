@@ -122,9 +122,6 @@ class Classroom extends Model
      */
     public function getBannerAttribute($value)
     {
-        return
-            !is_null($value)
-            ? env('APP_URL').'/'.StringUtil::str_replace_limit('public/', 'storage/',$value, 1)
-            : null;
+        return is_null($value) ? $value : File::formatLink($value);
     }
 }
