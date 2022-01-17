@@ -15,9 +15,8 @@ class GetOneActivityHandler
         $activity = Activity::with([
                 'post',
                 'post.attachments',
-                'post.comments' => function($query){
-                    $query->where('is_private', false);
-                }])->findOrFail($id);
+                'post.comments'
+                ])->findOrFail($id);
 
         return new ActivityResource($activity);
     }
