@@ -37,7 +37,7 @@ class StoreController extends Controller
             $skill = Skill::with('classroom')->findOrFail($request->get('skill_id'));
 
             if($skill->classroom_id != $request->get('classroom_id')) {
-                return response()->json(['errors' => ["matrícula" => "A turma {$skill->classroom->name} não contém esta habilidade"]], 400);
+                return response()->json(['errors' => ["skill" => "A turma {$skill->classroom->name} não contém esta habilidade"]], 400);
             }
 
             $globalUserStatus = Auth::user()->gamefication;
