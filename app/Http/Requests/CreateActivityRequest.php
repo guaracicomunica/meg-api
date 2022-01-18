@@ -39,7 +39,7 @@ class CreateActivityRequest extends FormRequest
             'unit_id' => ['required', 'numeric', 'exists:units,id'],
             'attachments.*' => ['sometimes', 'file', 'max:3000', 'mimes:jpeg,png,svg,doc,docx,pdf,xls,xlsx'],
             'links' => ['sometimes', 'array'],
-            'links.*' => ['string'],
+            'links.*' => ['string', 'url'],
         ];
     }
 
@@ -102,6 +102,7 @@ class CreateActivityRequest extends FormRequest
             //links
             'links.array' => 'Espera-se os links em formato de array',
             'links.*.string' => 'Espera-se links em formato de texto',
+            'links.*.url' => 'O link deve estar em formato de url válido. Exemplo: https://google.com'
         ];
     }
 }
