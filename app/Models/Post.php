@@ -46,7 +46,7 @@ class Post extends Model
 
     public function attachments(): HasMany
     {
-        return $this->hasMany(PostFile::class);
+        return $this->hasMany(PostAttachment::class);
     }
 
     public function creator(): BelongsTo

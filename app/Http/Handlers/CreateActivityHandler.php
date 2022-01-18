@@ -4,7 +4,7 @@ namespace App\Http\Handlers;
 
 use App\Models\Activity;
 use App\Models\Post;
-use App\Models\PostFile;
+use App\Models\PostAttachment;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -51,15 +51,19 @@ class CreateActivityHandler
             if(isset($data['attachments']))
                 foreach ($data['attachments'] as $file)
                 {
-                    $postFile = new PostFile();
-                    $postFile->uploadAttachments($file, $post->id);
+                    $postAttachment = new PostAttachment();
+                    $postAttachment->uploadAttachments($file, $post->id);
                 }
 
             if(isset($data['links']))
             {
                 foreach ($data['links'] as $link)
                 {
-                    PostFile::firstOrCreate(['path' => $link, 'post_id' => $post->id]);
+                    PostAttachment::firstOrCreate([
+                        'path' => $link,
+                        'post_id' => $post->id,
+                        'is_external_link' => true
+                    ]);
                 }
             }
 

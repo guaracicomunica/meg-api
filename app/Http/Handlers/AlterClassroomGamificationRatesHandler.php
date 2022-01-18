@@ -3,7 +3,6 @@
 namespace App\Http\Handlers;
 
 use App\Models\Classroom;
-use App\Models\PostFile;
 use App\Utils\Arr;
 
 class AlterClassroomGamificationRatesHandler {
