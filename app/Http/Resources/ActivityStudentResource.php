@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Models\UserActivityDeliveryFile;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class ActivityStudentResource extends JsonResource
@@ -33,6 +34,7 @@ class ActivityStudentResource extends JsonResource
                 'points' => $this->assignment->points,
                 'delivered_at' => $this->assignment->delivered_at,
                 'scored_at' => $this->assignment->scored_at,
+                'attachments' => UserActivityDeliveryFile::where('user_activity_id', $this->assignment->id)->get(['path']),
             ]
         ];
     }
