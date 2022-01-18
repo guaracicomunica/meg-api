@@ -19,7 +19,9 @@ class CommentResource extends JsonResource
             'body' => $this->body,
             'date' => $this->created_at,
             'is_private' => $this->is_private,
+            'comment_id' => $this->comment_id,
             'creator' => [
+                'id' => $this->creator->id,
                 'name' => $this->creator->name,
                 'avatar' => $this->creator->avatar_path,
             ],
