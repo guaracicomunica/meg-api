@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Facades\DB;
 
 class Activity extends Model
@@ -42,6 +43,11 @@ class Activity extends Model
     public function topic(): BelongsTo
     {
         return $this->belongsTo(Topic::class, 'topic_id');
+    }
+
+    public function students(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'users_activities', 'activity_id', 'user_id');
     }
 
     public function calcXpFromStudentGrade($studentPoints)

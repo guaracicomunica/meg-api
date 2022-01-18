@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use App\Models\UserActivity;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ActivityResource extends JsonResource
+class ActivityTeacherResource extends JsonResource
 {
     /**
      * Transform the resource into an array.

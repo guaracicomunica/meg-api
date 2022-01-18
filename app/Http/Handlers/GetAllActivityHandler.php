@@ -2,7 +2,7 @@
 
 namespace App\Http\Handlers;
 
-use App\Http\Resources\ActivityResource;
+use App\Http\Resources\ActivityTeacherResource;
 use Illuminate\Http\Request;
 use App\Http\Requests\GetAllActivityRequest;
 use App\Models\Activity;
@@ -34,6 +34,6 @@ class GetAllActivityHandler
                 })
             ->paginate($request->per_page);
 
-        return ActivityResource::collection($activities)->response()->getData();
+        return ActivityTeacherResource::collection($activities)->response()->getData();
     }
 }
