@@ -27,7 +27,7 @@ class AddCommentIdFieldTableComments extends Migration
     public function down()
     {
         Schema::table('comments', function (Blueprint $table) {
-
+            $table->dropForeign(['comment_id']);
             $table->dropColumn('comment_id');
         });
     }
