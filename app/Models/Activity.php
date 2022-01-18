@@ -118,4 +118,5 @@ class Activity extends Model
 
         return $count > 0;
     }
+
 }
