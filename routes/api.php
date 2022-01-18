@@ -59,6 +59,7 @@ Route::group([
     Route::get('', [UserController::class, 'index']);
     Route::get('{id}', [UserController::class, 'show']);
     Route::put('{id}', [UserController::class, 'update']);
+    Route::put('update-avatar/{id}', [UserController::class, 'updateAvatar']);
     Route::delete('{id}', [UserController::class, 'destroy']);
 });
 

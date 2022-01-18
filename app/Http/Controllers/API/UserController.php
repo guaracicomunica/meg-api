@@ -96,6 +96,42 @@ class UserController extends Controller
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
+    /**
+     * Update user avatar in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function updateAvatar(Request $request, $id)
+    {
+        try {
+            $user = User::findOrFail($id);
+
+            $this->authorize('update', $user);
+
+            $validator = Validator::make($request->all(), [
+                'avatar_path' => ['sometimes','file', 'max:2000', 'mimes:png,jpeg,jpg'],
+            ]);
+
+            if($validator->fails()){
+                return response()->json(['error' => $validator->errors()->toJson()], 400);
+            }
+
+            if(isset($request->avatar_path))
+                $user->uploadAvatar($request->avatar_path);
+
+            $user->update($validator->validated());
+
+            return response()->json([
+                'message' => 'User successfully updated',
+                'user' => $user,
+            ], 200);
+
+        } catch (\Throwable $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
 
     /**
      * Remove the specified resource from storage.
