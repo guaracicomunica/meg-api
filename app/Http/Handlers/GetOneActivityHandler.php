@@ -31,7 +31,11 @@ class GetOneActivityHandler
 
     private static function getActivityWithStudentView(int $id): ActivityStudentResource
     {
-        $activity = Auth::user()->activities()->where('activities.id', $id)->firstOrFail();
+        $activity = Auth::user()->activities()
+            ->whereHas('post', function($query) {
+                $query->where('disabled', false);
+            })->where('activities.id', $id)
+            ->firstOrFail();
         return new ActivityStudentResource($activity);
     }
 
