@@ -15,7 +15,8 @@ class AttachmentsResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'path' => $this->path
+            'path' => $this->path,
+            'is_external_link' => $this->is_external_link,
         ];
     }
 }

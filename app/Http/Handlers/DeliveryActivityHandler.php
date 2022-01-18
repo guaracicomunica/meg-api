@@ -2,7 +2,7 @@
 
 namespace App\Http\Handlers;
 
-use App\Models\PostFile;
+use App\Models\PostAttachment;
 use App\Models\UserActivityDeliveryFile;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;

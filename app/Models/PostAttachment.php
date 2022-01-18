@@ -7,15 +7,16 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
-class PostFile extends Model
+class PostAttachment extends Model
 {
     use HasFactory;
 
-    protected $table = 'posts_files';
+    protected $table = 'posts_attachments';
 
     protected $fillable = [
         'path',
-        'post_id'
+        'post_id',
+        'is_external'
     ];
 
     protected $hidden = [
