@@ -4,10 +4,7 @@ namespace App\Http\Handlers;
 
 use App\Http\Resources\ActivityStudentResource;
 use App\Http\Resources\ActivityTeacherResource;
-use App\Http\Resources\PostResource;
 use App\Models\Activity;
-use App\Models\Post;
-use App\Models\UserActivity;
 use Illuminate\Support\Facades\Auth;
 
 class GetOneActivityHandler

@@ -5,6 +5,7 @@ namespace App\Http\Handlers;
 use App\Http\Requests\GetAllPostsRequest;
 use App\Http\Resources\PostResource;
 use App\Models\Post;
+use Illuminate\Support\Facades\Auth;
 
 class GetAllPostsHandler
 {
@@ -14,7 +15,12 @@ class GetAllPostsHandler
             'comments',
             'activity',
             'attachments'
-        ])
+        ])->whereHas('activity.post', function($query) {
+                if(Auth::user()->isStudent())
+                {
+                    $query->where('disabled', false);
+                }
+            })
             ->where('classroom_id', $request->classroom_id)
             ->orderByDesc('created_at')
             ->paginate($request->per_page);
