@@ -121,8 +121,8 @@ class UserController extends Controller
             if(isset($request->avatar_path))
                 $user->uploadAvatar($request->avatar_path);
 
-            $user->update($validator->validated());
-
+            $user->save();
+    
             return response()->json([
                 'message' => 'User successfully updated',
                 'user' => $user,
