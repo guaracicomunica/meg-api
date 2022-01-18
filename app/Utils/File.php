@@ -24,7 +24,7 @@ class File
      */
     public static function formatLink($value)
     {
-        if(!str_contains($value, "http")){
+        if(!filter_var($value, FILTER_VALIDATE_URL)){
             return Storage::disk('s3')->temporaryUrl($value, now()->addDay());
         } else {
             return $value;
