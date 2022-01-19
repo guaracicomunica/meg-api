@@ -47,7 +47,7 @@ class UpdateActivityHandler
                 foreach ($files as $file)
                 {
                     $postAttachment = new PostAttachment();
-                    $postAttachment->uploadAttachments($file, $activity->post()->id);
+                    $postAttachment->uploadAttachments($file, $activity->post->id);
                 }
 
             $links = $request->only(['links']);
@@ -58,7 +58,7 @@ class UpdateActivityHandler
                 {
                     PostAttachment::firstOrCreate([
                         'path' => $link,
-                        'post_id' => $activity->post()->id,
+                        'post_id' => $activity->post->id,
                         'is_external_link' => true
                     ]);
                 }
