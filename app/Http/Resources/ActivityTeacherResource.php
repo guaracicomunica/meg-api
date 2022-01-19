@@ -28,7 +28,7 @@ class ActivityTeacherResource extends JsonResource
             'postId' => $this->post_id,
             'disabled' => $this->post->disabled,
             'comments' => CommentResource::collection($this->post->comments),
-            'attachments' => AttachmentsResource::collection($this->post->attachments),
+            'attachments' => $this->post->attachments,
             'totalDeliveredActivities' => UserActivity::where('activity_id', $this->id)->whereNotNull('delivered_at')->count(),
             'totalAssignments' => UserActivity::where('activity_id', $this->id)->count(),
         ];

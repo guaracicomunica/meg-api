@@ -30,4 +30,13 @@ class File
             return $value;
         }
     }
+
+    /***
+     * @param $path
+     * @return void
+     */
+    public static function delete($path)
+    {
+        Storage::disk('s3')->delete($path);
+    }
 }

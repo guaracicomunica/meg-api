@@ -33,7 +33,7 @@ class Activity extends Model
     /***
      * palavras reservadas: proibidas para atualização em atividade caso ao menos um aluno tenha sido pontuado.
      */
-    const reservedWords = ["xp", "coins", "points", "unit_id"];
+    const reservedWords = ["xp", "coins", "points", "unit_id", 'disabled'];
 
     public function post()
     {

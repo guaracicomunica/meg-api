@@ -4,6 +4,7 @@ namespace App\Http\Handlers;
 
 use App\Http\Requests\UpdateActivityRequest;
 use App\Models\Activity;
+use App\Models\PostAttachment;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Validation\ValidationException;
 
@@ -39,6 +40,30 @@ class UpdateActivityHandler
                 $activity->post()->update($postData);
             }
 
+            //upload de arquivos em anexo
+            $files = $request->only(['attachments']);
+
+            if(isset($files))
+                foreach ($files as $file)
+                {
+                    $postAttachment = new PostAttachment();
+                    $postAttachment->uploadAttachments($file, $activity->post()->id);
+                }
+
+            $links = $request->only(['links']);
+
+            if(isset($links))
+            {
+                foreach ($links as $link)
+                {
+                    PostAttachment::firstOrCreate([
+                        'path' => $link,
+                        'post_id' => $activity->post()->id,
+                        'is_external_link' => true
+                    ]);
+                }
+            }
+
             DB::commit();
         } catch(\Exception $ex)
         {
@@ -47,7 +72,11 @@ class UpdateActivityHandler
         }
     }
 
-    private static function requestContainsReservedFields(UpdateActivityRequest $request)
+    /***
+     * @param UpdateActivityRequest $request
+     * @return bool
+     */
+    private static function requestContainsReservedFields(UpdateActivityRequest $request): bool
     {
         $result = false;
 
