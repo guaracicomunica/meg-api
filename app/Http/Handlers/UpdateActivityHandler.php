@@ -41,20 +41,21 @@ class UpdateActivityHandler
             }
 
             //upload de arquivos em anexo
-            $files = $request->only(['attachments']);
+            $files = $request->file('attachments');
 
-            if(isset($files))
-                foreach ($files as $file)
-                {
+            if(isset($files)) {
+                foreach ($files as $file) {
+
                     $postAttachment = new PostAttachment();
                     $postAttachment->uploadAttachments($file, $activity->post->id);
                 }
+            }
 
-            $links = $request->only(['links']);
+            $links = $request->get('links');
 
             if(isset($links))
             {
-                foreach ($links as $link)
+                foreach($links as $link)
                 {
                     PostAttachment::firstOrCreate([
                         'path' => $link,

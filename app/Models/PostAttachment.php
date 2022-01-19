@@ -16,7 +16,7 @@ class PostAttachment extends Model
     protected $fillable = [
         'path',
         'post_id',
-        'is_external'
+        'is_external_link'
     ];
 
     protected $hidden = [
