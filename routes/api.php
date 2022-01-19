@@ -106,6 +106,7 @@ Route::group([
     Route::patch('{id}', [ActivityController::class, 'update']);
     Route::post('', [ActivityController::class, 'store']);
     Route::post('delivery', [ActivityController::class, 'delivery']);
+    Route::post('cancel', [ActivityController::class, 'cancel']);
     Route::post('grade', [ActivityController::class, 'grade']);
 });
 

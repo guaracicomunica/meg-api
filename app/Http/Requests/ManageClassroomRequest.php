@@ -68,16 +68,16 @@ class ManageClassroomRequest extends FormRequest
             'levels.*.xp.min' => 'O xp não deve ser negativo',
             'levels.*.xp.required' => 'O preenchimento do xp é necessário',
             'levels.*.name.required' => 'O preenchimento do nome do nível é necessário',
-            'levels.*.file.file' => 'A imagem de nível deve ser um arquivo',
-            'levels.*.file.max' => 'O tamanho máximo das imagens deve ser de :max kilobytes',
-            'levels.*.file.mimes' => 'O tipo da imagem de habilidade deve ser dos tipos: :values ',
+            'levels.*.file.file' => 'A imagem de nível do nível deve ser um arquivo',
+            'levels.*.file.max' => 'O tamanho máximo das imagens dos níveis deve ser de :max kilobytes',
+            'levels.*.file.mimes' => 'O tipo da imagem de nível deve ser dos tipos: :values ',
 
             //skills
             'skills.array' => 'Espera-se as habilidades em formato de array',
             'skills.*.coins.min' => 'A quantidade moedas não podem ser negativa',
             'skills.*.name.required' => 'O preenchimento do nome da habilidade é necessário',
             'skills.*.file.file' => 'A imagem habilidade deve ser um arquivo',
-            'skills.*.file.max' => 'O tamanho máximo das imagens deve ser de :max kilobytes',
+            'skills.*.file.max' => 'O tamanho máximo das imagens de habilidades deve ser de :max kilobytes',
             'skills.*.file.mimes' => 'O tipo da imagem de habilidade deve ser dos tipos: :values ',
 
             //banner file
