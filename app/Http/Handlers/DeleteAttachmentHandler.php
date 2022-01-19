@@ -27,7 +27,6 @@ class DeleteAttachmentHandler
                 File::delete($attachment->path);
             }
 
-
             DB::commit();
         } catch (Exception $ex)
         {
