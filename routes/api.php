@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\ActivityController;
+use App\Http\Controllers\API\AttachmentController;
 use App\Http\Controllers\API\ClassroomController;
 use App\Http\Controllers\API\NotificationController;
 use App\Http\Controllers\API\ReportCardController;
@@ -108,6 +109,12 @@ Route::group([
     Route::post('grade', [ActivityController::class, 'grade']);
 });
 
+//attachments
+Route::group([
+    'prefix' => 'attachments',
+], function ($router) {
+    Route::delete('{id}', [AttachmentController::class, 'delete']);
+});
 
 //comments
 Route::group([

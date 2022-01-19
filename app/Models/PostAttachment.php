@@ -23,6 +23,11 @@ class PostAttachment extends Model
         'created_at', 'updated_at'
     ];
 
+    public function post()
+    {
+        return $this->belongsTo(Post::class);
+    }
+
     public function uploadAttachments($file, int $post_id)
     {
         $hash_file = Str::random($post_id);
