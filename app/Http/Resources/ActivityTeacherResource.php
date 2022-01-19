@@ -24,6 +24,7 @@ class ActivityTeacherResource extends JsonResource
             'deadline' => $this->deadline,
             'points' => floatval($this->points),
             'topicId' => $this->topic_id,
+            'unitId' => $this->unit_id,
             'postId' => $this->post_id,
             'disabled' => $this->post->disabled,
             'comments' => CommentResource::collection($this->post->comments),
