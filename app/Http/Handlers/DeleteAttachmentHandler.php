@@ -23,7 +23,10 @@ class DeleteAttachmentHandler
                 $query->where('posts.creator_id', Auth::user()->id);
             })->findOrFail($id);
 
-            File::delete($attachment->path);
+            if ($attachment->is_external_link) {
+                File::delete($attachment->path);
+            }
+
 
             DB::commit();
         } catch (Exception $ex)
