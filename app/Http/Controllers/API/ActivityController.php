@@ -15,8 +15,10 @@ use App\Http\Requests\DeliveryActivityRequest;
 use App\Http\Requests\GetAllSolversActivityRequest;
 use App\Http\Requests\GradeStudentsActivityRequest;
 use App\Http\Requests\UpdateActivityRequest;
+use App\Models\UserActivity;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ActivityController extends Controller
 {
@@ -84,6 +86,26 @@ class ActivityController extends Controller
             'message' => 'activity successfully delivered'
         ]);
     }
+
+    /***
+     * @param DeliveryActivityRequest $request
+     * @return JsonResponse
+     */
+    public function cancel(DeliveryActivityRequest $request): JsonResponse
+    {
+        $userActivity =
+            UserActivity::where('activity_id', $request->activity_id)
+                ->where('user_id', Auth::user()->id)->first();
+
+        $userActivity->delivered_at = null;
+
+        $userActivity->save();
+
+        return response()->json([
+            'message' => 'activity successfully undelivered'
+        ]);
+    }
+
 
     /**
      * @param GradeStudentsActivityRequest $request

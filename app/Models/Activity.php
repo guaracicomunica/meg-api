@@ -60,6 +60,10 @@ class Activity extends Model
         return ($studentPoints * $this->coins) / $this->points;
     }
 
+    public function userActivity()
+    {
+        return $this->hasMany(UserActivity::class, 'activity_id');
+    }
     /**
      * @param int $classroomId
      * @return void

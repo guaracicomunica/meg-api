@@ -93,6 +93,11 @@ class User extends Authenticatable implements JWTSubject, MustVerifyEmail
             ->as('assignment')->withPivot('id', 'xp', 'coins', 'delivered_at', 'scored_at');
     }
 
+    public function userActivity()
+    {
+        return $this->hasMany(UserActivity::class, 'user_id');
+    }
+
     public function skills()
     {
         return $this->belongsToMany(Skill::class, 'users_skills', 'user_id', 'skill_id');
