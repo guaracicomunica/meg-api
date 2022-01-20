@@ -14,12 +14,11 @@ class GetAllPostsHandler
         $posts = Post::with([
             'comments',
             'activity',
+            'activity.post',
             'attachments'
-        ])->whereHas('activity.post', function($query) {
-                if(Auth::user()->isStudent())
-                {
-                    $query->where('disabled', false);
-                }
+        ])
+            ->when(Auth::user()->isStudent(), function($query){
+                $query->where('disabled', false);
             })
             ->where('classroom_id', $request->classroom_id)
             ->orderByDesc('created_at')
