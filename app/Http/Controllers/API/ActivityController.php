@@ -93,9 +93,14 @@ class ActivityController extends Controller
      */
     public function cancel(DeliveryActivityRequest $request): JsonResponse
     {
-        $userActivity =
-            UserActivity::where('activity_id', $request->activity_id)
-                ->where('user_id', Auth::user()->id)->first();
+        $userActivity = UserActivity::where('activity_id', $request->activity_id)->where('user_id', Auth::user()->id)->first();
+
+        if($userActivity->scored_at != null)
+        {
+            return response()->json([
+                'errors' => 'A entrega não pode ser cancelada, pois você já teve uma nota atribuída'
+            ], 404);
+        }
 
         $userActivity->delivered_at = null;
 
