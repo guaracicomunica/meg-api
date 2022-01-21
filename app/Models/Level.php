@@ -14,7 +14,9 @@ class Level extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
+    protected $fillable =
+    [
+        'id',
         'name',
         'path',
         'xp',
@@ -31,7 +33,6 @@ class Level extends Model
         'created_at',
         'updated_at',
         'classroom_id',
-        'id'
     ];
 
     /**

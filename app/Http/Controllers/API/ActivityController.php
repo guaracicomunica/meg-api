@@ -88,6 +88,7 @@ class ActivityController extends Controller
     }
 
     /***
+     * Cancelar uma entrega
      * @param DeliveryActivityRequest $request
      * @return JsonResponse
      */

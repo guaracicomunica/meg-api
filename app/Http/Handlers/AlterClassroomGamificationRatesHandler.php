@@ -37,8 +37,7 @@ class AlterClassroomGamificationRatesHandler {
 
         foreach($resources as $resource)
         {
-
-            $path = '';
+            $path = null;
             if(isset($resource['file']))
             {
                 $entityArrayName = explode("\\", $entity);
@@ -47,12 +46,13 @@ class AlterClassroomGamificationRatesHandler {
                 $path = $class->uploadFile($resource['file'], $pureNameEntity.'s', $classroomId);
             }
 
-            $resource = array_merge($resource, ['classroom_id' => $classroomId]);
-            $match = isset($resource['file'])
-                ? ['name' => $resource['name'], 'classroom_id' => $classroomId, 'path' => $path]
-                : ['name' => $resource['name'], 'classroom_id' => $classroomId];
+            $resource = array_merge($resource, ['classroom_id' => $classroomId],
+                [ 'path' => $path]);
+
+            $match = ['id' => $resource['id'], 'classroom_id' => $classroomId];
 
             $entity::updateOrCreate($match, $resource);
+
         }
     }
 

@@ -14,6 +14,7 @@ class Skill extends Model
     use HasFactory;
 
     protected $fillable = [
+        'id',
         'name',
         'path',
         'coins',
@@ -30,7 +31,6 @@ class Skill extends Model
         'created_at',
         'updated_at',
         'classroom_id',
-        'id'
     ];
 
     public function classroom(): BelongsTo
