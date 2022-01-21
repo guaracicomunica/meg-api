@@ -37,13 +37,15 @@ class AlterClassroomGamificationRatesHandler {
 
         foreach($resources as $resource)
         {
-            $path = null;
-            if(isset($resource['file']))
+            //upload file if necessary
+            $path = self::uploadFileIfMust($entity, $resource, $classroomId);
+
+            //mount entity to update or create
+            if($path != null)
             {
-                $entityArrayName = explode("\\", $entity);
-                $pureNameEntity = end($entityArrayName);
-                $class = new Classroom();
-                $path = $class->uploadFile($resource['file'], $pureNameEntity.'s', $classroomId);
+                $resource = array_merge($resource, ['classroom_id' => $classroomId, 'path' => $path]);
+            } else {
+                $resource = array_merge($resource, ['classroom_id' => $classroomId]);
             }
 
             $resource = array_merge($resource, ['classroom_id' => $classroomId],
@@ -51,9 +53,25 @@ class AlterClassroomGamificationRatesHandler {
 
             $match = ['id' => $resource['id'], 'classroom_id' => $classroomId];
 
+            //act
             $entity::updateOrCreate($match, $resource);
 
         }
+    }
+
+    public static function uploadFileIfMust($entity, $resource, $classroomId)
+    {
+        $path = null;
+
+        if(isset($resource['file']))
+        {
+            $entityArrayName = explode("\\", $entity);
+            $pureNameEntity = end($entityArrayName);
+            $class = new Classroom();
+            $path = $class->uploadFile($resource['file'], $pureNameEntity.'s', $classroomId);
+        }
+
+        return $path;
     }
 
     /****
