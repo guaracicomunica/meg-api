@@ -15,9 +15,10 @@ class UserStatusGamefication extends Model
     protected $fillable = [
         'coins',
         'user_id',
-        'created_at',
-        'updated_at',
+
     ];
+
+    protected $hidden = [ 'id', 'created_at',  'updated_at' ];
 
     /***
      * Ao modificar a nota do aluno, é recalculada a quantidade de moedas.

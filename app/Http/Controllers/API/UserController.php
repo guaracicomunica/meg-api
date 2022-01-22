@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Models\User;
 use App\Http\Controllers\Controller;
+use App\Models\UserStatusGamefication;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
@@ -49,6 +50,26 @@ class UserController extends Controller
             $user = User::findOrFail($id);
             $this->authorize('view', $user);
             return response()->json($user);
+        } catch (\Throwable $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+
+    /**
+     * Display the specified resource about User Status Gamification.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function showUserStatusGamification($id)
+    {
+        try {
+            if(Auth::user()->id != $id) return response()->json([], 401);
+
+            $userStatusGamification = UserStatusGamefication::where('user_id',$id)->firstOrFail();
+
+            return response()->json($userStatusGamification);
         } catch (\Throwable $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
@@ -122,7 +143,7 @@ class UserController extends Controller
                 $user->uploadAvatar($request->avatar_path);
 
             $user->save();
-    
+
             return response()->json([
                 'message' => 'User successfully updated',
                 'user' => $user,
