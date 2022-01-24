@@ -86,6 +86,9 @@ Route::group([
     Route::get('{id}/students', [ClassroomController::class, 'students']);
     Route::get('{id}/teachers', [ClassroomController::class, 'teachers']);
     Route::get('{id}', [ClassroomController::class, 'getById']);
+    Route::delete('{classroom_id}/skill/{id}/remove', [ClassroomController::class, 'removeSkill']);
+    Route::delete('{classroom_id}/level/{id}/remove', [ClassroomController::class, 'removeLevel']);
+
 });
 
 //posts
@@ -154,3 +157,4 @@ Route::group([
     Route::post('{id}/buy', [StoreController::class, 'buySkill']);
     Route::post('{id}/claim', [StoreController::class, 'claimSkill']);
 });
+

@@ -14,8 +14,11 @@ use App\Http\Handlers\ManageClassroomHandler;
 use App\Http\Requests\EnrollClassroomRequest;
 use App\Http\Requests\EnrollmentCancellationRequest;
 use App\Http\Requests\ManageClassroomRequest;
+use App\Models\Level;
+use App\Models\Skill;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Throwable;
 
 class ClassroomController extends Controller
@@ -124,4 +127,42 @@ class ClassroomController extends Controller
         $result = GetByIdClassroomHandler::handle($id);
         return response()->json($result);
     }
+
+    /****
+     * Delete Skill of classroom
+     * @param int $id
+     * @return JsonResponse
+     */
+    public function removeSkill(int $classroom_id, int $id): JsonResponse
+    {
+        //validations to do this action
+        if(!Auth::user()->isTeacherOfClassroom($classroom_id)) return response()
+            ->json(['message' => 'É necessário ser professor da turma para realizar essa ação'], 401);
+
+        $skill = Skill::findOrFail($id);
+
+        $skill->delete();
+
+        return response()->json(['message' => 'A habilidade foi removida da turma']);
+    }
+
+
+    /****
+     * Delete Level of classroom
+     * @param int $id
+     * @return JsonResponse
+     */
+    public function removeLevel(int $classroom_id, int $id): JsonResponse
+    {
+        //validations to do this action
+        if(!Auth::user()->isTeacherOfClassroom($classroom_id)) return response()
+                ->json(['message' => 'É necessário ser professor da turma para realizar essa ação'], 401);
+
+        $level = Level::findOrFail($id);
+
+        $level->delete();
+
+        return response()->json(['message' => 'A habilidade foi removida da turma']);
+    }
+
 }
