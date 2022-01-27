@@ -79,6 +79,7 @@ class Classroom extends Model
             ->join('posts', 'posts.classroom_id', '=', 'classrooms.id', 'inner')
             ->join('activities', 'posts.id', '=', 'activities.id', 'inner')
             ->where('activities.id', $id)
+            ->select('classrooms.*')
             ->first();
     }
 
