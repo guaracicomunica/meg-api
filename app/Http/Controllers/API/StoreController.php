@@ -3,9 +3,13 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ClassroomResource;
 use App\Http\Resources\NotificationResource;
+use App\Http\Resources\StudentSkillNotBoughtResource;
 use App\Http\Resources\StudentSkillResource;
+use App\Models\Classroom;
 use App\Models\User;
+use App\Models\UserClassroom;
 use App\Models\UserSkill;
 use App\Models\Notification;
 use App\Models\Skill;
@@ -116,7 +120,13 @@ class StoreController extends Controller
 
     }
 
-    public function getStudentSkills(): JsonResponse
+
+    /**
+     * Skills that already bought
+     *
+     * @return JsonResponse
+     */
+    public function getStudentSkillsAlreadyBought(): JsonResponse
     {
         $user = Auth::user();
 
@@ -130,6 +140,47 @@ class StoreController extends Controller
 
         return response()->json($result);
     }
+
+    /**
+     * Skills that were not bought
+     *
+     * @return JsonResponse
+     */
+    public function getStudentSkillsNotBought(): JsonResponse
+    {
+        $user = Auth::user();
+
+        if(!$user->isStudent()) {
+            throw new AccessDeniedHttpException();
+        }
+
+        //get skills that were not bought
+        $skillsNotBought = DB::select("
+            SELECT s.*  FROM `skills` s
+            INNER JOIN `classrooms` c ON c.id = s.classroom_id
+            INNER JOIN `users_classrooms` uc ON uc.classroom_id = c.id AND uc.user_id = ".Auth::user()->id."
+            WHERE s.id
+                NOT IN (SELECT us.skill_id FROM `users_skills` us WHERE us.user_id = ".Auth::user()->id.");");
+
+
+        //get all ids of classrooms that user is in
+        $classrooms_id =  UserClassroom::where('user_id', Auth::user()->id)
+                    ->groupBy('classroom_id')
+                    ->pluck('classroom_id');
+
+        //find this student's classrooms
+        $get_classrooms = Classroom::findOrFail($classrooms_id);
+
+        $classrooms = [ 'classrooms' =>
+            ClassroomResource::collection($get_classrooms)->response()->getData()->data ?? null ];
+
+        $skills = StudentSkillNotBoughtResource::collection($skillsNotBought)->response()->getData();
+
+        $result = array_merge([ 'skills' => $skills->data ?? null ], $classrooms);
+
+        return response()->json( $result );
+    }
+
 
     public function getTeacherNotifications(Request $request): JsonResponse
     {

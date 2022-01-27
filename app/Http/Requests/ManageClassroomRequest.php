@@ -75,6 +75,7 @@ class ManageClassroomRequest extends FormRequest
             //skills
             'skills.array' => 'Espera-se as habilidades em formato de array',
             'skills.*.coins.min' => 'A quantidade moedas não podem ser negativa',
+            'skills.*.coins.required' => 'A quantidade de moedas da habilidade deve ser preenchida',
             'skills.*.name.required' => 'O preenchimento do nome da habilidade é necessário',
             'skills.*.file.file' => 'A imagem habilidade deve ser um arquivo',
             'skills.*.file.max' => 'O tamanho máximo das imagens de habilidades deve ser de :max kilobytes',
