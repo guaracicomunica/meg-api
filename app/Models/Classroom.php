@@ -7,6 +7,7 @@ use App\Utils\StringUtil;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -72,9 +73,13 @@ class Classroom extends Model
             ->where('role_id', 3);
     }
 
-    public function activities(): HasMany
+    public static function getByActivity($id)
     {
-        return $this->hasMany(Post::class, 'classroom_id');
+        return DB::table('classrooms')
+            ->join('posts', 'posts.classroom_id', '=', 'classrooms.id', 'inner')
+            ->join('activities', 'posts.id', '=', 'activities.id', 'inner')
+            ->where('activities.id', $id)
+            ->first();
     }
 
     /**
