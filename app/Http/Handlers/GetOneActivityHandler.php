@@ -5,12 +5,25 @@ namespace App\Http\Handlers;
 use App\Http\Resources\ActivityStudentResource;
 use App\Http\Resources\ActivityTeacherResource;
 use App\Models\Activity;
+use App\Models\Classroom;
 use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class GetOneActivityHandler
 {
     public static function handle(int $id)
     {
+        $classroom = Classroom::getByActivity($id);
+
+        if($classroom == null) {
+            throw new NotFoundHttpException();
+        }
+
+        if(!Auth::user()->isMemberOfClassroom($classroom->id)) {
+            throw new AccessDeniedHttpException();
+        }
+
         $result = null;
 
         if(Auth::user()->isStudent())
