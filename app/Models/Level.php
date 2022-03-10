@@ -6,13 +6,14 @@ use App\Utils\Arr;
 use App\Utils\File;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use OwenIt\Auditing\Contracts\Auditable;
 
 /**
  * @method static whereNotIn(string $string, array $names)
  */
-class Level extends Model
+class Level extends Model implements Auditable
 {
-    use HasFactory;
+    use HasFactory, \OwenIt\Auditing\Auditable;
 
     protected $fillable =
     [

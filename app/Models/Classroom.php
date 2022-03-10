@@ -3,22 +3,22 @@
 namespace App\Models;
 
 use App\Utils\File;
-use App\Utils\StringUtil;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use OwenIt\Auditing\Contracts\Auditable;
 
 /**
  * @method static create(array $assignedValues)
  * @method static where(string $string, mixed $id)
  * @method static findOrFail(int $id)
  */
-class Classroom extends Model
+class Classroom extends Model implements Auditable
 {
-    use HasFactory;
+    use HasFactory, \OwenIt\Auditing\Auditable;
 
     protected $hidden = ['pivot', 'created_at', 'updated_at'];
 
