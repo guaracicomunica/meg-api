@@ -14,10 +14,6 @@ class GetAllActivityHandler
     {
         $activities = Activity::with([
                 'post' => function($query) use ($request) {
-                    if(Auth::user()->isStudent())
-                    {
-                        $query->where('disabled', false);
-                    }
                     $query->when(
                         $request->get('classroom_id'),
                         function($query, $classroomId){
@@ -28,12 +24,18 @@ class GetAllActivityHandler
                 'post.comments' => function($query){
                     $query->where('is_private', false);
                 }
-            ])->when($request->get('topic_id'),
+            ])->when(Auth::user()->isStudent(), 
+                function($query){
+                    $query->whereHas('post', function($q){
+                        $q->where('posts.disabled', false);
+                    });
+                })
+                ->when($request->get('topic_id'),
                 function($query, $topicId){
                     $query->where('topic_id', $topicId);
                 })
             ->paginate($request->per_page);
-
+        
         return ActivityTeacherResource::collection($activities)->response()->getData();
     }
 }
