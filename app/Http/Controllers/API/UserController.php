@@ -67,7 +67,7 @@ class UserController extends Controller
         try {
             if(Auth::user()->id != $id) return response()->json([], 401);
 
-            $userStatusGamification = UserStatusGamefication::where('user_id',$id)->firstOrFail();
+            $userStatusGamification = UserStatusGamefication::where('user_id',$id)->first();
 
             return response()->json($userStatusGamification);
         } catch (\Throwable $e) {
