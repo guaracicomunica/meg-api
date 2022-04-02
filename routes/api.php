@@ -119,6 +119,7 @@ Route::group([
     'prefix' => 'attachments',
 ], function ($router) {
     Route::delete('{id}', [AttachmentController::class, 'delete']);
+    Route::delete('{id}/delivered/activities', [AttachmentController::class, 'deleteAttachmentDeliveredActivity']);
 });
 
 //comments

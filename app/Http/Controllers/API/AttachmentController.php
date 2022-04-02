@@ -26,7 +26,15 @@ class AttachmentController extends Controller
     {
         DeleteAttachmentHandler::handle($id);
         return response()->json([
-            'message' => 'Enrollment successfully done',
+            'message' => 'Delete successfully done',
+        ], 204);
+    }
+
+    public function deleteAttachmentDeliveredActivity($id): JsonResponse
+    {
+        DeleteAttachmentHandler::handle($id);
+        return response()->json([
+            'message' => 'Delete successfully done',
         ], 204);
     }
 }
