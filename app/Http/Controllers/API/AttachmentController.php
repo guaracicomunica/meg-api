@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
+use App\Http\Handlers\DeleteAttachmentDeliveredActivity;
 use App\Http\Handlers\DeleteAttachmentHandler;
+use App\Http\Handlers\DeleteAttachmentDeliveredActivityHandler;
 use Illuminate\Http\JsonResponse;
 
 class AttachmentController extends Controller
@@ -32,7 +34,7 @@ class AttachmentController extends Controller
 
     public function deleteAttachmentDeliveredActivity($id): JsonResponse
     {
-        DeleteAttachmentHandler::handle($id);
+        DeleteAttachmentDeliveredActivityHandler::handle($id);
         return response()->json([
             'message' => 'Delete successfully done',
         ], 204);

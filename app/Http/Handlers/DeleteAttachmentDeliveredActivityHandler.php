@@ -4,10 +4,9 @@ namespace App\Http\Handlers;
 
 use App\Models\UserActivityDeliveryFile;
 use App\Utils\File;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
-class DeleteAttachmentDeliveredActivity
+class DeleteAttachmentDeliveredActivityHandler
 {
 
     /***
