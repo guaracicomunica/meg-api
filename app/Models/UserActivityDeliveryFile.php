@@ -47,4 +47,9 @@ class UserActivityDeliveryFile extends Model implements Auditable
             ->where('user_id', $user_id)
             ->firstOrFail()->id;
     }
+
+    public function getPathAttribute($value)
+    {
+        return is_null($value) ? $value : File::formatLink($value);
+    }
 }
