@@ -189,7 +189,7 @@ class ClassroomController extends Controller
         ->orderBy('xp','desc')
         ->paginate($request->per_page);
 
-        $result = RankingResource::collection($data);
+        $result = RankingResource::collection($data)->response()->getData();
 
         return response()->json($result);
     }
