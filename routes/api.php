@@ -85,6 +85,7 @@ Route::group([
     Route::get('{id}/participants', [ClassroomController::class, 'participants']);
     Route::get('{id}/students', [ClassroomController::class, 'students']);
     Route::get('{id}/teachers', [ClassroomController::class, 'teachers']);
+    Route::get('{id}/ranking', [ClassroomController::class, 'ranking']);
     Route::get('{id}', [ClassroomController::class, 'getById']);
     Route::delete('{classroom_id}/skill/{id}/remove', [ClassroomController::class, 'removeSkill']);
     Route::delete('{classroom_id}/level/{id}/remove', [ClassroomController::class, 'removeLevel']);

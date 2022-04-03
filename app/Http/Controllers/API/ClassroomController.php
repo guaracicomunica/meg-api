@@ -14,8 +14,10 @@ use App\Http\Handlers\ManageClassroomHandler;
 use App\Http\Requests\EnrollClassroomRequest;
 use App\Http\Requests\EnrollmentCancellationRequest;
 use App\Http\Requests\ManageClassroomRequest;
+use App\Http\Resources\RankingResource;
 use App\Models\Level;
 use App\Models\Skill;
+use App\Models\UserClassroom;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -165,4 +167,30 @@ class ClassroomController extends Controller
         return response()->json(['message' => 'A habilidade foi removida da turma']);
     }
 
+
+        /****
+     * Ranking of classroom
+     * @param int $id
+     * @return JsonResponse
+     */
+    public function ranking(Request $request, int $id): JsonResponse
+    {
+        //validations to do this action
+        if(!Auth::user()->isMemberOfClassroom($id)) return response()
+                ->json(['message' => 'É necessário ser membro da turma para realizar essa ação'], 403);
+
+
+        $data = UserClassroom::
+        with(['user', 'level'])
+        ->whereHas('user', function($query) {
+            $query->where('users.role_id', 3);
+        })
+        ->where('classroom_id', $id)
+        ->orderBy('xp','desc')
+        ->paginate($request->per_page);
+
+        $result = RankingResource::collection($data);
+
+        return response()->json($result);
+    }
 }

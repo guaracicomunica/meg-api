@@ -22,4 +22,13 @@ class UserClassroom extends Model implements Auditable
         'updated_at',
     ];
 
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function level()
+    {
+        return $this->belongsTo(Level::class, 'level_id');
+    }
 }
