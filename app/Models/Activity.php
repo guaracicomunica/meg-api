@@ -115,7 +115,9 @@ class Activity extends Model implements Auditable
             'updated_at' => Carbon::now(),
         ];
 
-        UserActivity::firstOrCreate($data);
+        $match = ['user_id' => $studentId, 'activity_id' => $this->id];
+
+        UserActivity::updateOrCreate($match,$data);
     }
 
     /**
